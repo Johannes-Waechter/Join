@@ -81,7 +81,8 @@ Optional für spätere Sprints:
 ---
 
 ## Technischer Stack
-
+> Hinweis: Dieses Projekt wurde mit der [Angular CLI](https://github.com/angular/angular-cli) in Version 20.3.9 erzeugt.
+> 
 - Frontend: Angular mit RxJS
 - Backend/DB: Firebase (Firestore), AngularFire
 - Tooling: npm, TypeScript, SCSS
@@ -145,6 +146,30 @@ git pull origin main
 
 ## Entwicklung
 
+### Entwicklungsserver
+
+Um einen lokalen Entwicklungsserver zu starten, führe aus:
+
+```bash
+ng serve
+```
+
+Sobald der Server läuft, öffne den Browser und rufe http://localhost:4200 auf. Die Anwendung lädt automatisch neu, sobald du eine der Quelldateien änderst.
+
+### Code‑Generierung
+
+Die Angular CLI enthält leistungsfähige Werkzeuge für Code‑Gerüste. Um eine neue Komponente zu erzeugen, führe aus:
+
+```bash
+ng generate component component-name
+```
+
+Für eine vollständige Liste verfügbarer Schematics (z. B. components, directives oder pipes), verwende:
+
+```bash
+ng generate --help
+```
+
 ```bash
 # Dev-Server starten
 npm start
@@ -164,14 +189,25 @@ Richtlinien:
 
 ```bash
 # Unit-Tests ausführen
-npm test
+ng test
+```
 
-# Linting
+Die Unit-Tests laufen mit dem [Karma](https://karma-runner.github.io/) Test‑Runner.
+
+> Linting weiterhin separat:
+> 
+
+```bash
 npm run lint
 ```
 
-> Ergänze bei Verfügbarkeit E2E‑Tests und deren Startbefehle.
-> 
+### End‑to‑End Tests (E2E)
+
+```bash
+ng e2e
+```
+
+Angular CLI bringt kein E2E‑Framework „out of the box“ mit. Wähle ein passendes Tool (z. B. Cypress oder Playwright) und konfiguriere es für dein Projekt.
 
 ---
 
@@ -327,6 +363,12 @@ Sensible Werte niemals committen. Für CI/CD sichere Secrets nutzen.
 4. Optimierungen für Performance und Barrierefreiheit
 
 ---
+
+## Zusätzliche Ressourcen
+
+- Ausführliche CLI‑Referenz: [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli)
+- Angular CLI Repository: [angular/angular-cli](https://github.com/angular/angular-cli)
+- Karma Test Runner: [karma-runner.github.io](http://karma-runner.github.io)
 
 ## Lizenz
 
