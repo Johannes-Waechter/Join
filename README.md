@@ -50,16 +50,16 @@ Kurzbeschreibung des Ziels der Anwendung, Hauptnutzergruppe und der wichtigsten 
 Die folgenden Screens zeigen aktuelle UI‑Stände aus Figma. Details zur Interaktion, Validierungen und States sollten beim Umsetzen gespiegelt werden. Die Bilder findest du unterhalb dieser README auf der Seite.
 
 ### Übersicht
-![Join Übersicht](join/public/img/Join_Übersicht.png)
+![Join Übersicht](join/public/img/README/Join_Übersicht.png)
 
 ### Aufgabe hinzufügen
-![Join Aufgabe hinzufügen](join/public/img/Join_Aufgabe-hinzufügen.png)
+![Join Aufgabe hinzufügen](join/public/img/README/Join_Aufgabe-hinzufügen.png)
 
 ### Boardansicht
-![Join Boardansicht](join/public/img/Join_Boardansicht.png)
+![Join Boardansicht](join/public/img/README/Join_Boardansicht.png)
 
 ### Kontakte
-![Join Kontakte](join/public/img/Join_Kontakte.png)
+![Join Kontakte](join/public/img/README/Join_Kontakte.png)
     
 
 > Tipp: Ergänze zu jedem Screen in Zukunft eine kurze Bildunterschrift mit Zweck, wichtigen Komponenten und Edge Cases.
