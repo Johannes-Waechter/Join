@@ -234,68 +234,85 @@ Deployment‑Hinweise:
 Aktueller Stand und empfohlene Zielstruktur. Die Vorschläge orientieren sich am Angular Style Guide, feature‑first Architektur, Presentational vs. Container Components und typischen Setups mit Firebase/AngularFire.
 
 ```
-├─ public/
-│  ├─ fonts/
-│  ├─ img/
-│  └─ favicon.ico
-├─ src/
-│  ├─ app/
-│  │  ├─ core/                               # App‑weite Singletons, Guards, Interceptors, Config
-│  │  │  ├─ guards/
-│  │  │  ├─ interceptors/
-│  │  │  ├─ services/
-│  │  │  │  ├─ http.service.ts
-│  │  │  │  └─ auth.service.ts               # optional, falls Auth kommt
-│  │  │  └─ config/
-│  │  │     └─ firebase.config.ts            # zentrale Firebase/AngularFire Provider
-│  │  ├─ shared/                             # Reine UI‑Bausteine und Utilities (ohne Geschäftslogik)
-│  │  │  ├─ components/                      # Presentational Components (Inputs/Outputs)
-│  │  │  │  ├─ button/
-│  │  │  │  └─ input/
-│  │  │  ├─ directives/
-│  │  │  ├─ pipes/
-│  │  │  ├─ interfaces/                      # Globale DTOs/Typen, die mehrere Features nutzen
-│  │  │  └─ ui/                              # Design‑Primitives, Tokens
-│  │  ├─ layout/                             # Shell, Header, Navigation
-│  │  │  ├─ header/
-│  │  │  └─ navigation/
-│  │  │     ├─ navigation.component.{html,scss,ts}
-│  │  │     └─ navigation.config.ts
-│  │  ├─ features/                           # Feature‑Module (lazy‑loadbar)
-│  │  │  ├─ main-content/
-│  │  │  │  ├─ main-content.component.{html,scss,ts}
-│  │  │  ├─ contacts/                        # ehem. contact/
-│  │  │  │  ├─ pages/
-│  │  │  │  │  ├─ [contacts-list.page](http://contacts-list.page).{html,scss,ts}
-│  │  │  │  │  └─ [contact-detail.page](http://contact-detail.page).{html,scss,ts}
-│  │  │  │  ├─ components/
-│  │  │  │  │  ├─ contact-form.component.{html,scss,ts}
-│  │  │  │  │  └─ contact-card.component.{html,scss,ts}
-│  │  │  │  ├─ services/
-│  │  │  │  │  └─ contacts.service.ts        # Firestore‑Abstraktion via AngularFire
-│  │  │  │  ├─ models/
-│  │  │  │  │  └─ contact.model.ts
-│  │  │  │  └─ testing/                      # Mocks/Stubs für Unit‑Tests
-│  │  │  ├─ board/
-│  │  │  │  ├─ [board.page](http://board.page).{html,scss,ts}
-│  │  │  │  └─ components/
-│  │  │  ├─ summary/
-│  │  │  │  └─ [summary.page](http://summary.page).{html,scss,ts}
-│  │  │  └─ add-task/
-│  │  │     └─ [add-task.page](http://add-task.page).{html,scss,ts}
-│  │  ├─ state/                              # optional, falls zentraler App‑State nötig ist
-│  │  │  └─ app-store.ts                     # z. B. Component Store/Signals
-│  │  ├─ app.component.{html,scss,ts}
-│  │  ├─ app.routes.ts
-│  │  └─ app.config.ts                       # bootstrapApplication, provideRouter, provideHttpClient
-│  ├─ assets/
-│  ├─ environments/
-│  │  ├─ environment.ts
-│  │  └─ [environment.prod](http://environment.prod).ts
-│  ├─ styles/
-│  │  ├─ _variables.scss                     # z. B. Font‑Größen, Farben, Spacing
-│  │  └─ _mixins.scss
-│  └─ styles.scss
+src/app/
+├── app.ts
+├── app.html                     # <router-outlet></router-outlet>
+├── app.scss
+├── app.config.ts                # Router Provider
+├── app.routes.ts                # Routing-Konfiguration
+│
+├── core/
+│   ├── layouts/
+│   │   ├── auth-layout/
+│   │   │   ├── auth-layout.ts
+│   │   │   ├── auth-layout.html
+│   │   │   └── auth-layout.scss
+│   │   └── main-layout/
+│   │       ├── main-layout.ts
+│   │       ├── main-layout.html
+│   │       └── main-layout.scss
+│   │
+│   └── .../
+│
+├── shared/
+│   ├── components/
+│   │   ├── sidebar/
+│   │   │   ├── sidebar.ts
+│   │   │   ├── sidebar.html
+│   │   │   └── sidebar.scss
+│   │   │
+│   │   ├── header/
+│   │   │   ├── header.ts
+│   │   │   ├── header.html
+│   │   │   └── header.scss
+│   │   │
+│   │   ├── contact-list/
+│   │   │   ├── contact-card.ts
+│   │   │   ├── contact-card.html
+│   │   │   └── contact-card.scss
+│   │   │
+│   │   └── contact-details/
+│   │       ├── contact-details.ts
+│   │       ├── contact-details.html
+│   │       └── contact-details.scss
+│   │
+│   ├── services/
+│   │   ├── firebase.service.ts
+│   │   └── contact.service.ts
+│   │
+│   └── interfaces/
+│       └── contact.interface.ts
+│
+└── pages/
+    ├── contacts/
+    │   ├── contacts.ts
+    │   ├── contacts.html
+    │   └── contacts.scss
+    │
+    ├── summary/
+    │   ├── summary.ts
+    │   ├── summary.html
+    │   └── summary.scss
+    │
+    ├── add-task/
+    │   ├── add-task.ts
+    │   ├── add-task.html
+    │   └── add-task.scss
+    │
+    ├── board/
+    │   ├── board.ts
+    │   ├── board.html
+    │   └── board.scss
+    │
+    ├── privacy-policy/
+    │   ├── privacy-policy.ts
+    │   ├── privacy-policy.html
+    │   └── privacy-policy.scss
+    │
+    └── legal-notes/
+        ├── legal-notes.ts
+        ├── legal-notes.html
+        └── legal-notes.scss
 ```
 
 Empfehlungen und Begründungen
