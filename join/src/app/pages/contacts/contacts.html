@@ -1,8 +1,10 @@
 <div class="contacts-container">
   <!-- LEFT: CONTACT LIST -->
   <div class="contacts-list">
-
-    <button class="add-contact-btn" (click)="addContact()">+ Add new contact</button>
+    <button class="add-contact-btn" (click)="addContact()">
+      Add new contact <img src="/img/icons/add_person.svg" alt="Add" class="icon" />
+    </button>
+    <!-- <button [routerLink]="['/contacts', 'add']" class="add-contact-btn">+ Create contact</button> -->
 
     <div *ngFor="let group of groupedContacts" class="letter-group">
       <div class="group-letter">{{ group.letter }}</div>
@@ -19,13 +21,23 @@
 
   <!-- RIGHT: DETAIL VIEW -->
   <div class="contact-detail" *ngIf="selectedContact; else noSelect">
-    <h2>Contacts <span class="sub">Better with a team</span></h2>
+    <h2>
+      Contacts
+      <span class="divider"></span>
+      <span class="sub">Better with a team</span>
+    </h2>
 
     <div class="detail-header">
       <div class="circle big">{{ getInitials(selectedContact.name) }}</div>
       <div class="detail-main">
         <div class="name">{{ selectedContact.name }}</div>
-        <div class="actions"><span>Edit</span> | <span>Delete</span></div>
+        <div class="actions">
+          <img src="/img/icons/edit.svg" alt="Edit" class="action-icon" />
+          <span>Edit</span>
+
+          <img src="/img/icons/delete.svg" alt="Delete" class="action-icon" />
+          <span>Delete</span>
+        </div>
       </div>
     </div>
 
