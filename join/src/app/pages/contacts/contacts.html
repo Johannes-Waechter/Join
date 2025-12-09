@@ -4,7 +4,10 @@
     <button class="add-contact-btn" (click)="addContact()">
       Add new contact <img src="/img/icons/add_person.svg" alt="Add" class="icon" />
     </button>
-    <!-- <button [routerLink]="['/contacts', 'add']" class="add-contact-btn">+ Create contact</button> -->
+    <!-- <button class="add-contact-btn" [routerLink]="['/contacts', 'add']">
+      Add new contact
+      <img src="/img/icons/add_person.svg" alt="Add" class="icon" />
+    </button> -->
 
     <div *ngFor="let group of groupedContacts" class="letter-group">
       <div class="group-letter">{{ group.letter }}</div>
@@ -48,7 +51,6 @@
             <span>Delete</span>
           </button>
         </div>
-
       </div>
     </div>
 
