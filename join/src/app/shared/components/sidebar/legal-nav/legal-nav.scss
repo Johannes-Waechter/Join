@@ -12,6 +12,10 @@
   color: $color-neutral-dark;
 }
 
+.sidebar-login-btn {
+  display: none;
+}
+
 .sidebar-footer ul {
   @include dFlex($fd: column, $ai: stretch, $g: 2px);
   list-style: none;

@@ -1,0 +1,21 @@
+:host {
+    height: 100vh;
+    display: flex;
+}
+
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100vh;
+    overflow: hidden;
+
+    app-header {
+        flex-shrink: 0;
+    }
+
+    app-contacts {
+        flex: 1;
+        overflow: hidden;
+    }
+}
