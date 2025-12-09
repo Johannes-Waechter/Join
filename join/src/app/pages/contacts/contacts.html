@@ -1,7 +1,9 @@
 <div class="contacts-container">
-
   <!-- LEFT: CONTACT LIST -->
   <div class="contacts-list">
+
+    <button class="add-contact-btn" (click)="addContact()">+ Add new contact</button>
+
     <div *ngFor="let group of groupedContacts" class="letter-group">
       <div class="group-letter">{{ group.letter }}</div>
 
@@ -23,9 +25,7 @@
       <div class="circle big">{{ getInitials(selectedContact.name) }}</div>
       <div class="detail-main">
         <div class="name">{{ selectedContact.name }}</div>
-        <div class="actions">
-          <span>Edit</span> | <span>Delete</span>
-        </div>
+        <div class="actions"><span>Edit</span> | <span>Delete</span></div>
       </div>
     </div>
 
@@ -39,9 +39,6 @@
   </div>
 
   <ng-template #noSelect>
-    <div class="contact-detail placeholder">
-      Select a contact to view details
-    </div>
+    <div class="contact-detail placeholder">Select a contact to view details</div>
   </ng-template>
-
 </div>

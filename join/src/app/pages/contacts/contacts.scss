@@ -98,3 +98,21 @@
   margin-top: 20px;
   margin-bottom: 4px;
 }
+
+.add-contact-btn {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  background: #0a73f0;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+}
+
+.add-contact-btn:hover {
+  background: #085ec4;
+}

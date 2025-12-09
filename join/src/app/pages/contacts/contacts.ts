@@ -48,4 +48,9 @@ export class Contacts {
       .map((n) => n[0])
       .join('');
   }
+
+  addContact() {
+    alert('Add Contact clicked!');
+    // später: Formular öffnen
+  }
 }
