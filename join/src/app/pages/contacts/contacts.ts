@@ -53,4 +53,14 @@ export class Contacts {
     alert('Add Contact clicked!');
     // später: Formular öffnen
   }
+
+  editContact() {
+    console.log('Edit clicked');
+    // hier später: Router auf Edit-View oder Modal öffnen
+  }
+
+  deleteContact() {
+    console.log('Delete clicked');
+    // hier später: Confirm-Dialog oder direkt löschen
+  }
 }

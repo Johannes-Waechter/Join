@@ -9,7 +9,12 @@
     <div *ngFor="let group of groupedContacts" class="letter-group">
       <div class="group-letter">{{ group.letter }}</div>
 
-      <div *ngFor="let c of group.contacts" class="contact-entry" (click)="selectContact(c)">
+      <div
+        *ngFor="let c of group.contacts"
+        class="contact-entry"
+        (click)="selectContact(c)"
+        [ngClass]="{ active: selectedContact === c }"
+      >
         <div class="circle">{{ getInitials(c.name) }}</div>
         <div class="contact-info">
           <div class="name">{{ c.name }}</div>
@@ -31,20 +36,26 @@
       <div class="circle big">{{ getInitials(selectedContact.name) }}</div>
       <div class="detail-main">
         <div class="name">{{ selectedContact.name }}</div>
-        <div class="actions">
-          <img src="/img/icons/edit.svg" alt="Edit" class="action-icon" />
-          <span>Edit</span>
 
-          <img src="/img/icons/delete.svg" alt="Delete" class="action-icon" />
-          <span>Delete</span>
+        <div class="actions">
+          <button class="action-btn edit" (click)="editContact()">
+            <img src="/img/icons/edit.svg" alt="Edit" class="action-icon" />
+            <span>Edit</span>
+          </button>
+
+          <button class="action-btn delete" (click)="deleteContact()">
+            <img src="/img/icons/delete.svg" alt="Delete" class="action-icon" />
+            <span>Delete</span>
+          </button>
         </div>
+
       </div>
     </div>
 
     <h3>Contact Information</h3>
 
     <p class="label">Email</p>
-    <p>{{ selectedContact.email }}</p>
+    <p class="email-detail">{{ selectedContact.email }}</p>
 
     <p class="label">Phone</p>
     <p>{{ selectedContact.phone }}</p>
