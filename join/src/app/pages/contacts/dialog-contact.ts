@@ -1,6 +1,6 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ContactsService, Contact } from '../../core/services/contacts.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -27,9 +27,9 @@ export class DialogContact {
   loading = false;
 
   form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: [''],
-    phone: ['']
+    name: ['', [Validators.required, fullNameValidator, Validators.minLength(2)]],
+    email: ['', [Validators.email]],
+    phone: ['', [Validators.pattern(/^\d{8,}$/)]]
   });
 
   async ngOnInit() {
@@ -84,4 +84,23 @@ export class DialogContact {
     await this.contacts.deleteContact(this.contactId);
     this.cancel();
   }
+
+  getInitials(name: string): string {
+    const parts = name.trim().split(/\s+/);
+    const first = parts[0]?.charAt(0) ?? '';
+    const second = parts[1]?.charAt(0) ?? '';
+    return `${first}${second}`.toUpperCase();
+  }
 }
+
+// Custom Validators
+export const fullNameValidator: ValidatorFn = (control: AbstractControl) => {
+  const value = (control.value ?? '').toString().trim();
+  if (!value) return null; // required handled separately
+  // Require at least two name parts with letters (allowing spaces, hyphen, apostrophe)
+  const parts = value.split(/\s+/).filter(Boolean);
+  if (parts.length < 2) return { fullName: true };
+  const word = /^(?=.{2,})[A-Za-zÄÖÜäöüß'-]+$/;
+  if (!word.test(parts[0]) || !word.test(parts[1])) return { fullName: true };
+  return null;
+};
