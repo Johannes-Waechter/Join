@@ -1,11 +1,23 @@
 <div class="contacts-container">
-
   <!-- LEFT: CONTACT LIST -->
   <div class="contacts-list">
+    <button class="add-contact-btn" (click)="addContact()">
+      Add new contact <img src="/img/icons/add_person.svg" alt="Add" class="icon" />
+    </button>
+    <!-- <button class="add-contact-btn" [routerLink]="['/contacts', 'add']">
+      Add new contact
+      <img src="/img/icons/add_person.svg" alt="Add" class="icon" />
+    </button> -->
+
     <div *ngFor="let group of groupedContacts" class="letter-group">
       <div class="group-letter">{{ group.letter }}</div>
 
-      <div *ngFor="let c of group.contacts" class="contact-entry" (click)="selectContact(c)">
+      <div
+        *ngFor="let c of group.contacts"
+        class="contact-entry"
+        (click)="selectContact(c)"
+        [ngClass]="{ active: selectedContact === c }"
+      >
         <div class="circle">{{ getInitials(c.name) }}</div>
         <div class="contact-info">
           <div class="name">{{ c.name }}</div>
@@ -17,14 +29,27 @@
 
   <!-- RIGHT: DETAIL VIEW -->
   <div class="contact-detail" *ngIf="selectedContact; else noSelect">
-    <h2>Contacts <span class="sub">Better with a team</span></h2>
+    <h2>
+      Contacts
+      <span class="divider"></span>
+      <span class="sub">Better with a team</span>
+    </h2>
 
     <div class="detail-header">
       <div class="circle big">{{ getInitials(selectedContact.name) }}</div>
       <div class="detail-main">
         <div class="name">{{ selectedContact.name }}</div>
+
         <div class="actions">
-          <span>Edit</span> | <span>Delete</span>
+          <button class="action-btn edit" (click)="editContact()">
+            <img src="/img/icons/edit.svg" alt="Edit" class="action-icon" />
+            <span>Edit</span>
+          </button>
+
+          <button class="action-btn delete" (click)="deleteContact()">
+            <img src="/img/icons/delete.svg" alt="Delete" class="action-icon" />
+            <span>Delete</span>
+          </button>
         </div>
       </div>
     </div>
@@ -32,16 +57,13 @@
     <h3>Contact Information</h3>
 
     <p class="label">Email</p>
-    <p>{{ selectedContact.email }}</p>
+    <p class="email-detail">{{ selectedContact.email }}</p>
 
     <p class="label">Phone</p>
     <p>{{ selectedContact.phone }}</p>
   </div>
 
   <ng-template #noSelect>
-    <div class="contact-detail placeholder">
-      Select a contact to view details
-    </div>
+    <div class="contact-detail placeholder">Select a contact to view details</div>
   </ng-template>
-
 </div>
