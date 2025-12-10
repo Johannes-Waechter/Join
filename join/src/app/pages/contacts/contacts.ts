@@ -3,6 +3,7 @@ import { Component,inject } from '@angular/core';
 import { ContactsService, Contact as ContactModel } from '../../core/services/contacts.service';
 import { Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 interface Contact {
   id?: string;
@@ -23,6 +24,7 @@ interface Contact {
 export class Contacts {
   private readonly contactsSvc = inject(ContactsService);
   private readonly router = inject(Router);
+  private _sub = new Subscription();
 
   contacts$ = this.contactsSvc.getContacts('name', 'asc');
 
@@ -74,4 +76,19 @@ selectedContact: Contact | null = null;
     await this.contactsSvc.deleteContact(c.id);
     this.selectedContact = null;
   }
+
+  ngOnInit() {
+    this._sub.add(
+      this.contacts$.subscribe(list => {
+        if (this.selectedContact && !list.find(x => x.id === this.selectedContact!.id)) {
+          this.selectedContact = null;
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this._sub.unsubscribe();
+  }
 }
+

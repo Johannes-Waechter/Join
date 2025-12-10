@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ContactsService, Contact } from '../../core/services/contacts.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 type Mode = 'create' | 'edit';
@@ -33,12 +34,11 @@ export class DialogContact {
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    const pathLast = this.route.snapshot.url.at(-1)?.path ?? '';
-    if (id && pathLast === 'edit') {
+      if (id) {
       this.mode = 'edit';
       this.contactId = id;
       try {
-        const list = await this.contacts.getContacts().toPromise();
+        const list = await firstValueFrom(this.contacts.getContacts('name','asc'));
         this.contact = (list || []).find(c => c.id === id) || null;
         if (this.contact) {
           this.form.patchValue({
