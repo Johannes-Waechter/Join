@@ -41,7 +41,7 @@
     >
       <ng-container *ngIf="selectedContact; else noSelect">
         <div class="detail-header">
-          <div class="circle big">{{ getInitials(selectedContact.name) }}</div>
+          <div class="circle big" [style.background]="selectedContact.color || '#ccc'">{{ getInitials(selectedContact.name) }}</div>
           <div class="detail-main">
             <div class="name">{{ selectedContact.name }}</div>
 
