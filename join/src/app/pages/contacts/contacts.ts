@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component,inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ContactsService, Contact as ContactModel } from '../../core/services/contacts.service';
 import { Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -20,7 +20,6 @@ interface Contact {
   templateUrl: './contacts.html',
   styleUrl: './contacts.scss',
 })
-
 export class Contacts {
   private readonly contactsSvc = inject(ContactsService);
   private readonly router = inject(Router);
@@ -28,7 +27,7 @@ export class Contacts {
 
   contacts$ = this.contactsSvc.getContacts('name', 'asc');
 
-    grouped$ = this.contacts$.pipe(
+  grouped$ = this.contacts$.pipe(
     map((contacts: ContactModel[]) => {
       const groups: Record<string, ContactModel[]> = {};
       for (const c of contacts) {
@@ -40,17 +39,27 @@ export class Contacts {
         .sort()
         .map((letter) => ({
           letter,
-          contacts: groups[letter].sort((a, b) => a.name.localeCompare(b.name, 'de', { sensitivity: 'base' })),
+          contacts: groups[letter].sort((a, b) =>
+            a.name.localeCompare(b.name, 'de', { sensitivity: 'base' })
+          ),
         }));
     })
   );
 
+  selectedContact: Contact | null = null;
 
-selectedContact: Contact | null = null;
+  showActions = false;
 
+  toggleActions() {
+    this.showActions = !this.showActions;
+  }
 
   selectContact(contact: Contact) {
     this.selectedContact = contact;
+
+    document.querySelector('.contact-detail')?.classList.add('visible');
+
+    this.showActions = false;
   }
 
   getInitials(name: string) {
@@ -71,7 +80,7 @@ selectedContact: Contact | null = null;
   }
 
   async deleteContact() {
-   const c = this.selectedContact;
+    const c = this.selectedContact;
     if (!c || !('id' in c) || !c.id) return;
     await this.contactsSvc.deleteContact(c.id);
     this.selectedContact = null;
@@ -79,8 +88,8 @@ selectedContact: Contact | null = null;
 
   ngOnInit() {
     this._sub.add(
-      this.contacts$.subscribe(list => {
-        if (this.selectedContact && !list.find(x => x.id === this.selectedContact!.id)) {
+      this.contacts$.subscribe((list) => {
+        if (this.selectedContact && !list.find((x) => x.id === this.selectedContact!.id)) {
           this.selectedContact = null;
         }
       })
@@ -90,5 +99,11 @@ selectedContact: Contact | null = null;
   ngOnDestroy() {
     this._sub.unsubscribe();
   }
-}
 
+  closeDetail() {
+    this.selectedContact = null;
+    this.showActions = false;
+    const detailEl = document.querySelector('.contact-detail');
+    detailEl?.classList.remove('visible');
+  }
+}
