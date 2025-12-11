@@ -248,7 +248,7 @@
   background: #2A3647;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 21px;
   font-weight: 700;
   cursor: pointer;
@@ -256,7 +256,8 @@
 }
 
 .add-contact-btn:hover {
-  background: #007CEE;
+  background: $color-brand-highlight;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
 .add-contact-btn {
