@@ -104,6 +104,11 @@ export class Contacts {
     if (!c || !('id' in c) || !c.id) return;
     await this.contactsSvc.deleteContact(c.id);
     this.selectedContact = null;
+
+    this.showActions = false;
+
+    const detailEl = document.querySelector('.contact-detail');
+    detailEl?.classList.remove('visible');
   }
 
   ngOnInit() {
@@ -128,12 +133,10 @@ export class Contacts {
   }
 
   onContactCreated(contact: ContactModel) {
-   
     this.disableDetailAnimation = true;
     this.selectedContact = contact;
     document.querySelector('.contact-detail')?.classList.add('visible');
 
-    
     console.log('Toast ON');
     this.showCreateToast = true;
     this.cdr.detectChanges();
