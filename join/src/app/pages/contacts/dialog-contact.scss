@@ -106,9 +106,8 @@
 .dialog__content {
   display: flex;
   align-items: center;
-  // gap: 24px;
-  width: 100%;
-  max-width: 560px;
+  gap: 14px;
+ 
 }
 
 .dialog__content .form {
@@ -116,7 +115,6 @@
   max-width: none;
   // gap: 32px;
  right: 45.5px;
-  margin-left: 5.5px;
 }
 
 .dialog--fullscreen {

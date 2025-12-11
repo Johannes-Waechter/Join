@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, updateDoc, deleteDoc, doc, collectionData, query, orderBy, getDocs } from '@angular/fire/firestore';
+import { Firestore, collectionData } from '@angular/fire/firestore';
+import { collection, addDoc, updateDoc, deleteDoc, doc, query, orderBy, runTransaction } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 /** Sort field for contacts (currently only `name`). */
@@ -21,6 +22,8 @@ export interface Contact {
 export class ContactsService {
   /** Firestore collection reference for `contacts`. */
   private readonly colRef;
+  /** Doc reference for global counters (palette sequencing). */
+  private readonly countersDoc;
 
   /**
    * Avatar color palette (matching `styles.scss`). Colors are assigned in
@@ -50,6 +53,7 @@ export class ContactsService {
    */
   constructor(private readonly firestore: Firestore) {
     this.colRef = collection(this.firestore, 'contacts');
+    this.countersDoc = doc(this.firestore, 'meta', 'counters');
   }
 
   /**
@@ -70,8 +74,7 @@ export class ContactsService {
    */
   async createContact(input: Pick<Contact, 'name'> & Partial<Contact>): Promise<Contact> {
     const fixedName = this.capitalizeName(input.name);
-    const snap = await getDocs(this.colRef as any);
-    const index = snap.size % this.avatarPalette.length;
+    const index = await this.nextPaletteIndex();
     const payload: Omit<Contact, 'id'> = {
       name: fixedName,
       email: input.email?.trim(),
@@ -124,5 +127,26 @@ export class ContactsService {
       .split(/\s+/)
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
       .join(' ');
+  }
+
+  /**
+   * Returns the next palette index in round-robin order, stored in Firestore.
+   * Uses a transaction for concurrency safety across clients.
+   */
+  private async nextPaletteIndex(): Promise<number> {
+    const len = this.avatarPalette.length;
+    return runTransaction(this.firestore, async (tx) => {
+      const snap = await tx.get(this.countersDoc as any);
+      let next = 0;
+      if (snap.exists()) {
+        const seq = ((snap.data() as any)?.avatarSeq ?? 0) as number;
+        next = (seq + 1) % len;
+        tx.update(this.countersDoc as any, { avatarSeq: next });
+      } else {
+        next = 0;
+        tx.set(this.countersDoc as any, { avatarSeq: next });
+      }
+      return next;
+    });
   }
 }
