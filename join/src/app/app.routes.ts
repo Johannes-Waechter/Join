@@ -66,7 +66,5 @@ export const routes: Routes = [{
             path: 'contacts/:id/edit',
             loadComponent: () => import('./pages/contacts/dialog-contact').then(m => m.DialogContact),
         },
-
-        { path: '', redirectTo: 'contacts', pathMatch: 'full' },
     ]
 }];
