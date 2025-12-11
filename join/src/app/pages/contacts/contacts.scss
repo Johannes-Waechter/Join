@@ -172,8 +172,8 @@
 }
 
 .detail-content.no-animation {
-  transition: none;       
-  opacity: 1;             
+  transition: none;
+  opacity: 1;
   transform: translateX(0);
 }
 
@@ -278,7 +278,7 @@
   height: 20px;
 }
 
- /* Slide-in "contact successfully created" */
+/* Slide-in "contact successfully created" */
 .create-contact-success {
   display: inline-block;
   font-size: 20px;
@@ -386,6 +386,7 @@
     border: none;
     cursor: pointer;
     z-index: 4;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
   }
 
   .mobile-fab-add .icon {
@@ -519,10 +520,10 @@
   .create-contact-success {
     position: fixed;
     left: 50%;
-    bottom: 190px;             
+    bottom: 190px;
     transform: translate(-50%, 120%);
     margin-top: 0;
-    z-index: 8;                  
+    z-index: 8;
   }
 
   .create-contact-success.visible {
