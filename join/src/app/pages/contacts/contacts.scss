@@ -389,10 +389,11 @@
   .contacts-list {
     width: 100%;
     border-right: none;
+    margin-bottom: 64px;
   }
 
   .contacts-scroll-area {
-    padding: 40px 40px 20px 40px;
+    padding: 40px 40px 64px 40px;
   }
 
   .contact-detail {
@@ -440,8 +441,8 @@
     position: fixed;
     right: 20px;
     bottom: 112px;
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: #2A3647;
     justify-content: center;
