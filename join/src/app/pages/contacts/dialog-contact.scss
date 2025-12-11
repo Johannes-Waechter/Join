@@ -1,3 +1,35 @@
+/**
+ * @fileoverview Dialog Contact Component Styles
+ * @description Styles for the add/edit contact dialog modal, including layout,
+ *              branding, form controls, avatar display, action buttons,
+ *              and responsive behavior for mobile devices.
+ * 
+ * @section Dialog Layout
+ * The dialog uses a 2:1 aspect ratio (width:height) achieved via:
+ *   - width: 60vw, height: 30vw (viewport-relative units)
+ * This ensures consistent proportions across different screen sizes.
+ * 
+ * @section z-index Hierarchy
+ * The dialog overlay uses z-index: 3 to cover all application layers:
+ *   - Header:              z-index: 1 (base navigation layer)
+ *   - Sidebar:             z-index: 2 (above header on mobile)
+ *   - Dialog Overlay:      z-index: 3 (covers entire viewport)
+ *   - Dialog Close Button: z-index: 4 (clickable above overlay)
+ *   - Mobile FAB Add:      z-index: 4 (floating action button)
+ *   - Mobile FAB Actions:  z-index: 5 (actions menu trigger)
+ *   - Mobile Actions Panel: z-index: 6 (slide-in action menu)
+ *   - Mobile Back Button:  z-index: 7 (always accessible)
+ * 
+ * @section Overlay Transparency
+ * The overlay uses rgba(0, 0, 0, 0.3) for a subtle darkening effect
+ * that maintains visibility of the underlying content while focusing
+ * user attention on the dialog.
+ * 
+ * @see header.scss - Header z-index: 1
+ * @see sidebar.scss - Sidebar z-index: 2
+ * @see contacts.scss - Mobile FAB z-index values (4-7)
+ */
+
 @use '../../styles/variables' as *;
 
 /**
@@ -8,50 +40,70 @@
 
 /**
  * Root dialog container: flex row, rounded corners, white background.
+ * Layout: 40% dark left panel, 60% white right panel
+ * Dimensions: max-width 1200px, height 600px, min-width 760px
+ * Aspect ratio 2:1 (width:height)
  */
 .dialog {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   position: relative;
-  min-height: 420px;
+  width: 100%;
+  max-width: 1200px;
+  min-width: 760px;
+  height: 600px;
   border-radius: 16px;
   overflow: hidden;
   background: #fff;
 }
+
 /**
  * Overlay centering: centers dialog within viewport.
+ * Dark backdrop behind the dialog for focus.
  */
 .dialog-overlay {
   position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
-  z-index: 1000;
+  z-index: 3;
   pointer-events: auto;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 /**
- * Slide-in animation wrapper: initial offset and fade-in.
+ * Slide-in animation wrapper: centered with fixed dimensions.
+ * Uses max-width/height with 90% fallback for smaller screens.
  */
 .dialog--animated {
-  width: min(960px, 92vw);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.16);
+  width: 90%;
+  max-width: 1200px;
+  height: 600px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
   transform: translateX(72px);
   opacity: 0;
   animation: dialogSlideIn 480ms ease-out forwards;
 }
 
 @keyframes dialogSlideIn {
-  from { transform: translateX(72px); opacity: 0; }
-  to   { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(72px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
+
 /**
  * Right content inner container: avatar + form with constrained width.
  */
 .dialog__content {
   display: flex;
-  align-items: center; 
+  align-items: center;
   gap: 24px;
   width: 100%;
   max-width: 560px;
@@ -95,13 +147,21 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center; 
-  padding: 24px 24px 24px 45.5px; 
+  justify-content: center;
+  padding: 24px 24px 24px 45.5px;
 }
 
-.dialog__left,
+/**
+ * Panel width distribution: 40% left (dark), 60% right (white)
+ * This creates the visual balance shown in the design.
+ */
+.dialog__left {
+  flex: 0 0 40%;
+  min-width: 0;
+}
+
 .dialog__right {
-  flex: 1 1 0;
+  flex: 0 0 60%;
   min-width: 0;
 }
 
@@ -155,22 +215,25 @@
   border: none;
   background: transparent;
   font-size: 20px;
-  z-index: 5;
+  z-index: 4;
   cursor: pointer;
 }
 
 /**
  * Avatar circle: initials or icon, elevated with shadow.
+ * Uses aspect-ratio to maintain perfect circle on resize.
  */
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
   border-radius: 50%;
   background: #e4e7ed;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 40px;
   color: #2a3647;
   border: 4px solid #fff;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -187,8 +250,16 @@
   gap: 12px;
 }
 
-.form label { position: static; display: block; }
-.field-inner { position: relative; display: block; }
+.form label {
+  position: static;
+  display: block;
+}
+
+.field-inner {
+  position: relative;
+  display: block;
+}
+
 .form input {
   width: 100%;
   padding: 12px 40px 12px 12px;
@@ -198,7 +269,11 @@
   caret-color: $color-brand-highlight;
 }
 
-.form input::placeholder { color: #9aa3af; opacity: 1; }
+.form input::placeholder {
+  color: #9aa3af;
+  opacity: 1;
+}
+
 .form label:focus-within input,
 .form input:focus,
 .form input:focus-visible,
@@ -214,7 +289,10 @@
   border-color: $color-error !important;
 }
 
-.form input.ng-invalid.ng-touched::placeholder { color: $color-error; }
+.form input.ng-invalid.ng-touched::placeholder {
+  color: $color-error;
+}
+
 .error {
   display: block;
   margin-top: 6px;
@@ -270,45 +348,233 @@
   color: $color-brand-highlight;
 }
 
-@media (max-width: 768px) {
-  /**
-   * Mobile layout: stack panels, hide big logo,
-   * and reposition close/avatar elements.
-   */
-  .dialog { flex-direction: column; }
-  .dialog__left {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    padding: 24px;
+/**
+ * Responsive breakpoints for maintaining 40:60 ratio and 2:1 aspect ratio.
+ * Structure stays horizontal until 768px, only sizes change.
+ */
+
+/* Standard Breakpoint: Tablet / Small Desktop (max-width: 1024px) */
+/** 
+ * @breakpoint 1024px - Tablet/Small Desktop
+ * Adjusts font sizes, padding, and logo size to be slightly smaller than desktop.
+ * Layout remains horizontal (2-column).
+ */
+@media (max-width: 1024px) {
+  .dialog {
+    min-width: 760px;
+    height: 500px;
   }
 
-  .dialog__logo { display: none; }
-  .dialog__right { padding-top: 96px; }
-  .dialog__content { flex-direction: column; align-items: center; }
-  .close { color: #fff; z-index: 3; top: 12px; right: 12px; }
+  .dialog--animated {
+    height: 500px;
+  }
+
+  .title {
+    font-size: 36px;
+    /* From 850px */
+    margin-top: 8px;
+    /* From 850px */
+  }
+
+  .subtitle {
+    font-size: 14px;
+    /* From 850px */
+  }
+
+  .avatar {
+    width: 80px;
+    /* From 850px */
+    height: 80px;
+    /* From 850px */
+    font-size: 28px;
+    /* From 850px */
+  }
+
+  .dialog__left {
+    padding: 16px 16px 16px 24px;
+    /* From 850px */
+  }
+
+  .dialog__logo {
+    width: 40px;
+    /* From 850px */
+    height: 50px;
+    /* From 850px */
+    margin-bottom: 12px;
+    /* From 850px */
+  }
+
+  .title-underline {
+    width: 60px;
+    /* From 850px */
+    margin-top: 8px;
+    /* From 850px */
+  }
+
+  .form input {
+    padding: 10px 36px 10px 10px;
+    /* From 850px */
+  }
+
+  .btn {
+    padding: 8px 14px;
+    /* From 850px */
+    font-size: 14px;
+    /* From 850px */
+  }
+}
+
+/* Standard Breakpoint: Mobile Switch (max-width: 768px) */
+/**
+ * @breakpoint 768px - Mobile Layout Start
+ * Switches dialog to vertical layout (floating modal).
+ * - Width: calc(100vw - 32px) for full width with margins
+ * - Height: calc(100vh - 180px) to fit between header and nav
+ * - min-width: 300px (overrides desktop 760px constraint) to allow shrinking on small phones
+ * - Hides the logo to save space
+ * - Hides 'Cancel' button (User requirement)
+ */
+@media (max-width: 768px) {
+  .dialog {
+    flex-direction: column;
+    /* Fit between header (~80px) and nav (~80px) with small side margins */
+    width: calc(100vw - 32px);
+    height: calc(100vh - 180px);
+    /* 180px ensures it clears both securely */
+    min-width: 300px;
+    max-height: unset;
+    border-radius: 30px;
+  }
+
+  .dialog__logo {
+    display: none;
+  }
+
+  .dialog--animated {
+    width: calc(100vw - 32px);
+    height: calc(100vh - 180px);
+    max-width: none;
+  }
+
+  .dialog__left {
+    flex: 0 0 160px;
+    /* Fixed height for header part */
+    padding: 24px;
+    justify-content: flex-start;
+    padding-bottom: 40px;
+    border-radius: 30px 30px 0 0;
+  }
+
+  .dialog__right {
+    flex: 1;
+    padding-top: 56px;
+    padding-bottom: 24px;
+    justify-content: flex-start;
+    border-radius: 0 0 30px 30px;
+    /* Important: Allow avatar to bleed upwards (no overflow hidden here) */
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  /* Hide Cancel button on mobile */
+  .btn-secondary {
+    display: none;
+  }
+
+  .actions {
+    justify-content: center;
+    padding-top: 12px;
+  }
+
+  .dialog__content {
+    flex-direction: column;
+    align-items: center;
+    /* Content wrapper takes remaining space */
+    flex: 1;
+    display: flex;
+    overflow: visible;
+    width: 100%;
+    min-height: 0;
+    /* Enable flex scrolling */
+  }
+
+  .form {
+    /* Form becomes the scrollable area */
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    /* Max-width handled by other rules, but ensure centered scroll */
+    padding: 0 10px;
+  }
+
+  .close {
+    color: #fff;
+    z-index: 4;
+    top: 12px;
+    right: 12px;
+  }
+
   .avatar {
     position: absolute;
     top: 0;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    font-size: 32px;
+  }
+
+  .title {
+    font-size: 32px;
   }
 }
 
-@media (max-width: 360px) {
-  /** Small phones: tighten radius and form width. */
-  .dialog { border-radius: 0; }
-  .form { max-width: 300px; }
-}
+/* Standard Breakpoint: Small Mobile (max-width: 480px) */
+/**
+ * @breakpoint 480px - Small Mobile
+ * Further reductions for very small screens (e.g. older iPhones).
+ * - Reduces side padding
+ * - Smaller font sizes for titles and buttons
+ */
+@media (max-width: 480px) {
+  .form {
+    padding: 0 4px;
+    /* Slight padding for safety */
+    gap: 10px;
+  }
 
-@media (max-width: 320px) {
-  /** Very small phones: further reduce sizes and spacing. */
-  .form { max-width: 280px; gap: 10px; }
-  .avatar { width: 64px; height: 64px; font-size: 22px; }
-  .title { font-size: 24px; }
+  .title {
+    font-size: 28px;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .form input {
+    padding: 10px 36px 10px 10px;
+  }
 }
 
 /**
  * Centering overrides: center right panel content.
  */
-.dialog__right { justify-content: center; }
-.dialog__content { margin: 0 auto; }
+.dialog__right {
+  justify-content: center;
+}
+
+.dialog__content {
+  margin: 0 auto;
+}

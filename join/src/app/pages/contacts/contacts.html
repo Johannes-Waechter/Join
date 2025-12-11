@@ -8,12 +8,8 @@
     <div *ngIf="grouped$ | async as groups">
       <div *ngFor="let group of groups" class="letter-group">
         <div class="group-letter">{{ group.letter }}</div>
-        <div
-          *ngFor="let c of group.contacts"
-          class="contact-entry"
-          (click)="selectContact(c)"
-          [ngClass]="{ active: selectedContact === c }"
-        >
+        <div *ngFor="let c of group.contacts" class="contact-entry" (click)="selectContact(c)"
+          [ngClass]="{ active: selectedContact === c }">
           <div class="circle" [style.background-color]="c.color || '#ccc'">
             {{ getInitials(c.name) }}
           </div>
@@ -25,7 +21,8 @@
       </div>
     </div>
     <!-- Mobile Add FAB -->
-    <button class="mobile-fab-add" *ngIf="!selectedContact" (click)="addContact()">
+    <!-- Logik: Button shown only if NO contact selected AND dialog is NOT open (!showDialog) -->
+    <button class="mobile-fab-add" *ngIf="!selectedContact && !showDialog" (click)="addContact()">
       <img src="/img/icons/add_person.svg" class="icon" />
     </button>
   </div>
@@ -98,3 +95,7 @@
     </button>
   </div>
 </div>
+
+<!-- Dialog Overlay - renders on top of contacts content -->
+<app-dialog-contact *ngIf="showDialog" [contact]="editingContact" (closed)="onDialogClose()">
+</app-dialog-contact>

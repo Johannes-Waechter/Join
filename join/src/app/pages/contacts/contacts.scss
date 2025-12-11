@@ -1,3 +1,23 @@
+/**
+ * @fileoverview Contacts Page Styles
+ * @description Styles for the contacts list page, including contact entries,
+ *              detail view, letter groups, and mobile-specific UI elements.
+ * 
+ * @section z-index Hierarchy (Mobile Only)
+ * Mobile floating action buttons use incrementing z-index values:
+ *   - Header:              z-index: 1 (base navigation layer)
+ *   - Sidebar:             z-index: 2 (bottom navigation bar)
+ *   - Dialog Overlay:      z-index: 3 (modal backdrop)
+ *   - Mobile FAB Add:      z-index: 4 (add contact button)
+ *   - Mobile FAB Actions:  z-index: 5 (three-dot menu button)
+ *   - Mobile Actions Panel: z-index: 6 (edit/delete slide-in menu)
+ *   - Mobile Back Button:  z-index: 7 (return to list button)
+ * 
+ * @see dialog-contact.scss - Dialog overlay z-index: 3
+ * @see header.scss - Header z-index: 1
+ * @see sidebar.scss - Sidebar z-index: 2
+ */
+
 @use '../../../styles.scss' as *;
 
 :host {
@@ -321,7 +341,7 @@
     display: flex !important;
     position: fixed;
     right: 20px;
-    bottom: 20px;
+    bottom: 112px;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -330,7 +350,7 @@
     align-items: center;
     border: none;
     cursor: pointer;
-    z-index: 2000;
+    z-index: 4;
   }
 
   .mobile-fab-add .icon {
@@ -343,7 +363,7 @@
     display: flex !important;
     position: fixed;
     right: 20px;
-    bottom: 20px;
+    bottom: 112px;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -352,7 +372,7 @@
     align-items: center;
     border: none;
     cursor: pointer;
-    z-index: 2100;
+    z-index: 5;
   }
 
   .mobile-fab-actions .dots {
@@ -367,7 +387,7 @@
   .mobile-actions-panel {
     display: flex !important;
     position: fixed;
-    bottom: 20px;
+    bottom: 112px;
     right: 10px;
     width: 150px;
     height: 130px;
@@ -377,7 +397,7 @@
 
     flex-direction: column;
     padding: 12px 0;
-    z-index: 2200;
+    z-index: 6;
 
     transform: translateX(120%);
     opacity: 0;
@@ -451,7 +471,7 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    z-index: 2500;
+    z-index: 7;
     justify-content: center;
     align-items: center;
   }

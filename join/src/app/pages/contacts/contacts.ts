@@ -4,6 +4,7 @@ import { ContactsService, Contact as ContactModel } from '../../core/services/co
 import { Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { DialogContact } from './dialog-contact';
 
 interface Contact {
   id?: string;
@@ -16,7 +17,7 @@ interface Contact {
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RouterLink],
+  imports: [CommonModule, AsyncPipe, DialogContact],
   templateUrl: './contacts.html',
   styleUrl: './contacts.scss',
 })
@@ -24,6 +25,11 @@ export class Contacts {
   private readonly contactsSvc = inject(ContactsService);
   private readonly router = inject(Router);
   private _sub = new Subscription();
+
+  /** Controls whether the dialog modal is visible */
+  showDialog = false;
+  /** Contact being edited, null for create mode */
+  editingContact: Contact | null = null;
 
   contacts$ = this.contactsSvc.getContacts('name', 'asc');
 
@@ -70,13 +76,21 @@ export class Contacts {
   }
 
   addContact() {
-    this.router.navigate(['/contacts', 'add']);
+    this.editingContact = null;
+    this.showDialog = true;
   }
 
   editContact() {
     const c = this.selectedContact;
     if (!c || !('id' in c) || !c.id) return;
-    this.router.navigate(['/contacts', c.id, 'edit']);
+    this.editingContact = c;
+    this.showDialog = true;
+  }
+
+  /** Called when dialog is closed or saved */
+  onDialogClose() {
+    this.showDialog = false;
+    this.editingContact = null;
   }
 
   async deleteContact() {

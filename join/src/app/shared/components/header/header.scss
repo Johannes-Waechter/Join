@@ -1,3 +1,19 @@
+/**
+ * @fileoverview Header Component Styles
+ * @description Styles for the main application header, including layout,
+ *              user avatar, help icon, and user menu dropdown.
+ * 
+ * @section z-index Hierarchy
+ * The header uses z-index: 1 as the base layer in the global stacking context:
+ *   - Header:         z-index: 1 (base navigation layer)
+ *   - Sidebar:        z-index: 2 (above header on mobile)
+ *   - Dialog Overlay: z-index: 3 (covers entire viewport including header)
+ *   - Dialog Content: z-index: 4+ (interactive elements above overlay)
+ * 
+ * @see sidebar.scss - Sidebar z-index: 2
+ * @see dialog-contact.scss - Dialog overlay z-index: 3
+ */
+
 @use '../../../../styles.scss' as *;
 
 /* ===============================
@@ -12,7 +28,7 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 1;
 }
 
 .max-width-container {
@@ -154,7 +170,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .header {
     height: 80px;
     padding: 0 20px;

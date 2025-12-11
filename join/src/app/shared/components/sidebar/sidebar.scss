@@ -1,3 +1,19 @@
+/**
+ * @fileoverview Sidebar Component Styles
+ * @description Styles for the main navigation sidebar, including desktop
+ *              vertical layout and mobile bottom navigation bar.
+ * 
+ * @section z-index Hierarchy
+ * The sidebar uses z-index: 2 in the global stacking context (mobile only):
+ *   - Header:         z-index: 1 (base navigation layer)
+ *   - Sidebar:        z-index: 2 (above header on mobile bottom nav)
+ *   - Dialog Overlay: z-index: 3 (covers entire viewport)
+ *   - Dialog Content: z-index: 4+ (interactive elements above overlay)
+ * 
+ * @see header.scss - Header z-index: 1
+ * @see dialog-contact.scss - Dialog overlay z-index: 3
+ */
+
 @use '../../../../styles.scss' as *;
 
 /* ===============================
@@ -37,7 +53,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .sidebar {
     position: fixed;
     left: 0;
@@ -50,7 +66,7 @@
     background-color: $color-brand-primary;
 
     @include dFlex($fd: row, $jc: center, $ai: center);
-    z-index: 100;
+    z-index: 2;
   }
 
   .sidebar-top {

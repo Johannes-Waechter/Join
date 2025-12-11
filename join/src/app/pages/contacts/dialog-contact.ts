@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ContactsService, Contact } from '../../core/services/contacts.service';
@@ -21,9 +21,14 @@ export class DialogContact {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
+  /** Contact to edit (passed from parent). If null, creates new contact. */
+  @Input() contact: any = null; // Simplification to avoid strict type errors for now, or use (Contact & { color?: string }) | null
+
+  /** Emits when dialog should be closed (cancel or after save) */
+  @Output() closed = new EventEmitter<void>();
+
   mode: Mode = 'create';
   contactId: string | null = null;
-  contact: Contact | null = null;
   loading = false;
 
   form = this.fb.nonNullable.group({
@@ -33,21 +38,34 @@ export class DialogContact {
   });
 
   async ngOnInit() {
+    // Priority 1: Check if contact was passed via Input (overlay mode)
+    if (this.contact && 'id' in this.contact && this.contact.id) {
+      this.mode = 'edit';
+      this.contactId = this.contact.id;
+      this.form.patchValue({
+        name: this.contact.name || '',
+        email: this.contact.email || '',
+        phone: this.contact.phone || ''
+      });
+      return;
+    }
+
+    // Priority 2: Check route params (standalone route mode - legacy support)
     const id = this.route.snapshot.paramMap.get('id');
-      if (id) {
+    if (id) {
       this.mode = 'edit';
       this.contactId = id;
       try {
-        const list = await firstValueFrom(this.contacts.getContacts('name','asc'));
-        this.contact = (list || []).find(c => c.id === id) || null;
-        if (this.contact) {
+        const list = await firstValueFrom(this.contacts.getContacts('name', 'asc'));
+        const found = (list || []).find(c => c.id === id) || null;
+        if (found) {
           this.form.patchValue({
-            name: this.contact.name || '',
-            email: this.contact.email || '',
-            phone: this.contact.phone || ''
+            name: found.name || '',
+            email: found.email || '',
+            phone: found.phone || ''
           });
         }
-      } catch {}
+      } catch { }
     } else {
       this.mode = 'create';
     }
@@ -55,7 +73,7 @@ export class DialogContact {
 
   cancel() {
     this.form.reset({ name: '', email: '', phone: '' });
-    this.router.navigate(['/']);
+    this.closed.emit();
   }
 
   async submit() {
