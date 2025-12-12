@@ -158,8 +158,11 @@
 .contact-detail {
   flex: 1;
   background-color: #f6f7f8;
-  padding: 80px 40px;
-  margin-top: 40px;
+  padding: 120px 40px; // <- Änderung hier
+  // margin-top: 40px; // <- Änderung hier
+
+  // Boxshadow links
+  box-shadow: inset 15px 0 10px -15px rgba(0, 0, 0, 0.25); // Neu hinzugefügt
 }
 
 .contact-header {
@@ -472,7 +475,7 @@
     right: 0;
     height: 100vh;
     background: #f6f7f8;
-    padding: 80px 30px;
+    padding: 140px 30px; // <- Änderung hier
     transform: translateX(100%);
     transition: 0.35s ease-out;
   }
