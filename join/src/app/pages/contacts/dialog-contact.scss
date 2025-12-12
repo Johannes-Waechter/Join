@@ -304,8 +304,9 @@
 }
 
 .form input::placeholder {
-  color: #9aa3af;
+  color: #DCDCDC;
   opacity: 1;
+  font-weight: 200;
 }
 
 .form label:focus-within input,
