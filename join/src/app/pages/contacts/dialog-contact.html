@@ -8,7 +8,7 @@
     </button>
     <div class="dialog__left">
       <div class="brand">
-        <img src="img/Logo-white.svg" alt="Join" class="dialog__logo" />
+        <img src="img/logo-white.svg" alt="Join" class="dialog__logo" />
         <div class="title">{{ mode === 'edit' ? 'Edit contact' : 'Add contact' }}</div>
         <div class="subtitle" *ngIf="mode === 'create'">Tasks are better with a team!</div>
         <div class="title-underline"></div>
@@ -17,9 +17,9 @@
     <div class="dialog__right">
 
       <div class="dialog__content">
-        <div class="avatar" [style.background]="(contact?.color || '#e4e7ed')">
+        <div class="avatar" [style.background]="(contact?.color || '#d1d1d1')">
           <span class="initials" *ngIf="mode==='edit' && contact">{{ getInitials(contact.name || '') }}</span>
-          <img *ngIf="mode==='create'" src="/img/icons/person.svg" alt="Person">
+          <img *ngIf="mode==='create'" src="/img/icons/person-dialog.svg" alt="Person">
         </div>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="form">
