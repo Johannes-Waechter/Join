@@ -100,6 +100,7 @@
   from {
     transform: translateX(0);
   }
+
   to {
     /* Move fully beyond viewport to ensure 100% out */
     transform: translateX(110vw);
@@ -502,24 +503,26 @@
     height: calc(100vh - 180px);
     max-width: none;
     /* Override desktop slide-in: slide from bottom on mobile */
-  
+
     animation: dialogSlideUp 400ms ease-out forwards;
   }
 
   @keyframes dialogSlideUp {
-  from {
-    transform: translateY(100%);
-  }
+    from {
+      transform: translateY(100%);
+    }
 
-  to {
-    transform: translateY(0);
-  }}
+    to {
+      transform: translateY(0);
+    }
+  }
 
   /* Mobile slide-out (closing) */
   @keyframes dialogSlideDown {
     from {
       transform: translateY(0);
     }
+
     to {
       transform: translateY(100%);
     }
@@ -530,7 +533,7 @@
   }
 
   .dialog__left {
-    flex: 0 0 50%;
+    // flex: 0 0 50%;  // <- Neue Änderung
     /* Fixed height for header part */
     padding: 24px;
     justify-content: center;
@@ -541,8 +544,7 @@
 
   .dialog__right {
     flex: 1;
-    padding-top: 64px;
-    padding-bottom: 24px;
+    padding: 64px 8px 24px 8px; // <- Neue Änderung
     justify-content: flex-start;
     border-radius: 0 0 30px 30px;
     /* Important: Allow avatar to bleed upwards (no overflow hidden here) */
