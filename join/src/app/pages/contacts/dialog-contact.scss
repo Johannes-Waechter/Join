@@ -119,7 +119,6 @@
   display: flex;
   align-items: center;
   gap: 14px;
-
 }
 
 .dialog__content .form {
@@ -187,7 +186,7 @@
 .logo {
   font-size: 32px;
   font-weight: 800;
-  left: 45.5px
+  left: 45.5px;
 }
 
 .title {
@@ -280,7 +279,7 @@
   top: 137px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  // gap: 32px;
 }
 
 .form label {
@@ -304,7 +303,7 @@
 }
 
 .form input::placeholder {
-  color: #DCDCDC;
+  color: $color-neutral-light;
   opacity: 1;
   font-weight: 200;
 }
@@ -324,8 +323,9 @@
   border-color: $color-error !important;
 }
 
-.form input.ng-invalid.ng-touched::placeholder {
-  color: $color-error;
+.form label.field {
+  display: flex;
+  flex-direction: column;
 }
 
 .error {
@@ -334,6 +334,12 @@
   font-size: 16px;
   line-height: 1.2;
   color: $color-error;
+  height: 32px;
+  visibility: hidden;
+}
+
+.error.error--show {
+  visibility: visible;
 }
 
 .field-inner .field-icon {
@@ -481,7 +487,6 @@
 /**
  * Mobile slide-up animation: used under 768px.
  */
-
 
 @media (max-width: 768px) {
   .dialog {

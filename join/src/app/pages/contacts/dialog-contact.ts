@@ -47,8 +47,8 @@ export class DialogContact {
 
   form = this.fb.nonNullable.group({
     name: ['', [Validators.required, fullNameValidator, Validators.minLength(2)]],
-    email: ['', [Validators.email]],
-    phone: ['', [Validators.pattern(/^\d{8,}$/)]],
+    email: ['', [Validators.required, Validators.email]],
+    phone: ['', [Validators.required, Validators.pattern(/^\d{8,}$/)]],
   });
 
   async ngOnInit() {
@@ -111,12 +111,11 @@ export class DialogContact {
           email: payload.email,
           phone: payload.phone,
           color:
-            (this.contact && 'color' in this.contact ? this.contact.color : undefined) ||
-            undefined,
+            (this.contact && 'color' in this.contact ? this.contact.color : undefined) || undefined,
         };
         this.updated.emit(merged);
       } else {
-        const created = await this.contacts.createContact(payload); 
+        const created = await this.contacts.createContact(payload);
         this.created.emit(created);
       }
       this.cancel();
