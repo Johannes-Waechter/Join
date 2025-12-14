@@ -667,6 +667,24 @@
   .form input {
     padding: 10px 36px 10px 10px;
   }
+
+  .dialog__left {
+    flex: 0 0 25%;
+  }
+
+  .dialog__right {
+    flex: 0 0 75%;
+    padding: 48px 8px 24px 8px;
+  }
+
+  .form label.field:last-of-type {
+    margin-bottom: 0px;
+  }
+
+  .error {
+    margin-top: 2px; 
+    min-height: 20px; 
+  }
 }
 
 /**
