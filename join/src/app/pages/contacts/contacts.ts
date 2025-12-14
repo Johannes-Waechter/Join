@@ -29,6 +29,7 @@ export class Contacts {
   showCreateToast = false;
   private toastTimeoutId: any;
   disableDetailAnimation = false;
+  disableActionsAnimation = false;
 
   /** Controls whether the dialog modal is visible */
   showDialog = false;
@@ -82,7 +83,7 @@ export class Contacts {
   }
 
   addContact() {
-    this.showActions = false;  // <- hinzugefügt
+    this.showActions = false; 
     this.editingContact = null;
     this.showDialog = true;
   }
@@ -90,7 +91,7 @@ export class Contacts {
   editContact() {
     const c = this.selectedContact;
     if (!c || !('id' in c) || !c.id) return;
-    this.showActions = false;  // <- hinzugefügt
+    this.showActions = false; 
     this.editingContact = c;
     this.showDialog = true;
   }
@@ -102,15 +103,20 @@ export class Contacts {
   }
 
   async deleteContact() {
+    this.disableActionsAnimation = true;
+    this.showActions = false;
+
     const c = this.selectedContact;
     if (!c || !('id' in c) || !c.id) return;
-    await this.contactsSvc.deleteContact(c.id);
-    this.selectedContact = null;
 
-    this.showActions = false;
+    await this.contactsSvc.deleteContact(c.id);
+
+    this.selectedContact = null;
 
     const detailEl = document.querySelector('.contact-detail');
     detailEl?.classList.remove('visible');
+
+    this.disableActionsAnimation = false;
   }
 
   ngOnInit() {
@@ -166,5 +172,7 @@ export class Contacts {
 
   closeActionsPanel() {
     this.showActions = false;
+    this.disableActionsAnimation = true;
+    this.disableActionsAnimation = false;
   }
 }

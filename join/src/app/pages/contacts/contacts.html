@@ -37,7 +37,10 @@
   </div>
 
   <!-- RIGHT: DETAIL VIEW -->
-  <div class="contact-detail" [style.transition]="disableDetailAnimation ? 'none' : '0.35s ease-out'">
+  <div
+    class="contact-detail"
+    [style.transition]="disableDetailAnimation ? 'none' : '0.35s ease-out'"
+  >
     <!-- ALWAYS visible -->
 
     <div class="contact-header">
@@ -54,7 +57,11 @@
     </div>
 
     <!-- Slide-in content -->
-      <div class="detail-content" [class.visible]="selectedContact" [class.no-animation]="disableDetailAnimation">
+    <div
+      class="detail-content"
+      [class.visible]="selectedContact"
+      [class.no-animation]="disableDetailAnimation"
+    >
       <ng-container *ngIf="selectedContact; else noSelect">
         <div class="detail-header">
           <div class="circle big" [style.background]="selectedContact.color || '#ccc'">
@@ -87,32 +94,38 @@
       </ng-container>
     </div>
 
-    <div class="mobile-actions-panel" [class.open]="showActions">
-      <button class="panel-item" (click)="editContact()">
-        <img src="/img/icons/edit.svg" />
-        <span>Edit</span>
-      </button>
-      <button class="panel-item delete" (click)="deleteContact()">
-        <img src="/img/icons/delete.svg" />
-        <span>Delete</span>
-      </button>
-    </div>
-
-    <div class="mobile-overlay" *ngIf="showActions" (click)="closeActionsPanel()"></div>
-
     <ng-template #noSelect>
       <p class="placeholder">Select a contact to view details</p>
     </ng-template>
-
-    <button *ngIf="selectedContact" class="mobile-fab-actions" (click)="toggleActions()">
-      <div class="dots"></div>
-    </button>
 
     <!-- Slide-in contact successfully created -->
     <div class="create-contact-success" [class.visible]="showCreateToast">
       Contact successfully created
     </div>
   </div>
+
+  <!-- Overlay + Panel OUTSIDE contact-detail -->
+  <div class="mobile-overlay" *ngIf="showActions" (click)="closeActionsPanel()"></div>
+
+<div
+  class="mobile-actions-panel"
+  [class.open]="showActions"
+  [class.no-animation]="disableActionsAnimation"
+>
+  <button class="panel-item" (click)="editContact()">
+    <img src="/img/icons/edit.svg" />
+    <span>Edit</span>
+  </button>
+  <button class="panel-item delete" (click)="deleteContact()">
+    <img src="/img/icons/delete.svg" />
+    <span>Delete</span>
+  </button>
+</div>
+
+
+  <button *ngIf="selectedContact" class="mobile-fab-actions" (click)="toggleActions()">
+    <div class="dots"></div>
+  </button>
 </div>
 
 <!-- Dialog Overlay - renders on top of contacts content -->

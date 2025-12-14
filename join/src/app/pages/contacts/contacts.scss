@@ -106,7 +106,7 @@
 }
 
 .contact-entry:hover {
-  background: linear-gradient(to bottom, #ffffff, #fafafa, #F1F1F1); // Änderung hier
+  background: linear-gradient(to bottom, #ffffff, #fafafa, #f1f1f1); // Änderung hier
 }
 
 .circle {
@@ -131,10 +131,6 @@
   font-weight: 500;
   border: 4px solid #fff;
 }
-
-// .contact-detail p {
-//   margin-bottom: 15px;
-// }
 
 .contact-info {
   flex: 1;
@@ -205,7 +201,6 @@
   height: 59px;
   background: #29abe2;
   border-radius: 2px;
-  // margin: 0 15px;
 }
 
 .contact-detail .sub {
@@ -290,7 +285,8 @@
 }
 
 .action-btn:hover .action-icon {
-  filter: brightness(0) saturate(100%) invert(41%) sepia(83%) saturate(1591%) hue-rotate(182deg) brightness(95%) contrast(101%);
+  filter: brightness(0) saturate(100%) invert(41%) sepia(83%) saturate(1591%) hue-rotate(182deg)
+    brightness(95%) contrast(101%);
 }
 
 .label {
@@ -478,12 +474,32 @@
     width: 100%;
     position: fixed;
     top: 0;
+    left: 0;
     right: 0;
-    height: 100vh;
+    bottom: 80px; 
+    height: auto;
+
     background: #f6f7f8;
-    padding: 140px 30px; // <- Änderung hier
+    padding: 140px 30px 30px; 
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+    box-sizing: border-box;
+
     transform: translateX(100%);
-    transition: 0.35s ease-out;
+    transition: transform 0.35s ease-out;
+  }
+
+  .detail-content {
+    flex: 1;
+    min-height: 0; 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .detail-content > :last-child {
+    margin-bottom: 0; 
   }
 
   .contact-detail .detail-content.visible {
@@ -500,8 +516,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    // gap: 4px;
-
   }
 
   .contact-header-subtitle {
@@ -602,6 +616,10 @@
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
   }
 
+  .mobile-actions-panel.no-animation {
+    transition: none !important;
+  }
+
   .mobile-overlay {
     position: fixed;
     top: 0;
@@ -662,7 +680,7 @@
     transform: translateX(0);
   }
 
-  .contact-detail.visible~.contacts-list {
+  .contact-detail.visible ~ .contacts-list {
     display: none;
   }
 
