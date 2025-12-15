@@ -7,14 +7,14 @@
     <button class="close" type="button" (click)="cancel()">
       <img
         class="icon-close icon-close--desktop"
-        src="/img/icons/close_black.svg"
+        src="img/icons/close_black.svg"
         alt="Close"
         width="13.5"
         height="13.5"
       />
       <img
         class="icon-close icon-close--mobile"
-        src="/img/icons/close_white.svg"
+        src="img/icons/close_white.svg"
         alt="Close"
         width="13.5"
         height="13.5"
@@ -34,14 +34,19 @@
           <span class="initials" *ngIf="mode === 'edit' && contact">{{
             getInitials(contact.name || '')
           }}</span>
-          <img *ngIf="mode === 'create'" src="/img/icons/person-dialog.svg" alt="Person" />
+          <img *ngIf="mode === 'create'" src="img/icons/person-dialog.svg" alt="Person" />
         </div>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="form">
           <label class="field">
             <div class="field-inner">
-              <input formControlName="name" placeholder="Name" />
-              <img class="field-icon" src="/img/icons/person.svg" alt="Name" />
+              <input
+                formControlName="name"
+                name="name"
+                autocomplete="name"
+                placeholder="Name"
+              />
+              <img class="field-icon" src="img/icons/person.svg" alt="Name" />
             </div>
 
             <small
@@ -57,8 +62,14 @@
 
           <label class="field">
             <div class="field-inner">
-              <input formControlName="email" type="email" placeholder="Email" />
-              <img class="field-icon" src="/img/icons/mail.svg" alt="Email" />
+              <input
+                formControlName="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="Email"
+              />
+              <img class="field-icon" src="img/icons/mail.svg" alt="Email" />
             </div>
 
             <small
@@ -73,11 +84,13 @@
             <div class="field-inner">
               <input
                 formControlName="phone"
+                name="tel"
                 inputmode="numeric"
                 pattern="\d*"
+                autocomplete="tel"
                 placeholder="Phone"
               />
-              <img class="field-icon" src="/img/icons/call.svg" alt="Phone" />
+              <img class="field-icon" src="img/icons/call.svg" alt="Phone" />
             </div>
 
             <small

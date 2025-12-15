@@ -1,0 +1,75 @@
+# ----------------------------------------------------------------------
+# SPA routing: rewrite all non-file requests to index.html
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /angular-projects/
+
+  # Content-Negotiation deaktivieren (verhindert MultiViews-Konflikte)
+  Options -MultiViews
+
+  # Existierende Dateien oder Ordner direkt ausliefern
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # WICHTIG: Assets NICHT zur index.html umleiten, sonst falscher MIME-Typ
+  RewriteCond %{REQUEST_URI} !\.(css|js|mjs|map|png|jpg|jpeg|webp|svg|ico|woff|woff2|ttf|otf)$ [NC]
+
+  # Alle anderen Anfragen an index.html weiterleiten (Angular Router übernimmt)
+  # Im Unterverzeichnis auf die lokale index.html verweisen
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# 404-Fallback NICHT für Assets aktivieren, sonst MIME-Fehler bei JS/CSS
+# (Wir verzichten global auf ErrorDocument 404, da die Rewrite-Regeln
+#  den SPA-Fallback bereits korrekt übernehmen.)
+
+# Standard-Dokument sicherstellen
+DirectoryIndex index.html
+
+# Korrekte MIME-Typen sicherstellen
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType application/javascript .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Caching für statische Assets
+# ----------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Assets langzeitcachen
+  <FilesMatch "\.(js|css|png|jpg|jpeg|webp|svg|woff|woff2|ttf|otf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # HTML immer frisch laden
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Sicherheits-Header (optional, empfehlenswert)
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

@@ -3,7 +3,7 @@
   <div class="contacts-list">
     <div class="contacts-header">
       <button class="add-contact-btn" (click)="addContact()">
-        <span>Add new contact</span> <img src="/img/icons/add_person.svg" alt="Add" class="icon" />
+        <span>Add new contact</span> <img src="img/icons/add_person.svg" alt="Add" class="icon" />
       </button>
     </div>
 
@@ -32,7 +32,7 @@
     <!-- Mobile Add FAB -->
     <!-- Logik: Button shown only if NO contact selected AND dialog is NOT open (!showDialog) -->
     <button class="mobile-fab-add" *ngIf="!selectedContact && !showDialog" (click)="addContact()">
-      <img src="/img/icons/add_person.svg" class="icon" />
+      <img src="img/icons/add_person.svg" class="icon" />
     </button>
   </div>
 
@@ -52,7 +52,7 @@
 
       <!-- Mobile Back Button -->
       <button class="mobile-back-btn" *ngIf="selectedContact" (click)="closeDetail()">
-        <img src="/img/bow.svg" alt="Back" />
+        <img src="img/bow.svg" alt="Back" />
       </button>
     </div>
 
@@ -72,12 +72,12 @@
 
             <div class="actions">
               <button class="action-btn edit" (click)="editContact()">
-                <img src="/img/icons/edit.svg" class="action-icon" />
+                <img src="img/icons/edit.svg" class="action-icon" />
                 <span>Edit</span>
               </button>
 
               <button class="action-btn delete" (click)="deleteContact()">
-                <img src="/img/icons/delete.svg" class="action-icon" />
+                <img src="img/icons/delete.svg" class="action-icon" />
                 <span>Delete</span>
               </button>
             </div>
@@ -113,11 +113,11 @@
   [class.no-animation]="disableActionsAnimation"
 >
   <button class="panel-item" (click)="editContact()">
-    <img src="/img/icons/edit.svg" />
+    <img src="img/icons/edit.svg" />
     <span>Edit</span>
   </button>
   <button class="panel-item delete" (click)="deleteContact()">
-    <img src="/img/icons/delete.svg" />
+    <img src="img/icons/delete.svg" />
     <span>Delete</span>
   </button>
 </div>
