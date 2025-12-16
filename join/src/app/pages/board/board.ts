@@ -5,21 +5,23 @@ import {
   transferArrayItem,
   CdkDrag,
   CdkDropList,
-} from "@angular/cdk/drag-drop";
+} from '@angular/cdk/drag-drop';
 import { TasksService } from '../../core/services/tasks.service';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../core/services/contacts.service';
 import { Task } from '../add-task/task';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: "app-board",
-  imports: [CdkDropList, CdkDrag, CommonModule],
-  templateUrl: "./board.html",
-  styleUrl: "./board.scss",
+  selector: 'app-board',
+  imports: [CdkDropList, CdkDrag, CommonModule, RouterOutlet],
+  templateUrl: './board.html',
+  styleUrl: './board.scss',
 })
 export class Board {
   private tasksService = inject(TasksService);
   private cdr = inject(ChangeDetectorRef); // Inject CDR
+  private router = inject(Router);
 
   // Separate arrays for each status
   todo: Task[] = [];
@@ -29,10 +31,10 @@ export class Board {
 
   constructor() {
     this.tasksService.list().subscribe((tasks) => {
-      this.todo = tasks.filter(t => t.status === 'todo');
-      this.inProgress = tasks.filter(t => t.status === 'in-progress');
-      this.awaitFeedback = tasks.filter(t => t.status === 'awaiting-feedback');
-      this.done = tasks.filter(t => t.status === 'done');
+      this.todo = tasks.filter((t) => t.status === 'todo');
+      this.inProgress = tasks.filter((t) => t.status === 'in-progress');
+      this.awaitFeedback = tasks.filter((t) => t.status === 'awaiting-feedback');
+      this.done = tasks.filter((t) => t.status === 'done');
 
       this.cdr.detectChanges(); // Force update manually
     });
@@ -40,15 +42,11 @@ export class Board {
 
   drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       const task = event.previousContainer.data[event.previousIndex];
       // Determine new status based on the container ID
-      // Note: We need to set IDs on cdkDropList in HTML for this to work robustly, 
+      // Note: We need to set IDs on cdkDropList in HTML for this to work robustly,
       // or infer it from the list instance. Ideally we pass the target status to the list or infer it.
       // A simpler way is to check which array is which, but cdkDropListConnectedTo usage suggests we know the lists.
 
@@ -72,5 +70,10 @@ export class Board {
         event.currentIndex
       );
     }
+  }
+
+  openTask(task: Task): void {
+    if (!task.id) return;
+    this.router.navigate(['/board', task.id]);
   }
 }

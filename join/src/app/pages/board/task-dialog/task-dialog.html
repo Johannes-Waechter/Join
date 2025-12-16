@@ -1,0 +1,96 @@
+<div class="dialog-overlay" (click)="close()">
+  <section class="dialog" (click)="$event.stopPropagation()">
+    @if (task$ | async; as task) {
+      <header>
+        <div
+          class="badge"
+          [class.badge--user-story]="task.category === 'user-story'"
+          [class.badge--tech-task]="task.category === 'technical-task'"
+        >
+          {{ getCategoryLabel(task.category) }}
+        </div>
+
+        <button class="close-btn" type="button" aria-label="Close dialog" (click)="close()">
+          <img src="/img/icons/close_black.svg" alt="" />
+        </button>
+      </header>
+
+      <h1 class="title">{{ task.title }}</h1>
+      <p class="description">{{ task.description }}</p>
+
+      <table class="date-prio-wrapper">
+        <tr>
+          <td class="label">Due date:</td>
+          <td class="value">
+            @if (task.dueDate) {
+              {{ task.dueDate | date : 'dd/MM/yyyy' }}
+            } @else {
+              <span class="value value--muted">No due date</span>
+            }
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">Priority:</td>
+          <td class="value value--priority">
+            <span class="priority-text">{{ task.priority }}</span>
+
+            @if (task.priority === 'urgent') {
+              <img src="/img/icons/prio-urgent.svg" alt="" class="priority-icon" />
+            } @else if (task.priority === 'medium') {
+              <img src="/img/icons/prio-medium.svg" alt="" class="priority-icon" />
+            } @else if (task.priority === 'low') {
+              <img src="/img/icons/prio-low.svg" alt="" class="priority-icon" />
+            }
+          </td>
+        </tr>
+      </table>
+
+      <div class="assignment">
+        <span class="label">Assigned To:</span>
+
+        <div class="assigned">
+          @if (task.assignees?.length) {
+            @for (a of task.assignees; track a.uid) {
+              <div class="assigned-item">
+                <div class="avatar">{{ (a.name ?? a.uid).slice(0, 2).toUpperCase() }}</div>
+                <span class="name">{{ a.name ?? a.email ?? a.uid }}</span>
+              </div>
+            }
+          } @else {
+            <span class="value value--muted">No assignees</span>
+          }
+        </div>
+      </div>
+
+      <div class="subtasks">
+        <h3 class="subtasks-title">Subtasks</h3>
+
+        @if (task.subtasks?.length) {
+          <div class="subtasks-list">
+            @for (subtask of task.subtasks; track subtask.id) {
+              <label class="subtask">
+                <input type="checkbox" [checked]="subtask.done" disabled />
+                <span>{{ subtask.title }}</span>
+              </label>
+            }
+          </div>
+        } @else {
+          <p class="value value--muted">No subtasks</p>
+        }
+      </div>
+
+      <div class="actions">
+        <button type="button" class="action-btn">
+          <span>Delete</span>
+        </button>
+
+        <button type="button" class="action-btn">
+          <span>Edit</span>
+        </button>
+      </div>
+    } @else {
+      <p>Task not found.</p>
+    }
+  </section>
+</div>

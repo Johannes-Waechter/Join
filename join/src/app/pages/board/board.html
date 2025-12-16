@@ -29,7 +29,7 @@
             <div cdkDropList id="todoList" #todoList="cdkDropList" [cdkDropListData]="todo"
                 [cdkDropListConnectedTo]="[progressList, feedbackList, doneList]" class="example-list"
                 (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let task of todo" cdkDrag>
+                <div class="example-box" *ngFor="let task of todo" cdkDrag (click)="openTask(task)">
                     <!-- Task Content -->
                     <div class="task-category"
                         [ngClass]="{'user-story': task.category === 'user-story', 'technical-task': task.category === 'technical-task'}">
@@ -53,7 +53,7 @@
             <div cdkDropList id="progressList" #progressList="cdkDropList" [cdkDropListData]="inProgress"
                 [cdkDropListConnectedTo]="[todoList, feedbackList, doneList]" class="example-list"
                 (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
+                <div class="example-box" *ngFor="let task of inProgress" cdkDrag (click)="openTask(task)">
                     <div class="task-category"
                         [ngClass]="{'user-story': task.category === 'user-story', 'technical-task': task.category === 'technical-task'}">
                         {{ task.category === 'user-story' ? 'User Story' : 'Technical Task' }}
@@ -75,7 +75,7 @@
             <div cdkDropList id="feedbackList" #feedbackList="cdkDropList" [cdkDropListData]="awaitFeedback"
                 [cdkDropListConnectedTo]="[todoList, progressList, doneList]" class="example-list"
                 (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let task of awaitFeedback" cdkDrag>
+                <div class="example-box" *ngFor="let task of awaitFeedback" cdkDrag (click)="openTask(task)">
                     <div class="task-category"
                         [ngClass]="{'user-story': task.category === 'user-story', 'technical-task': task.category === 'technical-task'}">
                         {{ task.category === 'user-story' ? 'User Story' : 'Technical Task' }}
@@ -95,7 +95,7 @@
             <div cdkDropList id="doneList" #doneList="cdkDropList" [cdkDropListData]="done"
                 [cdkDropListConnectedTo]="[todoList, progressList, feedbackList]" class="example-list"
                 (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let task of done" cdkDrag>
+                <div class="example-box" *ngFor="let task of done" cdkDrag (click)="openTask(task)">
                     <div class="task-category"
                         [ngClass]="{'user-story': task.category === 'user-story', 'technical-task': task.category === 'technical-task'}">
                         {{ task.category === 'user-story' ? 'User Story' : 'Technical Task' }}
@@ -107,3 +107,5 @@
         </div>
     </div>
 </div>
+
+<router-outlet></router-outlet>
