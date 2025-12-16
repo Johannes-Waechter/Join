@@ -2,7 +2,7 @@
     <div class="board-header">
         <div class="header-left">
             <h1>Board</h1>
-            <button class="add-task-btn">
+            <button class="add-task-btn" (click)="openAddTask()">
                 <img src="img/icons/add.svg" alt="Add task">
             </button>
         </div>
@@ -12,7 +12,7 @@
                 <div class="search-separator"></div>
                 <img src="img/icons/search.svg" alt="Search" class="search-icon">
             </div>
-            <button class="add-task-btn">
+            <button class="add-task-btn" (click)="openAddTask()">
                 <span>Add task</span> <img src="img/icons/add.svg" alt="Add task">
             </button>
         </div>
@@ -109,3 +109,10 @@
 </div>
 
 <router-outlet></router-outlet>
+
+<!-- Add Task Dialog -->
+<app-add-task-board
+    *ngIf="isAddDialogOpen"
+    (close)="onAddClose()"
+    (create)="onAddCreate($event)">
+</app-add-task-board>

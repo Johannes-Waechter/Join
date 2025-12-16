@@ -11,10 +11,11 @@ import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../core/services/contacts.service';
 import { Task } from '../add-task/task';
 import { Router, RouterOutlet } from '@angular/router';
+import { AddTaskBoard } from './add-task-board';
 
 @Component({
   selector: 'app-board',
-  imports: [CdkDropList, CdkDrag, CommonModule, RouterOutlet],
+  imports: [CdkDropList, CdkDrag, CommonModule, RouterOutlet, AddTaskBoard],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
@@ -29,6 +30,9 @@ export class Board {
   awaitFeedback: Task[] = [];
   done: Task[] = [];
 
+  // ++++++++Dialog state for Add Task +++++++++++++++++++++++++++++++
+  isAddDialogOpen = false;
+
   constructor() {
     this.tasksService.list().subscribe((tasks) => {
       this.todo = tasks.filter((t) => t.status === 'todo');
@@ -38,6 +42,41 @@ export class Board {
 
       this.cdr.detectChanges(); // Force update manually
     });
+  }
+// ++++++ dialog function: onaddclose openAddTask onAddCreate+++++++++++
+
+  openAddTask(): void {
+    this.isAddDialogOpen = true;
+  }
+
+  onAddClose(): void {
+    this.isAddDialogOpen = false;
+  }
+
+  async onAddCreate(formValue: any): Promise<void> {
+    const priorityMap: Record<string, Task['priority']> = {
+      Urgent: 'urgent',
+      Medium: 'medium',
+      Low: 'low',
+    };
+
+    const payload: Omit<Task, 'id' | 'createdAt' | 'updatedAt'> = {
+      title: formValue.title,
+      description: formValue.description ?? '',
+      status: 'todo',
+      priority: priorityMap[formValue.priority] ?? 'medium',
+      dueDate: formValue.dueDate ?? undefined,
+      category: 'user-story',
+      assignees: [],
+      subtasks: [],
+    };
+
+    try {
+      await this.tasksService.create(payload);
+      this.isAddDialogOpen = false;
+    } catch (err) {
+      console.error('Failed to create task', err);
+    }
   }
 
   drop(event: CdkDragDrop<Task[]>) {
