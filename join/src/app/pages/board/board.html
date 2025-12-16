@@ -2,7 +2,7 @@
     <div class="board-header">
         <div class="header-left">
             <h1>Board</h1>
-            <button class="add-task-btn">
+            <button class="add-task-btn" (click)="openAddTask()">
                 <img src="img/icons/add.svg" alt="Add task">
             </button>
         </div>
@@ -12,7 +12,7 @@
                 <div class="search-separator"></div>
                 <img src="img/icons/search.svg" alt="Search" class="search-icon">
             </div>
-            <button class="add-task-btn">
+            <button class="add-task-btn" (click)="openAddTask()">
                 <span>Add task</span> <img src="img/icons/add.svg" alt="Add task">
             </button>
         </div>
@@ -22,7 +22,7 @@
         <div class="status-container">
             <div class="status-header">
                 <h2>To do</h2>
-                <button>
+                <button (click)="openAddTask()">
                     <img src="img/icons/add_board_button.svg" alt="Add task">
                 </button>
             </div>
@@ -46,7 +46,7 @@
         <div class="status-container">
             <div class="status-header">
                 <h2>In progress</h2>
-                <button>
+                <button (click)="openAddTask()">
                     <img src="img/icons/add_board_button.svg" alt="Add task">
                 </button>
             </div>
@@ -68,7 +68,7 @@
         <div class="status-container">
             <div class="status-header">
                 <h2>Await feedback</h2>
-                <button>
+                <button (click)="openAddTask()">
                     <img src="img/icons/add_board_button.svg" alt="Add task">
                 </button>
             </div>
@@ -112,5 +112,8 @@
     class="no-results">
     <span>No tasks found matching "{{searchQuery}}"</span>
 </div>
+
+<app-add-task-board *ngIf="isAddDialogOpen" (close)="onAddClose()" (create)="onAddCreate($event)">
+</app-add-task-board>
 
 <router-outlet></router-outlet>
