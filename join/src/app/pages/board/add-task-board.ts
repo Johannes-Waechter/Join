@@ -3,13 +3,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-dialog-board',
+  selector: 'app-add-task-board',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './dialog-board.html',
-  styleUrl: './dialog-board.scss',
+  templateUrl: './add-task-board.html',
+  styleUrl: './add-task-board.scss',
 })
-export class DialogBoard {
+export class AddTaskBoard {
   @Output() close = new EventEmitter<void>();
   @Output() create = new EventEmitter<any>();
 

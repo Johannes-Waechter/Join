@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogBoard } from './dialog-board';
+import { AddTaskBoard } from './add-task-board';
 
 describe('DialogBoard', () => {
-  let component: DialogBoard;
-  let fixture: ComponentFixture<DialogBoard>;
+  let component: AddTaskBoard;
+  let fixture: ComponentFixture<AddTaskBoard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DialogBoard]
+      imports: [AddTaskBoard]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DialogBoard);
+    fixture = TestBed.createComponent(AddTaskBoard);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
