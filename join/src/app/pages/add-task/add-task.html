@@ -1,86 +1,95 @@
-<!-- <img src="img/add_task-preview.png" alt="Add Task Preview"> -->
-
 <div class="add-task-page">
   <header class="page-header">
     <h1>Add Task</h1>
   </header>
 
   <form [formGroup]="taskForm" class="content">
+    <div class="left">
+      <label>Title<span>*</span></label>
+      <input formControlName="title" placeholder="Enter a title" />
 
-      <div class="left">
-        <label>Title<span>*</span></label>
-        <input formControlName="title" placeholder="Enter a title" />
+      <label>Description</label>
+      <textarea formControlName="description"></textarea>
 
-        <label>Description</label>
-        <textarea formControlName="description"></textarea>
+      <label>Due date<span>*</span></label>
+      <input type="date" formControlName="dueDate" />
+    </div>
 
-        <label>Due date<span>*</span></label>
-        <input type="date" formControlName="dueDate" />
+    <div class="right">
+      <label>Priority</label>
+      <div class="priority">
+        <button
+          type="button"
+          *ngFor="let p of priorities"
+          [class.active]="taskForm.value.priority === p"
+          (click)="taskForm.patchValue({ priority: p })"
+        >
+          {{ p }}
+        </button>
       </div>
 
-      <div class="right">
-        <label>Priority</label>
-        <div class="priority">
-          <button
-            type="button"
-            *ngFor="let p of priorities"
-            [class.active]="taskForm.value.priority === p"
-            (click)="taskForm.patchValue({ priority: p })">
-            {{ p }}
-          </button>
-        </div>
-
-        <label>Assigned to</label>
-        <div class="assignee-field" (click)="toggleAssigneeDropdown(true)" tabindex="0" (blur)="toggleAssigneeDropdown(false)">
-          <div class="chips">
-            <span class="chip" *ngFor="let uid of (taskForm.value.assignedTo || [])">
-              <span class="avatar" [style.background]="getContactColor(uid)">
-                {{ (getContactName(uid) || '?').slice(0,1).toUpperCase() }}
-              </span>
-              <span class="label">{{ getContactName(uid) }}</span>
-              <button type="button" class="remove" (click)="toggleAssignee(uid, false)">×</button>
+      <label>Assigned to</label>
+      <div
+        class="assignee-field"
+        (click)="toggleAssigneeDropdown(true)"
+        tabindex="0"
+        (blur)="toggleAssigneeDropdown(false)"
+      >
+        <div class="chips">
+          <span class="chip" *ngFor="let uid of taskForm.value.assignedTo || []">
+            <span class="avatar" [style.background]="getContactColor(uid)">
+              {{ (getContactName(uid) || '?').slice(0, 1).toUpperCase() }}
             </span>
-            <span class="placeholder" *ngIf="!(taskForm.value.assignedTo || []).length">Select contacts to assign</span>
-          </div>
-          <span class="caret">▾</span>
+            <span class="label">{{ getContactName(uid) }}</span>
+            <button type="button" class="remove" (click)="toggleAssignee(uid, false)">×</button>
+          </span>
+          <span class="placeholder" *ngIf="!(taskForm.value.assignedTo || []).length"
+            >Select contacts to assign</span
+          >
         </div>
-        <div class="assigned-list dropdown" *ngIf="assigneeOpen">
-          <label class="assigned-item" *ngFor="let person of contacts" (mousedown)="toggleAssignee(person.id!, !(taskForm.value.assignedTo || []).includes(person.id!))">
-            <span
-              class="avatar"
-              aria-hidden="true"
-              [style.background]="person.color || '#6c63ff'"
-            >{{ (person.name || '?').slice(0,1).toUpperCase() }}</span>
-            <span class="name">{{ person.name }}</span>
-            <span class="checkmark" [class.on]="(taskForm.value.assignedTo || []).includes(person.id!)">✔</span>
-          </label>
-        </div>
-
-        <label>Category<span>*</span></label>
-        <select formControlName="category">
-          <option value="">Select task category</option>
-           <option value="user-story">User story</option>
-           <option value="technical-task">Technical task</option>
-        </select>
-
-        <label>Subtasks</label>
-        <input formControlName="subtask" placeholder="Add new subtask" />
+        <span class="caret">▾</span>
+      </div>
+      <div class="assigned-list dropdown" *ngIf="assigneeOpen">
+        <label
+          class="assigned-item"
+          *ngFor="let person of contacts"
+          (mousedown)="
+            toggleAssignee(person.id!, !(taskForm.value.assignedTo || []).includes(person.id!))
+          "
+        >
+          <span class="avatar" aria-hidden="true" [style.background]="person.color || '#6c63ff'">{{
+            (person.name || '?').slice(0, 1).toUpperCase()
+          }}</span>
+          <span class="name">{{ person.name }}</span>
+          <span
+            class="checkmark"
+            [class.on]="(taskForm.value.assignedTo || []).includes(person.id!)"
+            >✔</span
+          >
+        </label>
       </div>
 
+      <label>Category<span>*</span></label>
+      <select formControlName="category">
+        <option value="">Select task category</option>
+        <option value="user-story">User story</option>
+        <option value="technical-task">Technical task</option>
+      </select>
+
+      <label>Subtasks</label>
+      <input formControlName="subtask" placeholder="Add new subtask" />
+    </div>
   </form>
 
   <footer class="actions">
-    <button
-      class="submit"
-      [disabled]="taskForm.invalid"
-      (click)="createTask()">
-      Create Task
-    </button>
-    <button
-      class="clear"
-      type="button"
-      (click)="clearForm()">
-      Clear
-    </button>
+    <span class="required-hint"> <span class="asterisk">*</span>This field is required </span>
+
+    <div class="action-buttons">
+      <button class="clear" type="button" (click)="clearForm()">Clear</button>
+
+      <button class="submit" [disabled]="taskForm.invalid" (click)="createTask()">
+        Create Task
+      </button>
+    </div>
   </footer>
 </div>
