@@ -41,6 +41,25 @@
   overflow: hidden;
 }
 
+.dialog--animated { // doppelt? 
+  transform: translateX(0);
+  animation: dialogSlideIn 400ms ease-out forwards;
+}
+
+@keyframes dialogSlideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes dialogSlideOut {
+  from { transform: translateX(0); }
+  to   { transform: translateX(110vw); }
+}
+
+.dialog--animated.dialog--closing {
+  animation: dialogSlideOut 400ms ease-out forwards;
+}
+
 /* ===============================
    HEADER
 ================================ */

@@ -1,6 +1,10 @@
 <div class="dialog-overlay" (click)="close()">
-  <div class="content-container" (click)="$event.stopPropagation()">
-    <section class="dialog" (click)="$event.stopPropagation()">
+  <div class="content-container">
+    <section
+      class="dialog dialog--animated"
+      [class.dialog--closing]="isClosing"
+      (click)="$event.stopPropagation()"
+    >
       @if (task$ | async; as task) { @if (isEdit$ | async) {
       <!-- =========================
              EDIT MODE
