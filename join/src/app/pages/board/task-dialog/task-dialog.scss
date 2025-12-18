@@ -1,7 +1,7 @@
 @use '../../../../styles.scss' as *;
 
 /* ===============================
-   OVERLAY
+   OVERLAY & CONTENT-AREA
 ================================ */
 
 .dialog-overlay {
@@ -10,6 +10,14 @@
   z-index: 3;
   background: rgba(0, 0, 0, 0.3);
 
+  @include dFlex($jc: flex-start, $ai: center);
+}
+
+.content-container {
+  width: 100%;
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
   @include dFlex($jc: center, $ai: center);
 }
 
