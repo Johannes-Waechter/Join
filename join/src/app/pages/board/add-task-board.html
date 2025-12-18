@@ -1,60 +1,129 @@
-<div class="overlay">
-  <div class="dialog">
-
+<div class="overlay" (click)="onClose()">
+  <div class="dialog" (click)="$event.stopPropagation()">
     <div class="header">
       <h2>Add Task</h2>
       <button class="close" (click)="onClose()">✕</button>
     </div>
-
     <form [formGroup]="taskForm" class="content">
-
       <div class="left">
         <label>Title<span>*</span></label>
         <input formControlName="title" placeholder="Enter a title" />
 
         <label>Description</label>
-        <textarea formControlName="description"></textarea>
+        <textarea formControlName="description" placeholder="Enter a Description"></textarea>
 
         <label>Due date<span>*</span></label>
-        <input type="date" formControlName="dueDate" />
+        <input type="date" formControlName="dueDate" placeholder="dd/mm/yyyy" />
       </div>
-
-      <div class="right">
-        <label>Priority</label>
-        <div class="priority">
-          <button
-            type="button"
-            *ngFor="let p of priorities"
-            [class.active]="taskForm.value.priority === p"
-            (click)="taskForm.patchValue({ priority: p })">
-            {{ p }}
-          </button>
+      <div class="right dashed-box">
+        <div class="priority-row">
+          <label>Priority</label>
+          <div class="priority">
+            <button type="button" [class.active]="taskForm.value.priority === 'Urgent'"
+              (click)="taskForm.patchValue({ priority: 'Urgent' })">Urgent <span class="prio-icon">↑</span></button>
+            <button type="button" [class.active]="taskForm.value.priority === 'Medium'"
+              (click)="taskForm.patchValue({ priority: 'Medium' })">Medium <span class="prio-icon">=</span></button>
+            <button type="button" [class.active]="taskForm.value.priority === 'Low'"
+              (click)="taskForm.patchValue({ priority: 'Low' })">Low <span class="prio-icon">✔</span></button>
+          </div>
         </div>
-
-        <label>Assigned to</label>
-        <input formControlName="assignedTo" placeholder="Select contacts" />
-
-        <label>Category<span>*</span></label>
-        <select formControlName="category">
-          <option value="">Select task category</option>
-          <option *ngFor="let c of categories">{{ c }}</option>
-        </select>
-
-        <label>Subtasks</label>
-        <input formControlName="subtask" placeholder="Add new subtask" />
+        <div class="assigned-row">
+          <label>Assigned to</label>
+          <div class="assigned-dropdown" (click)="$event.stopPropagation()">
+            <div class="assigned-input" (click)="assigneeOpen = !assigneeOpen">
+              <input type="text" placeholder="Select contacts to assign" readonly
+                [value]="taskForm.value.assignedTo?.length ? '' : ''">
+              <!-- Maybe show placeholder always? User image shows placeholder text 'Select contacts to assign' even when items selected? Image 2 shows 'Select contacts to assign' and badges below. So yes. -->
+              <span class="dropdown-arrow">&#9662;</span>
+            </div>
+            <div class="dropdown-list" *ngIf="assigneeOpen">
+              <ng-container *ngFor="let c of contacts">
+                <div *ngIf="c.id" class="dropdown-item"
+                  (click)="toggleAssignee(c.id, !isAssigned(c.id)); $event.stopPropagation()">
+                  <span class="avatar" [ngStyle]="{background: c.color}">{{ getInitials(c.name) }}</span>
+                  <span class="name">{{ c.name }}</span>
+                  <input type="checkbox" [checked]="isAssigned(c.id)"
+                    (click)="$event.stopPropagation(); toggleAssignee(c.id, $event.target.checked)" />
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="assigned-badges">
+            <span *ngFor="let uid of taskForm.value.assignedTo" class="badge-avatar"
+              [ngStyle]="{background: getContactColor(uid)}">
+              {{ getContactInitials(uid) }}
+            </span>
+          </div>
+        </div>
+        <div class="category-row">
+          <label>Category<span>*</span></label>
+          <select formControlName="category">
+            <option value="">Select task category</option>
+            <option *ngFor="let c of categories">{{ c }}</option>
+          </select>
+        </div>
+        <div class="subtasks-row">
+          <label>Subtasks</label>
+          <div class="subtask-input-wrapper" [class.focused]="subtaskFocus">
+            <input [(ngModel)]="newSubtaskTitle" [ngModelOptions]="{standalone: true}" (focus)="subtaskFocus = true"
+              (keydown.enter)="$event.preventDefault(); addSubtask()" placeholder="Add new subtask"
+              name="subtaskInput" />
+            <span class="subtask-icons">
+              <ng-container *ngIf="!subtaskFocus && !newSubtaskTitle; else activeIcons">
+                <button type="button" class="icon-btn" (click)="subtaskFocus = true">
+                  <img src="img/icons/add.svg" alt="Add" />
+                </button>
+              </ng-container>
+              <ng-template #activeIcons>
+                <button type="button" class="icon-btn" (click)="clearSubtaskInput(); subtaskFocus = false">
+                  <img src="img/icons/close_black.svg" alt="Clear" />
+                </button>
+                <span class="divider"></span>
+                <button type="button" class="icon-btn" (click)="addSubtask()">
+                  <img src="img/icons/check-hover.svg" alt="Add" />
+                </button>
+              </ng-template>
+            </span>
+          </div>
+          <ul class="subtask-list">
+            <li *ngFor="let s of subtasks; let i = index" (dblclick)="startEditSubtask(s.id, s.title)">
+              <ng-container *ngIf="editSubtaskId !== s.id; else editTpl">
+                <span class="subtask-bg-hover"></span> <!-- Hover overlay if needed, or stick to li:hover -->
+                <span class="subtask-bullet">•</span>
+                <span class="subtask-title">{{ s.title }}</span>
+                <div class="item-actions">
+                  <button type="button" class="icon-btn" (click)="startEditSubtask(s.id, s.title)">
+                    <img src="img/icons/edit.svg" alt="Edit" />
+                  </button>
+                  <span class="divider-small"></span>
+                  <button type="button" class="icon-btn" (click)="removeSubtask(s.id)">
+                    <img src="img/icons/delete.svg" alt="Delete" />
+                  </button>
+                </div>
+              </ng-container>
+              <ng-template #editTpl>
+                <div class="edit-wrapper">
+                  <input [(ngModel)]="editSubtaskTitle" [ngModelOptions]="{standalone: true}" class="edit-input" />
+                  <div class="edit-actions">
+                    <button type="button" class="icon-btn" (click)="removeSubtask(s.id)">
+                      <!-- Trash can during edit as per user description? or maybe Delete? User said 'edit or delete'. Standard pattern: check to save, trash/cancel to abort? Let's stick to Check/Delete(Trash) pattern if that's what user implied, OR Check/Close. Let's use Check/Trash based on common Join patterns usually it's Check/Delete -->
+                      <img src="img/icons/delete.svg" alt="Delete" />
+                    </button>
+                    <span class="divider-small"></span>
+                    <button type="button" class="icon-btn" (click)="saveEditSubtask(s.id)">
+                      <img src="img/icons/check-hover.svg" alt="Save" />
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+        </div>
       </div>
-
     </form>
-
     <div class="actions">
-      <button class="cancel" (click)="onClose()">Cancel</button>
-      <button
-        class="submit"
-        [disabled]="taskForm.invalid"
-        (click)="onSubmit()">
-        Create Task
-      </button>
+      <button class="cancel" (click)="onClose()">Cancel ✕</button>
+      <button type="button" class="submit" [disabled]="taskForm.invalid" (click)="onSubmit()">Create Task ✔</button>
     </div>
-
   </div>
 </div>

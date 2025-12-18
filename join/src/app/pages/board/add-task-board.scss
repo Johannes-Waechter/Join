@@ -1,3 +1,261 @@
+/* Subtask Styles */
+
+.subtask-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background: #fff;
+  margin-top: 6px;
+  transition: border-color 0.2s;
+  cursor: text;
+
+  &.focused {
+    border-color: #2a9df4;
+  }
+
+  &:hover:not(.focused) {
+    border-color: #a0a0a0;
+  }
+}
+
+.subtask-input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 16px;
+  background: transparent;
+  padding: 4px 0;
+}
+
+.subtask-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.1s;
+
+  &:hover {
+    background: #eee;
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: #d1d1d1;
+  margin: 0 4px;
+}
+
+.divider-small {
+  width: 1px;
+  height: 14px;
+  background: #d1d1d1;
+  margin: 0 4px;
+}
+
+.subtask-list {
+  list-style: none;
+  margin: 12px 0 0 0;
+  padding: 0;
+}
+
+.subtask-list li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: background 0.1s;
+  cursor: default;
+
+  &:hover {
+    background: #f0f5fc;
+
+    .item-actions {
+      opacity: 1;
+    }
+  }
+}
+
+.subtask-bullet {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.subtask-title {
+  flex: 1;
+  word-break: break-all;
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  /* Hide by default, show on hover? Or always show? Let's hide and show on hover for cleaner look, usually */
+  transition: opacity 0.2s;
+}
+
+/* Force show actions on touch devices or if preferred? User said "I can edit or delete". Usually visible is safer. Let's make them always visible or opacity 0.7 -> 1 */
+.item-actions {
+  opacity: 1;
+}
+
+.edit-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #29abe2;
+  padding-bottom: 2px;
+}
+
+.edit-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 16px;
+  padding: 0;
+}
+
+.edit-actions {
+  display: flex;
+  align-items: center;
+}
+
+.dashed-box {
+  border: 2px dashed #b3cdf6;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.assigned-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.assigned-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.assigned-input input {
+  margin-top: 0;
+  border: none;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.assigned-badges {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  padding-left: 8px;
+  /* Optional, helps visual alignment */
+}
+
+.badge-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  border: 2px solid #fff;
+  margin-left: -8px;
+  /* overlap */
+}
+
+.badge-avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 500;
+  margin-right: 12px;
+  font-size: 12px;
+}
+
+.dropdown-arrow {
+  margin-left: auto;
+  font-size: 18px;
+  color: #2a3647;
+}
+
+.dropdown-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  /* Slight gap */
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.dropdown-item:hover {
+  background: #f3f6fb;
+}
+
+.dropdown-item .avatar {
+  margin-right: 10px;
+}
+
+.dropdown-item .name {
+  flex: 1;
+}
+
+.dropdown-item input[type="checkbox"] {
+  margin-left: 8px;
+}
+
 .overlay {
   position: fixed;
   inset: 0;

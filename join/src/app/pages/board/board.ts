@@ -83,9 +83,16 @@ export class Board {
       Low: 'low',
     };
 
-    const subtasks: Subtask[] = [];
+    const subtasks: Subtask[] = Array.isArray(formValue.subtasks) ? formValue.subtasks : [];
     if (formValue?.subtask && typeof formValue.subtask === 'string' && formValue.subtask.trim()) {
-      subtasks.push({ id: this.randomId(), title: formValue.subtask.trim(), done: false });
+      // Optional: Add the one in the input if user forgot to click add? 
+      // Start with existing logic: User said "it does not save in the array". 
+      // I should probably prioritize the array. 
+      // If I assume the component handles the list, then subtasks array is all that matters.
+      // But keeping the old logic as a fallback or addition might use the leftover input.
+      // However, since I fixed the array logic, let's trust the array.
+      // But let's append just in case? No, usually that's annoying.
+      // I'll just use the array.
     }
 
     const payload: Omit<Task, 'id' | 'createdAt' | 'updatedAt'> = {
@@ -102,6 +109,7 @@ export class Board {
     try {
       await this.tasksService.create(payload);
       this.isAddDialogOpen = false;
+      this.cdr.detectChanges();
     } catch (err) {
       console.error('Failed to create task', err);
     }
