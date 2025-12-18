@@ -234,6 +234,33 @@
                 }
             }
 
+            // Assignees & Priority Footer
+            .task-footer {
+                @include dFlex($ai: center, $jc: space-between);
+                width: 100%;
+                margin-top: 10px;
+
+                .assignees {
+                    display: flex;
+                    padding-left: 8px;
+
+                    .assignee-avatar {
+                        width: 32px;
+                        height: 32px;
+                        border: 1px solid black;
+                        @include dFlex($ai: center, $jc: center);
+                        font-size: 12px;
+                        background-color: white;
+                        margin-left: -8px;
+                    }
+                }
+
+                .priority-icon {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+
             &:last-child {
                 border: none; // irrelevant, wenn Karten getrennt sind
             }

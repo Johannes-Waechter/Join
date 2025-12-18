@@ -165,4 +165,33 @@ export class Board {
     if (!task.subtasks || task.subtasks.length === 0) return 0;
     return task.subtasks.filter(s => s.done).length;
   }
+
+  /**
+   * Get initials from a name (e.g., "Max Mustermann" → "MM")
+   * @param name Full name of the assignee
+   * @returns Initials (max 2 characters)
+   */
+  getInitials(name: string | undefined): string {
+    if (!name) return '?';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) {
+      return parts[0].charAt(0).toUpperCase();
+    }
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  }
+
+  /**
+   * Get the icon path for a given priority
+   * @param priority Task priority level
+   * @returns Path to the priority icon
+   */
+  getPriorityIcon(priority: Task['priority']): string {
+    const icons: Record<Task['priority'], string> = {
+      urgent: 'img/icons/prio-urgent.svg',
+      high: 'img/icons/prio-urgent.svg',
+      medium: 'img/icons/prio-medium.svg',
+      low: 'img/icons/prio-low.svg'
+    };
+    return icons[priority] || icons['medium'];
+  }
 }
