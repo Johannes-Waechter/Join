@@ -51,15 +51,22 @@
 }
 
 @keyframes dialogSlideIn {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes dialogSlideOut {
-  from { transform: translateX(0); }
-  to   { transform: translateX(110vw); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(110vw);
+  }
 }
-
 
 /* ===============================
    HEADER
@@ -67,6 +74,10 @@
 
 header {
   @include dFlex($jc: space-between);
+}
+
+header.header--edit {
+  justify-content: flex-end;
 }
 
 .badge {
@@ -366,7 +377,4 @@ header {
   .date-prio-wrapper tr:first-child td {
     padding-bottom: 16px;
   }
-}
-
-@media (max-width: 480px) {
 }

@@ -12,7 +12,8 @@
       <!-- =========================
                HEADER (shared)
         ========================== -->
-      <header>
+      <header [class.header--edit]="isEdit$ | async">
+        @if (!(isEdit$ | async)) {
         <div
           class="badge"
           [class.badge--user-story]="task.category === 'user-story'"
@@ -20,6 +21,7 @@
         >
           {{ getCategoryLabel(task.category) }}
         </div>
+        }
 
         <button class="close-btn" type="button" aria-label="Close dialog" (click)="close()">
           <img src="/img/icons/close_black.svg" alt="" />
