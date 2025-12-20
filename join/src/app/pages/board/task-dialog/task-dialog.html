@@ -24,7 +24,7 @@
         }
 
         <button class="close-btn" type="button" aria-label="Close dialog" (click)="close()">
-          <img src="/img/icons/close_black.svg" alt="" />
+          <img src="img/icons/close_black.svg" alt="" />
         </button>
       </header>
 
@@ -37,7 +37,8 @@
           <!-- =========================
                      EDIT MODE (placeholder)
               ========================== -->
-          <p>Edit mode (Placeholder)</p>
+          <app-task-dialog-edit [task]="task" [contacts]="contacts$ | async"></app-task-dialog-edit>
+
           } @else {
           <!-- =========================
                      VIEW MODE
@@ -64,11 +65,11 @@
                 <span class="priority-text">{{ task.priority }}</span>
 
                 @if (task.priority === 'urgent') {
-                <img src="/img/icons/prio-urgent.svg" alt="" class="priority-icon" />
+                <img src="img/icons/prio-urgent.svg" alt="" class="priority-icon" />
                 } @else if (task.priority === 'medium') {
-                <img src="/img/icons/prio-medium.svg" alt="" class="priority-icon" />
+                <img src="img/icons/prio-medium.svg" alt="" class="priority-icon" />
                 } @else if (task.priority === 'low') {
-                <img src="/img/icons/prio-low.svg" alt="" class="priority-icon" />
+                <img src="img/icons/prio-low.svg" alt="" class="priority-icon" />
                 }
               </td>
             </tr>
@@ -126,8 +127,9 @@
         ========================== -->
       @if (isEdit$ | async) {
       <footer class="actions actions--single">
-        <button type="button" class="action-btn action-btn--primary" (click)="backToView(task)">
+        <button type="button" class="back-btn" (click)="onOk(task)">
           <span>Ok</span>
+          <img src="img/icons/check-small.svg" aria-hidden="true" alt="" />
         </button>
       </footer>
 
