@@ -6,11 +6,12 @@ import { combineLatest, map, switchMap } from 'rxjs';
 import { TasksService } from '../../../core/services/tasks.service';
 import { ContactsService, Contact } from '../../../core/services/contacts.service';
 import { Task, AssigneeRef, Subtask } from '../../add-task/task';
+import { TaskDialogEdit } from './task-dialog-edit/task-dialog-edit';
 
 @Component({
   selector: 'app-task-dialog',
   standalone: true,
-  imports: [AsyncPipe, DatePipe],
+  imports: [AsyncPipe, DatePipe, TaskDialogEdit],
   templateUrl: './task-dialog.html',
   styleUrl: './task-dialog.scss',
 })
@@ -40,6 +41,7 @@ export class TaskDialog {
     })
   );
 
+  @ViewChild(TaskDialogEdit) editCmp?: TaskDialogEdit;
   @ViewChild('dialogEl') dialogEl?: ElementRef<HTMLElement>;
   fixedHeight: number | null = null;
 
@@ -51,15 +53,14 @@ export class TaskDialog {
     this.fixedHeight = typeof state?.dialogHeight === 'number' ? state.dialogHeight : null;
   }
 
-close(): void {
-  this.isClosing = true;
-  this.cdr.detectChanges(); 
+  close(): void {
+    this.isClosing = true;
+    this.cdr.detectChanges();
 
-  setTimeout(() => {
-    this.router.navigate(['/board']);
-  }, 400);
-}
-
+    setTimeout(() => {
+      this.router.navigate(['/board']);
+    }, 400);
+  }
 
   async deleteTask(task: Task): Promise<void> {
     if (!task.id) return;
@@ -77,15 +78,6 @@ close(): void {
       state: { skipEnter: true, dialogHeight: height },
     });
   }
-
-backToView(task: Task): void {
-  if (!task.id) return;
-
-  this.router.navigate(['/board', task.id], {
-    state: { skipEnter: true },
-  });
-}
-
 
   async toggleSubtask(task: Task, subtask: Subtask): Promise<void> {
     if (!task.id) return;
@@ -143,6 +135,22 @@ backToView(task: Task): void {
         initials: this.getInitials(name),
         color: this.getAssigneeColor(assignee, contactsById),
       };
+    });
+  }
+
+  async onOk(task: Task): Promise<void> {
+    if (!task.id) return;
+
+    const payload = this.editCmp?.buildUpdatePayload();
+    if (!payload) {
+      this.router.navigate(['/board', task.id], { state: { skipEnter: true } });
+      return;
+    }
+
+    await this.tasksService.update(task.id, payload);
+
+    this.router.navigate(['/board', task.id], {
+      state: { skipEnter: true },
     });
   }
 }
