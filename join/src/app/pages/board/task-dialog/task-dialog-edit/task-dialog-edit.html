@@ -1,13 +1,19 @@
 <div class="edit" (click)="assigneeOpen = false">
   <form [formGroup]="editForm" class="edit-form">
-    <label>Title</label>
-    <input formControlName="title" placeholder="Enter a title" />
+    <div class="label-input-wrapper">
+      <label>Title</label>
+      <input formControlName="title" placeholder="Enter a title" />
+    </div>
 
-    <label>Description</label>
-    <textarea formControlName="description" placeholder="Enter a Description"></textarea>
+    <div class="label-input-wrapper">
+      <label>Description</label>
+      <textarea formControlName="description" placeholder="Enter a Description"></textarea>
+    </div>
 
-    <label>Due date</label>
-    <input type="date" formControlName="dueDate" />
+    <div class="label-input-wrapper">
+      <label>Due date</label>
+      <input type="date" formControlName="dueDate" />
+    </div>
 
     <!-- PRIORITY -->
     <div class="priority-row">
@@ -57,40 +63,35 @@
         </div>
 
         @if (assigneeOpen) {
-          <div class="dropdown-list">
-            @for (contact of (contacts ?? []); track contact.id) {
-              @if (contact.id) {
-                <div
-                  class="dropdown-item"
-                  [class.selected]="isAssigned(contact.id)"
-                  (click)="toggleAssignee(contact.id, !isAssigned(contact.id)); $event.stopPropagation()"
-                >
-                  <span class="avatar" [ngStyle]="{ background: contact.color }">
-                    {{ getInitials(contact.name) }}
-                  </span>
+        <div class="dropdown-list">
+          @for (contact of (contacts ?? []); track contact.id) { @if (contact.id) {
+          <div
+            class="dropdown-item"
+            [class.selected]="isAssigned(contact.id)"
+            (click)="toggleAssignee(contact.id, !isAssigned(contact.id)); $event.stopPropagation()"
+          >
+            <span class="avatar" [ngStyle]="{ background: contact.color }">
+              {{ getInitials(contact.name) }}
+            </span>
 
-                  <span class="name">{{ contact.name }}</span>
+            <span class="name">{{ contact.name }}</span>
 
-                  <input
-                    type="checkbox"
-                    [checked]="isAssigned(contact.id)"
-                    (click)="$event.stopPropagation(); toggleAssignee(contact.id, $event.target.checked)"
-                  />
-                </div>
-              }
-            }
+            <input
+              type="checkbox"
+              [checked]="isAssigned(contact.id)"
+              (click)="$event.stopPropagation(); toggleAssignee(contact.id, $event.target.checked)"
+            />
           </div>
+          } }
+        </div>
         }
       </div>
 
       <div class="assigned-badges">
         @for (uid of selectedAssigneeIds; track uid) {
-          <span
-            class="badge-avatar"
-            [ngStyle]="{ background: getContactColor(uid) }"
-          >
-            {{ getContactInitials(uid) }}
-          </span>
+        <span class="badge-avatar" [ngStyle]="{ background: getContactColor(uid) }">
+          {{ getContactInitials(uid) }}
+        </span>
         }
       </div>
     </div>
@@ -111,83 +112,71 @@
 
         <span class="subtask-icons">
           @if (!subtaskFocus && !newSubtaskTitle) {
-            <button type="button" class="icon-btn" (click)="subtaskFocus = true">
-              <img src="img/icons/add.svg" alt="Add" />
-            </button>
+          <button type="button" class="icon-btn" (click)="subtaskFocus = true">
+            <img src="img/icons/add.svg" alt="Add" />
+          </button>
           } @else {
-            <button
-              type="button"
-              class="icon-btn"
-              (click)="clearSubtaskInput(); subtaskFocus = false"
-            >
-              <img src="img/icons/close_black.svg" alt="Clear" />
-            </button>
+          <button
+            type="button"
+            class="icon-btn"
+            (click)="clearSubtaskInput(); subtaskFocus = false"
+          >
+            <img src="img/icons/close_black.svg" alt="Clear" />
+          </button>
 
-            <span class="divider"></span>
+          <span class="divider"></span>
 
-            <button type="button" class="icon-btn" (click)="addSubtask()">
-              <img src="img/icons/check-hover.svg" alt="Add" />
-            </button>
+          <button type="button" class="icon-btn" (click)="addSubtask()">
+            <img src="img/icons/check-hover.svg" alt="Add" />
+          </button>
           }
         </span>
       </div>
 
       <ul class="subtask-list">
         @for (subtask of subtasks; track subtask.id) {
-          <li>
-            @if (editSubtaskId !== subtask.id) {
-              <span class="subtask-bullet">•</span>
-              <span class="subtask-title">{{ subtask.title }}</span>
+        <li>
+          @if (editSubtaskId !== subtask.id) {
+          <span class="subtask-bullet">•</span>
+          <span class="subtask-title">{{ subtask.title }}</span>
 
-              <div class="item-actions">
-                <button
-                  type="button"
-                  class="icon-btn"
-                  (click)="startEditSubtask(subtask.id, subtask.title)"
-                >
-                  <img src="img/icons/edit.svg" alt="Edit" />
-                </button>
+          <div class="item-actions">
+            <button
+              type="button"
+              class="icon-btn"
+              (click)="startEditSubtask(subtask.id, subtask.title)"
+            >
+              <img src="img/icons/edit.svg" alt="Edit" />
+            </button>
 
-                <span class="divider-small"></span>
+            <span class="divider-small"></span>
 
-                <button
-                  type="button"
-                  class="icon-btn"
-                  (click)="removeSubtask(subtask.id)"
-                >
-                  <img src="img/icons/delete.svg" alt="Delete" />
-                </button>
-              </div>
-            } @else {
-              <div class="edit-wrapper">
-                <input
-                  [(ngModel)]="editSubtaskTitle"
-                  [ngModelOptions]="{ standalone: true }"
-                  class="edit-input"
-                />
+            <button type="button" class="icon-btn" (click)="removeSubtask(subtask.id)">
+              <img src="img/icons/delete.svg" alt="Delete" />
+            </button>
+          </div>
+          } @else {
+          <div class="edit-wrapper">
+            <input
+              [(ngModel)]="editSubtaskTitle"
+              [ngModelOptions]="{ standalone: true }"
+              class="edit-input"
+            />
 
-                <div class="edit-actions">
-                  <button
-                    type="button"
-                    class="icon-btn"
-                    (click)="removeSubtask(subtask.id)"
-                  >
-                    <img src="img/icons/delete.svg" alt="Delete" />
-                  </button>
+            <div class="edit-actions">
+              <button type="button" class="icon-btn" (click)="removeSubtask(subtask.id)">
+                <img src="img/icons/delete.svg" alt="Delete" />
+              </button>
 
-                  <span class="divider-small"></span>
+              <span class="divider-small"></span>
 
-                  <button
-                    type="button"
-                    class="icon-btn"
-                    (click)="saveEditSubtask(subtask.id)"
-                  >
-                    <img src="img/icons/check-hover.svg" alt="Save" />
-                  </button>
-                </div>
-              </div>
-            }
-          </li>
+              <button type="button" class="icon-btn" (click)="saveEditSubtask(subtask.id)">
+                <img src="img/icons/check-hover.svg" alt="Save" />
+              </button>
+            </div>
+          </div>
+          }
+        </li>
         }
       </ul>
     </div>
