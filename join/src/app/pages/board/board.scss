@@ -4,7 +4,7 @@
     @include dFlex($fd: column, $ai: start, $g: 16px);
     width: 100%;
     max-width: 1208px;
-    padding: 0 64px; // Padding hinzufügen, um dem Screenshot zu entsprechen
+    padding: 0 56px; // Padding hinzufügen, um dem Screenshot zu entsprechen
     box-sizing: border-box;
 
     .board-header {
@@ -14,7 +14,8 @@
         @include dFlex($ai: center, $jc: space-between);
 
         .header-left {
-            @include dFlex($ai: center, $g: 16px);
+            @include dFlex($jc: start, $ai: center, $g: 16px);
+            flex: 1;
 
             h1 {
                 font-family: 'Inter-Bold';
@@ -38,6 +39,7 @@
 
         .header-right {
             @include dFlex($g: 32px);
+            flex: 1;
 
             .search-field {
                 // ... existing styles ...
@@ -116,8 +118,9 @@
 
     .board-content {
         width: 100%;
-        @include dFlex($ai: start, $jc: space-between, $g: 16px); // vergrößerter Abstand
+        @include dFlex($ai: start, $jc: space-between, $g: 24px); // vergrößerter Abstand
         flex-wrap: wrap; // Ermöglicht das Wrapen auf kleinen Bildschirmen
+        padding-bottom: 56px;
     }
 }
 
@@ -125,7 +128,8 @@
 .status-container {
     @include dFlex($ai: space-between, $jc: start, $fd: column, $g: 16px);
     width: 22%;
-    max-width: 300px;
+    flex: 1;
+
 
     .status-header {
         @include dFlex($ai: center, $jc: space-between);
@@ -247,11 +251,13 @@
                     .assignee-avatar {
                         width: 32px;
                         height: 32px;
-                        border: 1px solid black;
+                        border: 1px solid white;
                         @include dFlex($ai: center, $jc: center);
                         font-size: 12px;
                         background-color: white;
                         margin-left: -8px;
+                        color: white;
+                        border-radius: 50%;
                     }
                 }
 
@@ -294,17 +300,33 @@
 @media (max-width: 1200px) {
     .board-container {
         padding: 0 32px;
+
+        .status-container {
+            width: 45%;
+        }
+
+        .board-content {
+            padding-bottom: 32px;
+            gap: 16px;
+        }
     }
+
+
 }
 
 @media (max-width: 1080px) {
     .board-container {
 
-        .status-container {
-            width: 48%; // 2 Spalten pro Zeile
-            max-width: none;
-            margin-bottom: 24px;
+        .board-content {
+            padding-bottom: 32px;
+            gap: 32px 16px;
         }
+    }
+
+    .status-container {
+        width: 48%; // 2 Spalten pro Zeile
+        max-width: none;
+        // margin-bottom: 24px;
     }
 }
 
@@ -358,13 +380,14 @@
         .board-content {
             flex-direction: column;
             align-items: stretch; // Spalten in voller Breite
+            padding-bottom: 16px;
             margin-bottom: 80px; // Platz für mobile Navigation
         }
 
         .status-container {
             width: 100%;
             max-width: 100%;
-            margin-bottom: 32px;
+            // margin-bottom: 32px;
 
             .example-list {
                 display: flex;

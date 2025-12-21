@@ -9,7 +9,7 @@ import {
 import { TasksService } from '../../core/services/tasks.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ContactsService } from '../../core/services/contacts.service';
+import { Contact, ContactsService } from '../../core/services/contacts.service';
 import { Task, Subtask } from '../add-task/task';
 import { Router, RouterOutlet } from '@angular/router';
 import { AddTaskBoard } from './add-task-board';
@@ -22,11 +22,15 @@ import { AddTaskBoard } from './add-task-board';
 })
 export class Board {
   private tasksService = inject(TasksService);
+  private contactsService = inject(ContactsService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
   // All tasks (unfiltered)
   private allTasks: Task[] = [];
+
+  // Contacts map for resolving assignee details
+  private contactsMap: Map<string, Contact> = new Map();
 
   // Search query
   searchQuery: string = '';
@@ -44,6 +48,14 @@ export class Board {
     this.tasksService.list().subscribe((tasks) => {
       this.allTasks = tasks;
       this.filterTasks();
+      this.cdr.detectChanges();
+    });
+
+    this.contactsService.getContacts().subscribe((contacts) => {
+      this.contactsMap.clear();
+      contacts.forEach(c => {
+        if (c.id) this.contactsMap.set(c.id, c);
+      });
       this.cdr.detectChanges();
     });
   }
@@ -178,6 +190,28 @@ export class Board {
       return parts[0].charAt(0).toUpperCase();
     }
     return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  }
+
+  /**
+   * Resolve initials for a given assignee by checking ContactsService
+   */
+  getAssigneeInitials(assignee: { uid: string; name?: string }): string {
+    const contact = this.contactsMap.get(assignee.uid);
+    if (contact?.name) {
+      return this.getInitials(contact.name);
+    }
+    return this.getInitials(assignee.name);
+  }
+
+  /**
+   * Resolve color for a given assignee by checking ContactsService
+   */
+  getAssigneeColor(assignee: { uid: string; color?: string }): string {
+    const contact = this.contactsMap.get(assignee.uid);
+    if (contact?.color) {
+      return contact.color;
+    }
+    return assignee.color || '#ccc'; // Default gray if nothing found
   }
 
   /**

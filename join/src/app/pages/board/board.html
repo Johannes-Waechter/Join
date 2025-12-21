@@ -49,8 +49,9 @@
                     <!-- Assignees & Priority -->
                     <div class="task-footer">
                         <div class="assignees">
-                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar">
-                                {{ getInitials(assignee.name) }}
+                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar"
+                                [style.background-color]="getAssigneeColor(assignee)">
+                                {{ getAssigneeInitials(assignee) }}
                             </div>
                         </div>
                         <img [src]="getPriorityIcon(task.priority)" alt="Priority" class="priority-icon">
@@ -89,8 +90,9 @@
                     <!-- Assignees & Priority -->
                     <div class="task-footer">
                         <div class="assignees">
-                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar">
-                                {{ getInitials(assignee.name) }}
+                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar"
+                                [style.background-color]="getAssigneeColor(assignee)">
+                                {{ getAssigneeInitials(assignee) }}
                             </div>
                         </div>
                         <img [src]="getPriorityIcon(task.priority)" alt="Priority" class="priority-icon">
@@ -129,8 +131,9 @@
                     <!-- Assignees & Priority -->
                     <div class="task-footer">
                         <div class="assignees">
-                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar">
-                                {{ getInitials(assignee.name) }}
+                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar"
+                                [style.background-color]="getAssigneeColor(assignee)">
+                                {{ getAssigneeInitials(assignee) }}
                             </div>
                         </div>
                         <img [src]="getPriorityIcon(task.priority)" alt="Priority" class="priority-icon">
@@ -166,8 +169,9 @@
                     <!-- Assignees & Priority -->
                     <div class="task-footer">
                         <div class="assignees">
-                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar">
-                                {{ getInitials(assignee.name) }}
+                            <div *ngFor="let assignee of task.assignees" class="assignee-avatar"
+                                [style.background-color]="getAssigneeColor(assignee)">
+                                {{ getAssigneeInitials(assignee) }}
                             </div>
                         </div>
                         <img [src]="getPriorityIcon(task.priority)" alt="Priority" class="priority-icon">
