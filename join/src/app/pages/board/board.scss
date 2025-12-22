@@ -399,7 +399,7 @@
             align-items: stretch; // Spalten in voller Breite
             padding-bottom: 16px;
             margin-bottom: 80px; // Platz für mobile Navigation
-            gap: 8px;
+            gap: 0px;
         }
 
         .status-container {
@@ -412,7 +412,7 @@
                 flex-direction: row;
                 overflow-x: auto;
                 gap: 16px;
-                padding: 4px 4px 40px 4px; // Padding für Schatten (oben, rechts, unten, links)
+                padding: 4px 4px 48px 4px; // Padding für Schatten (oben, rechts, unten, links)
 
                 // Scrollbar ausblenden
                 -ms-overflow-style: none; // IE und Edge
