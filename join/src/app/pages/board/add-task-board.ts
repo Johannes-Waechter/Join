@@ -20,6 +20,8 @@ export class AddTaskBoard {
   categories = ['Technical Task', 'User Story'];
   contacts: Contact[] = [];
   assigneeOpen = false;
+  categoryOpen = false;
+  isClosing = false;
 
   // Subtask logic
   public newSubtaskTitle = '';
@@ -111,17 +113,26 @@ export class AddTaskBoard {
   }
 
   onClose() {
-    this.close.emit();
+    this.isClosing = true;
+    setTimeout(() => {
+      this.close.emit();
+      this.isClosing = false;
+    }, 400);
   }
 
   onSubmit() {
+    this.taskForm.markAllAsTouched();
     if (this.taskForm.valid) {
       const formValue = this.taskForm.value;
       const payload = {
         ...formValue,
         subtasks: this.subtasks.map(s => ({ id: s.id, title: s.title, done: s.done })),
       };
-      this.create.emit(payload);
+      this.isClosing = true;
+      setTimeout(() => {
+        this.create.emit(payload);
+        this.isClosing = false;
+      }, 400);
     }
   }
 }

@@ -1,5 +1,6 @@
 <div class="overlay" (click)="onClose()">
-  <div class="dialog" (click)="$event.stopPropagation(); assigneeOpen = false">
+  <div class="dialog dialog--animated" [class.dialog--closing]="isClosing"
+    (click)="$event.stopPropagation(); assigneeOpen = false">
     <div class="header">
       <h2>Add Task</h2>
       <button class="close" (click)="onClose()">✕</button>
@@ -13,6 +14,8 @@
       <div class="left">
         <label>Title<span>*</span></label>
         <input formControlName="title" placeholder="Enter a title" />
+        <span class="error" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">This field is
+          required</span>
 
         <label>Description</label>
         <textarea formControlName="description" placeholder="Enter a Description"></textarea>
@@ -20,6 +23,8 @@
         <label>Due date<span>*</span></label>
         <input #dateInput type="date" formControlName="dueDate" placeholder="dd/mm/yyyy"
           (click)="dateInput.showPicker()" />
+        <span class="error" *ngIf="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched">This field is
+          required</span>
       </div>
       <div class="right dashed-box">
         <div class="priority-row">
@@ -42,8 +47,8 @@
             <div class="assigned-input" (click)="assigneeOpen = !assigneeOpen">
               <input type="text" placeholder="Select contacts to assign" readonly
                 [value]="taskForm.value.assignedTo?.length ? '' : ''">
-              <!-- Maybe show placeholder always? User image shows placeholder text 'Select contacts to assign' even when items selected? Image 2 shows 'Select contacts to assign' and badges below. So yes. -->
-              <span class="dropdown-arrow">&#9662;</span>
+              <img class="dropdown-arrow" [src]="assigneeOpen ? 'img/icons/dropup.svg' : 'img/icons/dropdown.svg'"
+                alt="dropdown">
             </div>
             <div class="dropdown-list" *ngIf="assigneeOpen">
               <ng-container *ngFor="let c of contacts">
@@ -51,8 +56,9 @@
                   (click)="toggleAssignee(c.id, !isAssigned(c.id)); $event.stopPropagation()">
                   <span class="avatar" [ngStyle]="{background: c.color}">{{ getInitials(c.name) }}</span>
                   <span class="name">{{ c.name }}</span>
-                  <input type="checkbox" [checked]="isAssigned(c.id)"
-                    (click)="$event.stopPropagation(); toggleAssignee(c.id, $event.target.checked)" />
+                  <img class="checkbox-icon"
+                    [src]="isAssigned(c.id) ? 'img/icons/checkbox-done.svg' : 'img/icons/checkbox-todo.svg'"
+                    (click)="$event.stopPropagation(); toggleAssignee(c.id, !isAssigned(c.id))" alt="checkbox" />
                 </div>
               </ng-container>
             </div>
@@ -66,10 +72,16 @@
         </div>
         <div class="category-row">
           <label>Category<span>*</span></label>
-          <select formControlName="category">
-            <option value="">Select task category</option>
-            <option *ngFor="let c of categories">{{ c }}</option>
-          </select>
+          <div class="select-wrapper">
+            <select formControlName="category" (focus)="categoryOpen = true" (blur)="categoryOpen = false">
+              <option value="">Select task category</option>
+              <option *ngFor="let c of categories">{{ c }}</option>
+            </select>
+            <img class="select-arrow" [src]="categoryOpen ? 'img/icons/dropup.svg' : 'img/icons/dropdown.svg'"
+              alt="dropdown">
+          </div>
+          <span class="error" *ngIf="taskForm.get('category')?.invalid && taskForm.get('category')?.touched">This field
+            is required</span>
         </div>
         <div class="subtasks-row">
           <label>Subtasks</label>
@@ -131,10 +143,13 @@
       </div>
     </form>
     <div class="actions">
-      <button class="cancel" (click)="onClose()">Cancel <img src="img/icons/close_black.svg" alt="Cancel" /></button>
-      <button type="button" class="submit" [disabled]="taskForm.invalid" (click)="onSubmit()">
-        Create Task <img src="img/icons/check.svg" alt="Create" />
-      </button>
+      <span class="required-hint"><span class="asterisk">*</span>This field is required</span>
+      <div class="action-buttons">
+        <button class="cancel" (click)="onClose()">Cancel <img src="img/icons/close_black.svg" alt="Cancel" /></button>
+        <button type="button" class="submit" (click)="onSubmit()">
+          Create Task <img src="img/icons/check.svg" alt="Create" />
+        </button>
+      </div>
     </div>
   </div>
 </div>
