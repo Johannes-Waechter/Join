@@ -4,9 +4,57 @@
   padding: 32px;
   max-width: 1100px;
   background: #ffffff;
-  background-color: #F6F7F8;
+  background-color: #f6f7f8;
 }
 
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  height: 74px;
+  width: 326px;
+
+  background-color: $color-brand-primary;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  padding: 20px 24px;
+
+  z-index: 8;
+  pointer-events: auto;
+  @include dFlex($g: 40px);
+
+  transform: translate(-50%, 100svh);
+  animation: toastSlideToCenter 500ms ease-out forwards;
+
+  span {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  img {
+    height: 30px;
+    width: 30px;
+    object-fit: contain;
+  }
+}
+
+@keyframes toastSlideToCenter {
+  from {
+    transform: translate(-50%, 100svh);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+/* Lock page interaction while toast is visible */
+.page--toast-lock {
+  pointer-events: none;
+}
 
 .page-header {
   display: flex;
@@ -427,7 +475,8 @@ select:focus {
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4);
 
     .btn-icon {
-      filter: brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(5100%) hue-rotate(200deg) brightness(95%) contrast(90%);
+      filter: brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(5100%) hue-rotate(200deg)
+        brightness(95%) contrast(90%);
     }
   }
 
@@ -504,7 +553,6 @@ select:focus {
   margin: 0 3px;
 }
 
-
 .subtask-list {
   list-style: none;
   margin: 12px 0 0 0;
@@ -539,7 +587,6 @@ select:focus {
 .item-actions img {
   filter: brightness(0);
 }
-
 
 .subtask-list li:hover .item-actions {
   opacity: 1;
@@ -650,7 +697,6 @@ select {
 }
 
 @media (max-width: 768px) {
-
   .add-task-page {
     padding: 16px;
     max-width: 100%;

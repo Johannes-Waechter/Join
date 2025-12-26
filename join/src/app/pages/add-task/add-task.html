@@ -1,4 +1,10 @@
-<div class="add-task-page">
+<div class="add-task-page" [class.page--toast-lock]="showTaskAddedToast">
+  @if (showTaskAddedToast) {
+  <div class="toast">
+    <span>Task added to board</span>
+    <img src="img/icons/board-active.svg" alt="" />
+  </div>
+  }
   <header class="page-header">
     <h1>Add Task</h1>
   </header>

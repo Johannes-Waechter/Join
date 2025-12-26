@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -41,6 +41,11 @@ export class AddTask {
 
   saving = false;
   resultMsg = '';
+
+  showTaskAddedToast = false;
+  private toastTimer?: ReturnType<typeof setTimeout>;
+
+  private readonly cdr = inject(ChangeDetectorRef); 
 
   constructor(
     private tasks: TasksService,
@@ -109,6 +114,16 @@ export class AddTask {
       const created = await this.tasks.create(payload);
       this.resultMsg = `Created: ${created.id}`;
       this.clearForm();
+
+      this.showTaskAddedToast = true;
+      this.cdr.detectChanges(); 
+
+      clearTimeout(this.toastTimer);
+      this.toastTimer = setTimeout(() => {
+        this.showTaskAddedToast = false;
+        this.cdr.detectChanges(); 
+      }, 900);
+
     } catch (e: any) {
       this.resultMsg = 'Error: ' + e?.message;
     } finally {
