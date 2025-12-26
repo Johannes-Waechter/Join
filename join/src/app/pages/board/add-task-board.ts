@@ -22,6 +22,7 @@ export class AddTaskBoard {
   assigneeOpen = false;
   categoryOpen = false;
   isClosing = false;
+  showTaskAddedToast = false;
 
   // Subtask logic
   public newSubtaskTitle = '';
@@ -120,19 +121,24 @@ export class AddTaskBoard {
     }, 400);
   }
 
-  onSubmit() {
-    this.taskForm.markAllAsTouched();
-    if (this.taskForm.valid) {
-      const formValue = this.taskForm.value;
-      const payload = {
-        ...formValue,
-        subtasks: this.subtasks.map(s => ({ id: s.id, title: s.title, done: s.done })),
-      };
-      this.isClosing = true;
-      setTimeout(() => {
-        this.create.emit(payload);
-        this.isClosing = false;
-      }, 400);
-    }
+onSubmit() {
+  this.taskForm.markAllAsTouched();
+  if (!this.taskForm.valid) {
+    return;
   }
+
+  const formValue = this.taskForm.value;
+  const payload = {
+    ...formValue,
+    subtasks: this.subtasks.map(s => ({ id: s.id, title: s.title, done: s.done })),
+  };
+
+  this.showTaskAddedToast = true;
+
+  setTimeout(() => {
+    this.create.emit(payload);     
+    this.close.emit();            
+    this.showTaskAddedToast = false;
+  }, 900); 
+}
 }

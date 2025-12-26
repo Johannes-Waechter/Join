@@ -73,7 +73,6 @@
   overflow-y: auto;
   scrollbar-width: thin;
 
-
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -116,8 +115,6 @@
   margin-right: 10px;
   font-weight: bold;
 }
-
-
 
 .subtask-title {
   flex: 1;
@@ -312,6 +309,7 @@
 }
 
 .dialog {
+  position: relative;
   background: #fff;
   border-radius: 16px;
   width: 900px;
@@ -348,8 +346,6 @@
     transform: translateX(100vw);
   }
 }
-
-
 
 .header {
   display: flex;
@@ -409,7 +405,7 @@ label {
 }
 
 label span {
-  color: #FF8190; // Sternchen-Farbe gemäß Checkliste
+  color: #ff8190; // Sternchen-Farbe gemäß Checkliste
 }
 
 input,
@@ -432,7 +428,7 @@ textarea {
 // Placeholder-Styles gemäß Checkliste - Desktop: 16px, Farbe #D1D1D1
 input::placeholder,
 textarea::placeholder {
-  color: #D1D1D1;
+  color: #d1d1d1;
   font-size: 20px;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
@@ -451,22 +447,22 @@ textarea::placeholder {
 
 // Date Input - hellgrau wenn leer, schwarz wenn Datum ausgewählt
 // Das "required" Attribut muss im HTML gesetzt sein, damit :valid funktioniert
-input[type="date"] {
-  color: #D1D1D1; // Standard: Hellgrau (kein Datum ausgewählt)
+input[type='date'] {
+  color: #d1d1d1; // Standard: Hellgrau (kein Datum ausgewählt)
 }
 
-input[type="date"]:valid {
+input[type='date']:valid {
   color: #000000; // Schwarz wenn ein gültiges Datum ausgewählt wurde
 }
 
 // Select Placeholder-Option
 select option:first-child {
-  color: #D1D1D1;
+  color: #d1d1d1;
 }
 
 select:invalid,
-select option[value=""] {
-  color: #D1D1D1;
+select option[value=''] {
+  color: #d1d1d1;
 }
 
 select {
@@ -514,13 +510,13 @@ select.ng-invalid.ng-touched {
   min-height: 16px;
 }
 
-input[type="date"] {
+input[type='date'] {
   cursor: pointer;
   // padding-right: 10px;
   /* Make sure the text is readable and icon has space */
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type='date']::-webkit-calendar-picker-indicator {
   background: url('/img/icons/due_date.svg') no-repeat center;
   background-size: 20px 20px;
   width: 20px;
@@ -616,7 +612,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-bottom: 40px;
 
   .asterisk {
-    color: #FF8190;
+    color: #ff8190;
     margin-right: 4px;
   }
 }
@@ -661,11 +657,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .submit {
-  background: #2A3647 !important; // Inaktiv-Zustand (dunkles Blau)
+  background: #2a3647 !important; // Inaktiv-Zustand (dunkles Blau)
   color: white;
 
   &:hover {
-    background: #29ABE2 !important; // Hover-Zustand (helles Blau)
+    background: #29abe2 !important; // Hover-Zustand (helles Blau)
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
   }
 
@@ -680,11 +676,46 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
-@media (max-width: 768px) {
+.toast {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 74px;
+  width: 326px;
 
+  background-color: $color-brand-primary;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  padding: 20px 24px;
+  z-index: 8;
+  pointer-events: auto;
+
+  @include dFlex($g: 40px);
+
+  span {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  img {
+    height: 30px;
+    width: 30px;
+    object-fit: contain;
+  }
+}
+
+/* Lock dialog interaction while toast is visible */
+.dialog--toast-lock {
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
   // Overlay positioniert zwischen Header und Navigation
   .overlay {
-    background: #F6F7F8; // Solider Hintergrund
+    background: #f6f7f8; // Solider Hintergrund
     position: fixed;
     top: 80px; // Platz für Header
     bottom: 80px; // Exakt bündig mit der Navigation (Nav-Höhe anpassen falls nötig)
@@ -704,7 +735,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-radius: 0;
     box-shadow: none;
     overflow-y: auto; // Scrollbar wenn Inhalt zu lang
-    background: #F6F7F8; // Mobile Hintergrundfarbe
+    background: #f6f7f8; // Mobile Hintergrundfarbe
     display: flex;
     flex-direction: column; // Wichtig für sticky am Ende
   }
@@ -738,7 +769,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .header h2 {
-    font-family: "Inter-Bold";
+    font-family: 'Inter-Bold';
     font-size: 47px;
     padding-top: 24px;
   }
@@ -777,7 +808,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 16px;
     padding: 8px 12px;
 
-
     &.prio-low.active {
       font-size: 16px;
     }
@@ -801,7 +831,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction: row;
     justify-content: flex-end;
     gap: 16px;
-    background: #F6F7F8; // Gleiche Farbe wie Dialog-Hintergrund
+    background: #f6f7f8; // Gleiche Farbe wie Dialog-Hintergrund
     padding: 16px 0;
     margin: 0;
     margin-top: auto; // Push to bottom
@@ -833,7 +863,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   // Cancel-Button auf Mobile mit transparentem/grauem Hintergrund
   .cancel {
     background: transparent !important; // Übernimmt #F6F7F8 vom Dialog
-    border: 1px solid #2A3647 !important;
+    border: 1px solid #2a3647 !important;
   }
 
   .required-hint {
