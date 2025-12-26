@@ -5,9 +5,9 @@
   align-items: center;
   border: 1px solid #d1d1d1;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 0px 16px 8px;
   background: #fff;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .subtask-input-wrapper.focused {
@@ -166,7 +166,7 @@
 .dashed-box {
   /* border: 2px dashed #b3cdf6; removed as requested */
   border: none;
-  padding: 16px;
+  padding: 0 16px;
 }
 
 .assigned-dropdown {
@@ -179,7 +179,8 @@
   align-items: center;
   border: 1px solid #d1d1d1;
   border-radius: 8px;
-  padding: 10px;
+  padding: 12px 12px 12px 16px;
+  margin-top: 8px;
   background: #fff;
   cursor: pointer;
 }
@@ -354,6 +355,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  h2 {
+    font-family: 'Inter-Bold';
+    font-size: 61px;
+    color: #000000;
+  }
 }
 
 .close {
@@ -364,13 +371,20 @@
 }
 
 .content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 32px;
   margin-top: 24px;
 }
 
+.left {
+  flex: 1 1 50%;
+  min-width: 0;
+  padding-left: 16px;
+}
+
 .right {
+  flex: 0 0 auto;
+  min-width: 420px; // Mindestbreite für Prio-Buttons
   position: relative;
   padding-left: 32px;
 }
@@ -386,34 +400,80 @@
 }
 
 label {
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 20px; // Desktop: 20px gemäß Checkliste
+  color: #000000;
   margin-top: 16px;
   display: block;
+  font-family: 'Inter', sans-serif;
 }
 
 label span {
-  color: red;
+  color: #FF8190; // Sternchen-Farbe gemäß Checkliste
 }
 
 input,
 textarea,
 select {
   width: 100%;
-  padding: 10px;
+  padding: 12px 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-top: 6px;
+  margin-top: 8px;
+  font-size: 20px;
+}
+
+textarea {
+  resize: vertical;
+  max-height: 150px;
+  min-height: 80px;
+}
+
+// Placeholder-Styles gemäß Checkliste - Desktop: 16px, Farbe #D1D1D1
+input::placeholder,
+textarea::placeholder {
+  color: #D1D1D1;
+  font-size: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+// Readonly Inputs (z.B. "Select contacts to assign") - SCHWARZ wie normale Texte
+.assigned-input input[readonly] {
+  color: #000000;
+  font-size: 20px;
+}
+
+.assigned-input input[readonly]::placeholder {
+  color: #000000;
+  font-size: 20px;
+}
+
+// Date Input - hellgrau wenn leer, schwarz wenn Datum ausgewählt
+// Das "required" Attribut muss im HTML gesetzt sein, damit :valid funktioniert
+input[type="date"] {
+  color: #D1D1D1; // Standard: Hellgrau (kein Datum ausgewählt)
+}
+
+input[type="date"]:valid {
+  color: #000000; // Schwarz wenn ein gültiges Datum ausgewählt wurde
+}
+
+// Select Placeholder-Option
+select option:first-child {
+  color: #D1D1D1;
+}
+
+select:invalid,
+select option[value=""] {
+  color: #D1D1D1;
 }
 
 select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding-right: 40px;
+  padding-right: 32px;
   background-color: white;
 }
 
@@ -456,7 +516,7 @@ select.ng-invalid.ng-touched {
 
 input[type="date"] {
   cursor: pointer;
-  padding-right: 10px;
+  // padding-right: 10px;
   /* Make sure the text is readable and icon has space */
 }
 
@@ -472,9 +532,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .priority {
   display: flex;
   gap: 12px;
+  margin-top: 8px;
 }
 
 .priority button {
+  min-width: 136px;
+  height: 56px;
   padding: 8px 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -482,9 +545,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  font-size: 16px;
-  /* Ensure text size */
+  font-size: 20px;
 }
 
 .priority button img {
@@ -501,18 +564,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .priority button.prio-urgent.active {
   background: $color-priority-urgent;
   color: white;
+  font-family: 'Inter-Bold';
+  font-size: 21px;
   border-color: $color-priority-urgent;
 }
 
 .priority button.prio-medium.active {
   background: $color-priority-medium;
   color: white;
+  font-family: 'Inter-Bold';
+  font-size: 21px;
   border-color: $color-priority-medium;
 }
 
 .priority button.prio-low.active {
   background: $color-priority-low;
   color: white;
+  font-family: 'Inter-Bold';
+  font-size: 21px;
   border-color: $color-priority-low;
 }
 
@@ -529,8 +598,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .required-hint {
-  font-size: 14px;
-  color: $color-neutral-dark;
+  font-size: 16px;
+  color: black;
 }
 
 .required-hint .asterisk {
@@ -538,9 +607,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-right: 4px;
 }
 
+// Required-Hint für Mobile - standardmäßig ausgeblendet
+.required-hint-mobile {
+  display: none; // Auf Desktop versteckt
+  font-size: 16px;
+  color: black;
+  margin-top: 16px;
+  margin-bottom: 40px;
+
+  .asterisk {
+    color: #FF8190;
+    margin-right: 4px;
+  }
+}
+
 .action-buttons {
   display: flex;
   gap: 16px;
+  height: 56px;
 }
 
 .actions button {
@@ -577,12 +661,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .submit {
-  background: $color-brand-primary !important;
+  background: #2A3647 !important; // Inaktiv-Zustand (dunkles Blau)
   color: white;
 
   &:hover {
-    background: $color-brand-highlight !important;
+    background: #29ABE2 !important; // Hover-Zustand (helles Blau)
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    background: #091931 !important; // Aktiv-Zustand (tiefes Blau)
   }
 
   &:disabled {
@@ -593,6 +681,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 @media (max-width: 768px) {
+
+  // Overlay positioniert zwischen Header und Navigation
+  .overlay {
+    background: #F6F7F8; // Solider Hintergrund
+    position: fixed;
+    top: 80px; // Platz für Header
+    bottom: 80px; // Exakt bündig mit der Navigation (Nav-Höhe anpassen falls nötig)
+    left: 0;
+    right: 0;
+    height: auto;
+    box-shadow: inset 0 8px 16px -4px rgba(0, 0, 0, 0.25); // Stärkerer Schatten von oben
+    z-index: 1;
+  }
+
+  .dialog {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 16px 16px 0 16px;
+    border-radius: 0;
+    box-shadow: none;
+    overflow-y: auto; // Scrollbar wenn Inhalt zu lang
+    background: #F6F7F8; // Mobile Hintergrundfarbe
+    display: flex;
+    flex-direction: column; // Wichtig für sticky am Ende
+  }
+
   .dialog.dialog--animated {
     animation: dialogSlideUp 400ms ease-out forwards;
   }
@@ -618,6 +734,139 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     to {
       transform: translateY(100%);
+    }
+  }
+
+  .header h2 {
+    font-family: "Inter-Bold";
+    font-size: 47px;
+    padding-top: 24px;
+  }
+
+  // Einspaltiges Layout auf Mobile
+  .content {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .left,
+  .right {
+    flex: 1 1 100%;
+    min-width: 0;
+    padding-left: 0;
+  }
+
+  // Vertikale Trennung auf Mobile entfernen
+  .right::before {
+    display: none;
+  }
+
+  .dashed-box {
+    padding: 0;
+  }
+
+  // Prio-Buttons auf Mobile anpassen
+  .priority {
+    @include dFlex($jc: space-between);
+    gap: 8px;
+  }
+
+  .priority button {
+    min-width: 100px;
+    height: 48px;
+    font-size: 16px;
+    padding: 8px 12px;
+
+
+    &.prio-low.active {
+      font-size: 16px;
+    }
+
+    &.prio-medium.active {
+      font-size: 16px;
+    }
+
+    &.prio-urgent.active {
+      font-size: 16px;
+    }
+  }
+
+  // Actions auf Mobile - sticky am unteren Rand des scrollenden Dialogs
+  .actions {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 16px;
+    background: #F6F7F8; // Gleiche Farbe wie Dialog-Hintergrund
+    padding: 16px 0;
+    margin: 0;
+    margin-top: auto; // Push to bottom
+    z-index: 10;
+  }
+
+  // Close-Button (X) auf Mobile ausblenden
+  .close {
+    display: none;
+  }
+
+  // Required-Hint ausblenden auf Mobile oder separat positionieren
+  .required-hint {
+    display: none; // Auf Mobile ausblenden da Actions fixed sind
+  }
+
+  .action-buttons {
+    @include dFlex($jc: end, $g: 16px);
+  }
+
+  .actions button {
+    width: auto; // Nicht 100% - natürliche Breite
+    flex-shrink: 0; // Nicht shrinken
+    justify-content: center;
+    white-space: nowrap; // Text nicht umbrechen
+    padding: 12px 16px;
+  }
+
+  // Cancel-Button auf Mobile mit transparentem/grauem Hintergrund
+  .cancel {
+    background: transparent !important; // Übernimmt #F6F7F8 vom Dialog
+    border: 1px solid #2A3647 !important;
+  }
+
+  .required-hint {
+    display: none; // Auf Mobile ausblenden (in .actions)
+  }
+
+  // Required-Hint unter Subtasks auf Mobile einblenden
+  .required-hint-mobile {
+    display: block;
+  }
+
+  // Mobile Typografie gemäß Checkliste - alle auf 16px
+  label {
+    font-size: 16px;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    font-size: 16px;
+  }
+
+  .assigned-input input[readonly] {
+    font-size: 16px !important;
+
+    &::placeholder {
+      color: #000000;
+      font-size: 16px !important;
     }
   }
 }

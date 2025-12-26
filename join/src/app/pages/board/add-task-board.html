@@ -5,11 +5,6 @@
       <h2>Add Task</h2>
       <button class="close" (click)="onClose()">✕</button>
     </div>
-    <!-- ... form content ... -->
-    <!-- Skipping lines for brevity in replace, but I need to target the specific lines -->
-    <!-- Actually, I should do two separate replaces or one multi-replace if they are far apart. -->
-    <!-- The dialog tag is at line 2. The dropdown-item is at line 41. -->
-    <!-- I will use multi_replace_file_content. -->
     <form [formGroup]="taskForm" class="content">
       <div class="left">
         <label>Title<span>*</span></label>
@@ -21,7 +16,7 @@
         <textarea formControlName="description" placeholder="Enter a Description"></textarea>
 
         <label>Due date<span>*</span></label>
-        <input #dateInput type="date" formControlName="dueDate" placeholder="dd/mm/yyyy"
+        <input #dateInput type="date" formControlName="dueDate" placeholder="dd/mm/yyyy" required
           (click)="dateInput.showPicker()" />
         <span class="error" *ngIf="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched">This field is
           required</span>
@@ -127,7 +122,6 @@
                   <input [(ngModel)]="editSubtaskTitle" [ngModelOptions]="{standalone: true}" class="edit-input" />
                   <div class="edit-actions">
                     <button type="button" class="icon-btn" (click)="removeSubtask(s.id)">
-                      <!-- Trash can during edit as per user description? or maybe Delete? User said 'edit or delete'. Standard pattern: check to save, trash/cancel to abort? Let's stick to Check/Delete(Trash) pattern if that's what user implied, OR Check/Close. Let's use Check/Trash based on common Join patterns usually it's Check/Delete -->
                       <img src="img/icons/delete.svg" alt="Delete" />
                     </button>
                     <span class="divider-small"></span>
@@ -139,6 +133,8 @@
               </ng-template>
             </li>
           </ul>
+          <!-- Required-Hint für Mobile View (unter Subtasks) -->
+          <span class="required-hint-mobile"><span class="asterisk">*</span>This field is required</span>
         </div>
       </div>
     </form>
