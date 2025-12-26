@@ -35,7 +35,7 @@ export class AddTaskBoard {
       title: ['', Validators.required],
       description: [''],
       dueDate: ['', Validators.required],
-      priority: ['Medium'],
+      priority: [null], // Kein Prio-Button initial aktiv
       assignedTo: [[]],
       category: ['', Validators.required],
       subtask: [''],
