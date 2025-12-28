@@ -43,9 +43,10 @@ export class AddTask {
   resultMsg = '';
 
   showTaskAddedToast = false;
+  hideToast = false;
   private toastTimer?: ReturnType<typeof setTimeout>;
 
-  private readonly cdr = inject(ChangeDetectorRef); 
+  private readonly cdr = inject(ChangeDetectorRef);
 
   constructor(
     private tasks: TasksService,
@@ -116,14 +117,20 @@ export class AddTask {
       this.clearForm();
 
       this.showTaskAddedToast = true;
-      this.cdr.detectChanges(); 
+      this.hideToast = false;
+      this.cdr.detectChanges();
 
       clearTimeout(this.toastTimer);
-      this.toastTimer = setTimeout(() => {
-        this.showTaskAddedToast = false;
-        this.cdr.detectChanges(); 
-      }, 900);
 
+      this.toastTimer = setTimeout(() => {
+        this.hideToast = true;
+        this.cdr.detectChanges();
+      }, 1000);
+
+      setTimeout(() => {
+        this.showTaskAddedToast = false;
+        this.cdr.detectChanges();
+      }, 1500);
     } catch (e: any) {
       this.resultMsg = 'Error: ' + e?.message;
     } finally {
