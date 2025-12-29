@@ -740,7 +740,7 @@ select {
     flex: 1;
     min-width: 0;
     padding: 10px 8px;
-    font-size: 16px; // Mobile: 16px
+    font-size: 16px;
     height: auto;
   }
 
@@ -826,7 +826,6 @@ select {
     font-size: 16px;
   }
 
-  // Placeholder auf Mobile ebenfalls 16px
   input::placeholder,
   textarea::placeholder {
     font-size: 16px;
