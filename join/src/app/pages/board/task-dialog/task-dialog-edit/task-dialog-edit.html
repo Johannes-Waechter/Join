@@ -26,7 +26,7 @@
         <button
           type="button"
           class="prio-urgent"
-          [class.active]="editForm.value.priority === 'urgent'"
+          [class.active]="(editForm.value.priority || '').toLowerCase() === 'urgent'"
           (click)="editForm.patchValue({ priority: 'urgent' })"
         >
           Urgent
@@ -36,7 +36,7 @@
         <button
           type="button"
           class="prio-medium"
-          [class.active]="editForm.value.priority === 'medium'"
+          [class.active]="(editForm.value.priority || '').toLowerCase() === 'medium'"
           (click)="editForm.patchValue({ priority: 'medium' })"
         >
           Medium
@@ -46,7 +46,7 @@
         <button
           type="button"
           class="prio-low"
-          [class.active]="editForm.value.priority === 'low'"
+          [class.active]="(editForm.value.priority || '').toLowerCase() === 'low'"
           (click)="editForm.patchValue({ priority: 'low' })"
         >
           Low

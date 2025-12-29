@@ -63,13 +63,15 @@
             <tr>
               <td class="label">Priority:</td>
               <td class="value value--priority">
-                <span class="priority-text">{{ task.priority }}</span>
+                <span class="priority-text">
+                  {{ task.priority.toLowerCase() | titlecase }}
+                </span>
 
-                @if (task.priority === 'urgent') {
+                @if (task.priority.toLowerCase() === 'urgent') {
                 <img src="img/icons/prio-urgent.svg" alt="" class="priority-icon" />
-                } @else if (task.priority === 'medium') {
+                } @else if (task.priority.toLowerCase() === 'medium') {
                 <img src="img/icons/prio-medium.svg" alt="" class="priority-icon" />
-                } @else if (task.priority === 'low') {
+                } @else if (task.priority.toLowerCase() === 'low') {
                 <img src="img/icons/prio-low.svg" alt="" class="priority-icon" />
                 }
               </td>

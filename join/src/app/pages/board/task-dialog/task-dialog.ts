@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, ElementRef, ViewChild, inject } from '@angular/core';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { CommonModule, AsyncPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, map, switchMap } from 'rxjs';
 
@@ -11,7 +11,7 @@ import { TaskDialogEdit } from './task-dialog-edit/task-dialog-edit';
 @Component({
   selector: 'app-task-dialog',
   standalone: true,
-  imports: [AsyncPipe, DatePipe, TaskDialogEdit],
+  imports: [CommonModule, AsyncPipe, DatePipe, TaskDialogEdit],
   templateUrl: './task-dialog.html',
   styleUrl: './task-dialog.scss',
 })
