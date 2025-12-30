@@ -23,6 +23,7 @@ export class AddTask {
 
   status: Task['status'] = 'todo';
 
+  readonly today = new Date().toISOString().slice(0, 10);
   readonly priorities = ['Urgent', 'Medium', 'Low'] as const;
   priorityIcons: Record<(typeof this.priorities)[number], string> = {
     Urgent: 'img/icons/prio-urgent.svg',

@@ -23,6 +23,7 @@
         #dateInput
         type="date"
         formControlName="dueDate"
+        [min]="today"
         required
         (click)="dateInput.showPicker()"
       />

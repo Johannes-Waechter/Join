@@ -14,6 +14,7 @@ export class AddTaskBoard {
   @Output() close = new EventEmitter<void>();
   @Output() create = new EventEmitter<any>();
 
+  readonly today = new Date().toISOString().slice(0, 10);
   taskForm: FormGroup;
 
   priorities = ['Urgent', 'Medium', 'Low'];

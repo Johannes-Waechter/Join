@@ -22,6 +22,7 @@ export class TaskDialogEdit implements OnChanges {
   @Input({ required: true }) task!: Task;
   @Input() contacts: Contact[] | null = [];
 
+  readonly today = new Date().toISOString().slice(0, 10);
   editForm: FormGroup;
   assigneeOpen = false;
 
