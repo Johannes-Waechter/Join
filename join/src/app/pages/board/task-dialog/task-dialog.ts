@@ -66,8 +66,8 @@ export class TaskDialog {
   deleteTask(task: Task): void {
     if (!task.id) return;
 
-    this.hardClose(); 
-    void this.tasksService.remove(task.id); 
+    this.hardClose();
+    void this.tasksService.remove(task.id);
   }
 
   openEdit(task: Task): void {
@@ -141,6 +141,14 @@ export class TaskDialog {
 
   async onOk(task: Task): Promise<void> {
     if (!task.id) return;
+
+    if (this.editCmp) {
+      this.editCmp.editForm.markAllAsTouched();
+
+      if (this.editCmp.editForm.invalid) {
+        return;
+      }
+    }
 
     const payload = this.editCmp?.buildUpdatePayload();
     if (!payload) {

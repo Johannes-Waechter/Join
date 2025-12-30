@@ -13,6 +13,7 @@ label {
 
 .label-input-wrapper {
   @include dFlex($fd: column, $ai: stretch, $g: 8px);
+  position: relative;
 }
 
 input,
@@ -55,6 +56,22 @@ textarea {
   pointer-events: none;
 }
 
+.error {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 84px;
+
+  font-size: 12px;
+  line-height: 16px;
+  color: $color-error;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border-color: $color-error;
+}
+
 input::placeholder {
   color: $color-neutral-light;
   opacity: 1;
@@ -66,7 +83,7 @@ input[type='date'] {
 }
 
 input[type='date']:valid {
-  color: black; 
+  color: black;
 }
 
 /* Native calendar icon ausblenden */
@@ -401,10 +418,6 @@ input[type='date']::after {
 }
 
 @media (max-width: 768px) {
-  .edit-form {
-    @include dFlex($fd: column, $ai: stretch, $g: 16px);
-  }
-
   label,
   input,
   textarea,
@@ -415,6 +428,10 @@ input[type='date']::after {
   textarea {
     height: 88px;
   }
+
+  .error {
+  top: 74px; 
+}
 
   .priority button {
     width: 104px;

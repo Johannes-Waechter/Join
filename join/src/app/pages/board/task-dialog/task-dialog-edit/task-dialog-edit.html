@@ -2,7 +2,11 @@
   <form [formGroup]="editForm" class="edit-form">
     <div class="label-input-wrapper">
       <label>Title</label>
-      <input formControlName="title" placeholder="Enter a title" />
+      <input formControlName="title" />
+
+      @if (editForm.get('title')?.invalid && editForm.get('title')?.touched) {
+      <span class="error">This field is required</span>
+      }
     </div>
 
     <div class="label-input-wrapper">
@@ -22,6 +26,10 @@
         required
         (click)="dateInput.showPicker()"
       />
+
+      @if (editForm.get('dueDate')?.invalid && editForm.get('dueDate')?.touched) {
+      <span class="error">This field is required</span>
+      }
     </div>
 
     <!-- PRIORITY -->
