@@ -19,7 +19,7 @@
 }
 
 .page-header h1 {
-  font-family: "Inter-Bold";
+  font-family: 'Inter-Bold';
   font-size: 61px;
   padding: 64px 0 0 0;
 }
@@ -443,7 +443,7 @@ select.ng-invalid.ng-touched {
 .actions .submit {
   padding: 12px 24px;
   border-radius: 10px;
-  background: #2A3647; // Standard-Farbe wenn disabled
+  background: #2a3647; // Standard-Farbe wenn disabled
   color: white;
   font-size: 20px;
   font-weight: 500;
@@ -464,7 +464,7 @@ select.ng-invalid.ng-touched {
   }
 
   &:disabled {
-    background: #2A3647; // Disabled-Farbe
+    background: #2a3647; // Disabled-Farbe
     color: white;
     cursor: not-allowed;
     box-shadow: none;
@@ -498,34 +498,37 @@ select.ng-invalid.ng-touched {
 }
 
 .subtask-input-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
-  height: 44px;
-  border: 1px solid $color-neutral-light;
-  border-radius: 10px;
-  padding: 8px 16px;
-  background: white;
+  height: 48px;
+  width: 100%;
   margin-top: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
 }
 
-.subtask-input-wrapper input {
-  border: none;
-  outline: none;
+.subtask-input {
   flex: 1;
-  font-size: 14px;
+  height: 100%;
+  border: 0;
+  outline: 0;
   background: transparent;
-  padding: 4px 56px 4px 0;
+  box-sizing: border-box;
+  font-size: 20px;
+  padding: 0 16px;
+  line-height: 48px;
+  margin: 0;
 }
 
-.subtask-icons {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+.subtask-actions {
   display: flex;
   align-items: center;
   gap: 4px;
+  height: 100%;
+  padding: 0 12px 0 0;
+  flex: 0 0 auto;
 }
 
 .icon-btn {
@@ -864,7 +867,6 @@ select {
   font-size: 14px;
   line-height: 1.2;
 }
-
 
 @keyframes toast-in {
   from {
