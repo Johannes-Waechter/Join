@@ -738,8 +738,6 @@ select {
   }
 }
 
-// Breakpoint bei 1150px für vertikales Formular-Layout (mit Sidebar sichtbar)
-// Löst das Problem, dass bei ca. 800-1100px das Formular abgeschnitten wird
 @media (max-width: 1000px) {
   .content {
     grid-template-columns: 1fr; // Eine Spalte statt zwei
