@@ -1,1 +1,82 @@
-<img src="img/summary-preview.png" alt="Summary Preview">
+<div class="summary-container">
+    <!-- Header oben, volle Breite -->
+    <div class="summary-header">
+        <h1>Join 360</h1>
+        <div class="header-divider"></div>
+        <p>Key Metrics at a Glance</p>
+    </div>
+
+    <!-- Content-Bereich: 50/50 Aufteilung -->
+    <div class="summary-content">
+        <!-- Linke Seite: Statistik-Karten -->
+        <div class="summary-left">
+            <!-- Obere Reihe: To-do und Done -->
+            <div class="stats-row stats-row--top">
+                <a routerLink="/board" class="stat-card stat-card--icon">
+                    <div class="stat-icon stat-icon--edit">
+                        <img src="img/icons/pencil.svg" alt="To-do" />
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">{{ stats.todoCount }}</span>
+                        <span class="stat-label">To-do</span>
+                    </div>
+                </a>
+
+                <a routerLink="/board" class="stat-card stat-card--icon">
+                    <div class="stat-icon stat-icon--done">
+                        <img src="img/icons/check.svg" alt="Done" />
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">{{ stats.doneCount }}</span>
+                        <span class="stat-label">Done</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Mittlere Reihe: Urgent mit Deadline -->
+            <a routerLink="/board" class="stat-card stat-card--urgent">
+                <div class="urgent-left">
+                    <div class="stat-icon stat-icon--urgent">
+                        <img src="img/icons/prio-urgent.svg" alt="Urgent" />
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">{{ stats.urgentCount }}</span>
+                        <span class="stat-label">Urgent</span>
+                    </div>
+                </div>
+                <div class="priority-divider"></div>
+                <div class="urgent-right">
+                    <span class="deadline-date">{{ stats.nearestDeadline ? formatDate(stats.nearestDeadline) : ''
+                        }}</span>
+                    <span class="deadline-label">{{ getDeadlineLabel() }}</span>
+                </div>
+            </a>
+
+            <!-- Untere Reihe: Tasks in Board, In Progress, Awaiting Feedback -->
+            <div class="stats-row stats-row--bottom">
+                <a routerLink="/board" class="stat-card stat-card--small">
+                    <span class="stat-number">{{ stats.totalCount }}</span>
+                    <span class="stat-label">Tasks in Board</span>
+                </a>
+
+                <a routerLink="/board" class="stat-card stat-card--small">
+                    <span class="stat-number">{{ stats.inProgressCount }}</span>
+                    <span class="stat-label">Tasks in Progress</span>
+                </a>
+
+                <a routerLink="/board" class="stat-card stat-card--small">
+                    <span class="stat-number">{{ stats.awaitingFeedbackCount }}</span>
+                    <span class="stat-label">Awaiting Feedback</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Rechte Seite: Begrüßung -->
+        <div class="summary-right">
+            <div class="greeting">
+                <span class="greeting-text">{{ getGreeting() }},</span>
+                <span class="greeting-name">{{ userName }}</span>
+            </div>
+        </div>
+    </div>
+</div>
