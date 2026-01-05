@@ -17,12 +17,11 @@
     width: 32px;
     height: 32px;
     cursor: pointer;
-    // user-select: none;
+    display: none;
   }
 }
 
 .legal-notice-content {
-  //   @include dFlex($fd: column, $ai: flex-start, $g: 24px);
   width: 100%;
   padding-bottom: 80px;
 
@@ -39,7 +38,6 @@
     font-size: 20px;
     font-weight: 700;
     line-height: 1.2;
-    // margin-bottom: 16px;
   }
 
   p {
@@ -64,5 +62,32 @@
 
   .highlight {
     color: $color-brand-highlight;
+  }
+}
+
+@media (max-width: 768px) {
+  .legal-notice-container {
+    @include dFlex($fd: column, $jc: flex-start, $ai: flex-start);
+    padding: 0 16px;
+  }
+
+  .legal-notice-header {
+    padding: 48px 0 28px 0;
+  }
+
+  h1 {
+    font-size: 47px;
+  }
+
+  .legal-notice-header {
+    img {
+      display: block;
+    }
+  }
+}
+
+@media (max-width: 370px) {
+  h1 {
+    font-size: 38px;
   }
 }

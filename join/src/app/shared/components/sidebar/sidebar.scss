@@ -53,35 +53,35 @@
     margin: 0;
   }
 
-  li {
+  li a {
+    @include dFlex($jc: flex-start, $g: 8px);
     width: 100%;
+    font-size: 16px;
+    color: $color-neutral-mid;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 8px 0;
+    padding-left: 64px;
 
-    a {
-      @include dFlex($jc: flex-start, $g: 8px);
-      width: 100%;
-      font-weight: 400;
-      font-size: 16px;
-      color: $color-neutral-mid;
-      text-decoration: none;
-      cursor: pointer;
-      padding: 8px 0;
-      padding-left: 64px;
+    img {
+      width: 30px;
+      height: 30px;
+    }
 
-      img {
-        width: 30px;
-        height: 30px;
-      }
+    &:hover {
+      background-color: $color-brand-primary-hover;
+      color: white;
+    }
 
-      &:hover {
-        background-color: $color-brand-primary-hover;
-      }
-
-      &.active {
-        background-color: $color-brand-deep;
-        color: white;
-      }
+    &.active {
+      background-color: $color-brand-deep;
+      color: white;
     }
   }
+}
+
+.public-bottom-nav {
+  display: none;
 }
 
 @media (max-width: 1024px) {
@@ -117,6 +117,10 @@
  * - Z-Index: 2 (sits above content but below dialogs)
  */
 @media (max-width: 768px) {
+  .sidebar-login-nav {
+    display: none;
+  }
+
   .sidebar {
     position: fixed;
     left: 0;
@@ -128,7 +132,7 @@
     padding: 0;
     background-color: $color-brand-primary;
 
-    @include dFlex($fd: row, $jc: center, $ai: center);
+    @include dFlex($fd: column, $jc: center, $ai: stretch);
     z-index: 2;
   }
 
@@ -139,4 +143,82 @@
   .sidebar-logo {
     display: none;
   }
+
+  footer {
+    width: 100%;
+  }
+
+  .public-bottom-nav {
+    display: block;
+    width: 100%;
+  }
+
+  .public-bottom-nav ul {
+    @include dFlex($jc: space-between, $ai: center);
+    list-style: none;
+    margin: 0;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  .nav-left {
+    flex: 0 0 auto;
+
+    a {
+      color: $color-neutral-mid;
+    }
+  }
+
+  .nav-right {
+    @include dFlex($jc: flex-end, $ai: center);
+
+    a {
+      color: white;
+    }
+  }
+
+  .public-bottom-nav a {
+    @include dFlex($fd: column, $jc: center, $ai: center, $g: 4px);
+    height: 76px;
+    padding: 0 12px;
+    text-decoration: none;
+    border-radius: 16px;
+    white-space: nowrap;
+  }
+
+  .public-bottom-nav a:hover {
+    background-color: $color-brand-primary-hover;
+    color: white;
+  }
+
+  .public-bottom-nav a.active {
+    background-color: $color-brand-deep;
+    color: white;
+  }
+
+  .public-bottom-nav img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav-text {
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
 }
+
+// @media (max-width: 350px) {
+//   .public-bottom-nav ul {
+//     padding: 0 10px;
+//   }
+
+//   .public-bottom-nav li,
+//   .public-bottom-nav a {
+//     width: 70px;
+//   }
+
+//   .public-bottom-nav .nav-text {
+//     font-size: 14px;
+//   }
+// }
