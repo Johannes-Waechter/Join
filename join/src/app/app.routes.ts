@@ -17,6 +17,8 @@ export const routes: Routes = [
     path: 'register',
     loadComponent: () => import('./pages/register/register').then((m) => m.Register),
   },
+  { path: 'privacy-policy', component: PrivacyPolicy },
+  { path: 'legal-notice', component: LegalNotes },
   {
     path: '',
     component: MainLayout,
