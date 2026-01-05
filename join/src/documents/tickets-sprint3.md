@@ -240,9 +240,59 @@ goBack(): void {
 
 ---
 
+### Ticket 13: Responsive Design - Summary Seite
+**Geschätzte Zeit:** ⏱️ 1-1.5 Stunden  
+**Status:** [ ] Offen  
+**Checklist-Referenz:** Responsiveness - Punkt 1-4
+
+> **Anforderung:**  
+> *Jede Seite funktioniert bei jeder Auflösung bis min. 320px.*
+
+**Akzeptanzkriterien:**
+- [ ] Desktop-View (> 1200px) prüfen und ggf. anpassen
+- [ ] Tablet-View (768px - 1200px) prüfen und ggf. anpassen
+- [ ] Mobile-View (< 768px) prüfen und ggf. anpassen
+- [ ] Keine horizontalen Scrollbalken
+- [ ] Content-Begrenzung bei max-width 1440px
+
+**Breakpoints testen:**
+- [ ] 1440px (Desktop max)
+- [ ] 1200px (Tablet/Desktop)
+- [ ] 768px (Tablet/Mobile)
+- [ ] 425px (Mobile L)
+- [ ] 375px (Mobile M)
+- [ ] 320px (Mobile S)
+
+---
+
+### Ticket 14: Responsive Design - Login & Registrierung
+**Geschätzte Zeit:** ⏱️ 1 Stunde  
+**Status:** [ ] Offen  
+**Checklist-Referenz:** Responsiveness - Punkt 1-4
+
+**Akzeptanzkriterien:**
+- [ ] Desktop-View prüfen und ggf. anpassen
+- [ ] Mobile-View prüfen und ggf. anpassen
+- [ ] Formular auf allen Bildschirmgrößen nutzbar
+- [ ] Keine horizontalen Scrollbalken
+
+---
+
+### Ticket 15: Responsive Design - Help, Legal Notice, Privacy Policy
+**Geschätzte Zeit:** ⏱️ 45 Minuten  
+**Status:** [ ] Offen  
+**Checklist-Referenz:** Responsiveness - Punkt 1-4
+
+**Akzeptanzkriterien:**
+- [ ] Alle drei Seiten responsive gestalten
+- [ ] Texte lesbar auf allen Bildschirmgrößen
+- [ ] Keine horizontalen Scrollbalken
+
+---
+
 ## ✅ BEREITS ERLEDIGT
 
-### Ticket 13: Summary/Dashboard ✅
+### Summary/Dashboard (Desktop) ✅
 **Status:** [x] Erledigt  
 **Checklist-Referenz:** Benutzeraccount - User Story 5
 
@@ -256,7 +306,7 @@ goBack(): void {
 - [x] Benutzername wird angezeigt
 - [x] Dynamische Deadline-Labels (Upcoming Deadline / Overdue)
 - [x] OnPush Change Detection für Performance
-- [x] Responsive Design
+- [x] Desktop-Layout (50/50 Split)
 
 ---
 
@@ -276,6 +326,10 @@ goBack(): void {
 | 🟡 Mittel | 10. Dummy-Daten | 30 min |
 | 🟡 Mittel | 11. Cross-Browser Testing | 1-2h |
 | 🟢 Niedrig | 12. Console-Fehler | 30-45 min |
-| ✅ Erledigt | 13. Summary/Dashboard | - |
+| 🟢 Niedrig | 13. Responsive: Summary | 1-1.5h |
+| 🟢 Niedrig | 14. Responsive: Login & Registrierung | 1h |
+| 🟢 Niedrig | 15. Responsive: Help, Legal, Privacy | 45 min |
+| ✅ Erledigt | Summary/Dashboard (Desktop) | - |
 
-**Gesamt (offen):** ~10-14 Stunden
+**Gesamt (offen):** ~13-18 Stunden
+
