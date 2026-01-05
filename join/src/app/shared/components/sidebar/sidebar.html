@@ -2,7 +2,20 @@
   <div class="sidebar-top">
     <img class="sidebar-logo" src="img/join-logo-vector.svg" alt="Join Logo" />
 
+    @if (isLoggedIn$ | async) {
     <app-main-nav></app-main-nav>
+    } @else {
+    <nav class="sidebar-login-nav" aria-label="Login navigation">
+      <ul>
+        <li>
+          <a routerLink="/login" routerLinkActive="active">
+            <img src="img/icons/login.svg" alt="" aria-hidden="true" />
+            <span>Log In</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    }
   </div>
 
   <footer>

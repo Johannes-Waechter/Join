@@ -40,6 +40,57 @@
 }
 
 /* ===============================
+   SIDEBAR LOG IN
+================================ */
+
+.sidebar-login-nav {
+  width: 100%;
+
+  ul {
+    @include dFlex($fd: column, $jc: flex-start, $ai: stretch, $g: 4px);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    width: 100%;
+
+    a {
+      @include dFlex($jc: flex-start, $g: 8px);
+      width: 100%;
+      font-weight: 400;
+      font-size: 16px;
+      color: $color-neutral-mid;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 8px 0;
+      padding-left: 64px;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+
+      &:hover {
+        background-color: $color-brand-primary-hover;
+      }
+
+      &.active {
+        background-color: $color-brand-deep;
+        color: white;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar-login-nav li a {
+    padding-left: 32px;
+  }
+}
+
+/* ===============================
    RESPONSIVE (BOTTOM NAV LAYOUT)
 ================================ */
 
