@@ -24,7 +24,7 @@ $color-neutral-placeholders: #e7e7e7;
 // --- ERROR & EMAIL ---
 $color-error: #e60026;
 $color-email: #007cee;
-$color-required-star: #FF8190;
+$color-required-star: #ff8190;
 
 // --- PRIORITY COLORS (KANBAN) ---
 $color-priority-urgent: #ff3d00;
@@ -75,6 +75,15 @@ $color-avatar-15: #ffbb2b;
   box-sizing: border-box;
   scroll-behavior: smooth;
   font-family: 'Inter', sans-serif;
+}
+
+h1 {
+  font-family: 'Inter-Bold';
+  font-size: 61px; // $h1 ?
+  font-weight: 700;
+  color: black;
+  line-height: 1.2;
+  margin: 0;
 }
 
 /* ============================================
