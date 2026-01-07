@@ -1,23 +1,24 @@
-import { Component, HostListener, inject, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, HostListener, inject } from '@angular/core';
+import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { CommonModule } from '@angular/common';
-import { map } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { filter, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header implements OnInit {
+export class Header {
   private authService = inject(AuthService);
   private router = inject(Router);
 
   isUserMenuOpen = false;
+
   userInitials$ = this.authService.user$.pipe(
-    map(user => {
+    map((user) => {
       if (user && user.displayName) {
         return this.getInitials(user.displayName);
       } else if (user && user.isAnonymous) {
@@ -27,9 +28,11 @@ export class Header implements OnInit {
     })
   );
 
-  constructor() { }
-
-  ngOnInit() { }
+  isHelpPage$ = this.router.events.pipe(
+    filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+    startWith(null),
+    map(() => this.router.url.startsWith('/help'))
+  );
 
   toggleUserMenu(event: MouseEvent) {
     event.stopPropagation();
@@ -52,7 +55,7 @@ export class Header implements OnInit {
   private getInitials(name: string): string {
     return name
       .split(' ')
-      .map(part => part[0])
+      .map((part) => part[0])
       .join('')
       .toUpperCase()
       .substring(0, 2);

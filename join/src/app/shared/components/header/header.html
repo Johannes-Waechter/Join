@@ -6,13 +6,20 @@
     </div>
 
     <div class="header-right">
+      @if (!(isHelpPage$ | async)) {
       <a routerLink="/help" class="header-help" aria-label="Open help">
         <div class="header-help-icon">
           <img src="img/icons/help.svg" alt="Help" />
         </div>
       </a>
+      }
 
-      <button class="header-user" type="button" aria-label="Open user menu" (click)="toggleUserMenu($event)">
+      <button
+        class="header-user"
+        type="button"
+        aria-label="Open user menu"
+        (click)="toggleUserMenu($event)"
+      >
         <span class="header-user-initials">{{ userInitials$ | async }}</span>
       </button>
 
@@ -29,9 +36,7 @@
           Privacy Policy
         </a>
 
-        <a class="user-menu-item" (click)="logout()">
-          Log out
-        </a>
+        <a class="user-menu-item" (click)="logout()"> Log out </a>
       </div>
     </div>
   </div>

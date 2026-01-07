@@ -100,7 +100,7 @@
   content: counter(step) '.';
   position: absolute;
   left: 0;
-  top: 0; // aligns number with h3 baseline
+  top: 0; 
   font-family: 'Inter-Bold';
   font-size: 27px;
   font-weight: 700;
@@ -122,15 +122,5 @@
 
   h1 {
     font-size: 47px;
-  }
-}
-
-/* ===============================
-   Responsive: Small Phones
-================================ */
-
-@media (max-width: 370px) {
-  h1 {
-    font-size: 38px;
   }
 }
