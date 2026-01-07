@@ -120,8 +120,8 @@
 
 .stat-card--icon {
   flex: 1;
-  @include dFlex($jc: start, $g: 24px);
-  padding: 32px 40px;
+  @include dFlex($g: 24px);
+  padding-block: 32px;
   min-width: 0;
 }
 
@@ -142,14 +142,7 @@
   }
 }
 
-.stat-icon--edit {
-  background: $color-brand-primary;
-
-  img {
-    filter: brightness(0) invert(1);
-  }
-}
-
+.stat-icon--edit,
 .stat-icon--done {
   background: $color-brand-primary;
 
@@ -161,7 +154,7 @@
 // ==== Mittlere Reihe: Priority Karte mit Deadline ====
 
 .stat-card--urgent {
-  @include dFlex($jc: start, $g: 24px);
+  @include dFlex($g: 24px);
   padding: 32px 48px;
   width: 100%;
   transform-origin: top left;
@@ -175,39 +168,12 @@
   @include dFlex($jc: start, $g: 18px);
 }
 
-.stat-icon--urgent {
-  width: 69px;
-  height: 69px;
-  border-radius: 50%;
-  background: $color-priority-urgent;
-  @include dFlex();
-
-  img {
-    width: 32px;
-    height: 32px;
-    filter: brightness(0) invert(1);
-  }
-}
-
-.stat-icon--medium {
-  width: 69px;
-  height: 69px;
-  border-radius: 50%;
-  background: $color-priority-medium;
-  @include dFlex();
-
-  img {
-    width: 32px;
-    height: 32px;
-    filter: brightness(0) invert(1);
-  }
-}
-
+.stat-icon--urgent,
+.stat-icon--medium,
 .stat-icon--low {
   width: 69px;
   height: 69px;
   border-radius: 50%;
-  background: $color-priority-low;
   @include dFlex();
 
   img {
@@ -215,6 +181,18 @@
     height: 32px;
     filter: brightness(0) invert(1);
   }
+}
+
+.stat-icon--urgent {
+  background: $color-priority-urgent;
+}
+
+.stat-icon--medium {
+  background: $color-priority-medium;
+}
+
+.stat-icon--low {
+  background: $color-priority-low;
 }
 
 .priority-divider {
@@ -303,7 +281,6 @@
     flex-direction: column;
     padding: 40px 24px;
     gap: 40px;
-    align-items: center;
   }
 
   .summary-left {
@@ -312,37 +289,155 @@
   }
 
   .summary-right {
-    padding-top: 0;
+    // padding-top: 0;
     min-width: unset;
   }
+}
 
-  .summary-header {
+// Mobile Layout ab 1000px
+@media (max-width: 1000px) {
+  .summary-container {
+    padding: 40px 24px;
+    gap: 32px;
+    align-items: stretch;
+  }
+
+  .summary-content {
     flex-direction: column;
-    text-align: center;
+    gap: 32px;
+  }
 
+  .summary-left {
+    width: 100%;
+    max-width: unset;
+    gap: 16px;
+  }
+
+  // Begrüßung in Mobile ausblenden
+  .summary-right {
+    display: none;
+  }
+
+  // Header: Schriftgrößen wie Mobile, Layout bleibt horizontal
+  .summary-header {
     h1 {
-      font-size: $h3;
-    }
-
-    .header-divider {
-      width: 150px;
-      height: 3px;
+      font-size: 47px;
     }
 
     p {
       font-size: $btn-secondary;
     }
   }
+
+  // Obere Reihe: To-do und Done nebeneinander bleiben
+  .stats-row--top {
+    gap: 16px;
+  }
+
+  .stat-card--icon {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .stat-number {
+    font-size: 47px;
+  }
+
+  .stat-label {
+    font-size: $p;
+  }
+
+  // Urgent Karte
+  .stat-card--urgent {
+    padding: 20px 24px;
+    gap: 16px;
+  }
+
+  .stat-icon--urgent,
+  .stat-icon--medium,
+  .stat-icon--low {
+    width: 50px;
+    height: 50px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .priority-divider {
+    min-height: 60px;
+  }
+
+  .deadline-date {
+    font-size: 18px;
+  }
+
+  .deadline-label {
+    font-size: 14px;
+  }
+
+  // Untere Reihe: 3 Karten nebeneinander
+  .stats-row--bottom {
+    gap: 16px;
+  }
+
+  .stat-card--small {
+    padding: 20px 12px;
+    gap: 4px;
+
+    .stat-number {
+      font-size: 36px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
   .summary-container {
-    padding: 24px 16px;
+    padding: 36px 12px 100px;
+  }
+
+  // Header: Vertikal mit Unterstreichung unter Subtitle
+  .summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 8px;
+
+    h1 {
+      font-size: $h3;
+    }
+
+    .header-divider {
+      order: 3;
+      width: 100px;
+      height: 3px;
+      margin-top: 4px;
+    }
+
+    p {
+      order: 2;
+      font-size: $btn-secondary;
+    }
   }
 
   .stats-row--top,
   .stats-row--bottom {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
   }
 
@@ -352,34 +447,11 @@
     width: 100%;
   }
 
-  .stat-card--urgent {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .urgent-left {
-    flex-direction: column;
-  }
-
-  .priority-divider {
-    width: 100%;
-    height: 3px;
-    min-height: unset;
-  }
-
   .urgent-right {
     align-items: center;
   }
 
   .stat-number {
-    font-size: $h3;
-  }
-
-  .greeting-text {
-    font-size: 32px;
-  }
-
-  .greeting-name {
     font-size: $h3;
   }
 }
