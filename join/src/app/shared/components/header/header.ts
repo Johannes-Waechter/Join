@@ -16,6 +16,7 @@ export class Header {
   private router = inject(Router);
 
   isUserMenuOpen = false;
+  isLoggedIn$ = this.authService.user$.pipe(map((user) => !!user));
 
   userInitials$ = this.authService.user$.pipe(
     map((user) => {
@@ -49,6 +50,7 @@ export class Header {
   logout() {
     this.authService.signOut().subscribe(() => {
       this.router.navigate(['/login']);
+      this.isUserMenuOpen = false;
     });
   }
 

@@ -6,7 +6,7 @@
     </div>
 
     <div class="header-right">
-      @if (!(isHelpPage$ | async)) {
+      @if (isLoggedIn$ | async) { @if (!(isHelpPage$ | async)) {
       <a routerLink="/help" class="header-help" aria-label="Open help">
         <div class="header-help-icon">
           <img src="img/icons/help.svg" alt="Help" />
@@ -38,6 +38,7 @@
 
         <a class="user-menu-item" (click)="logout()"> Log out </a>
       </div>
+      }
     </div>
   </div>
 </header>
