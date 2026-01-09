@@ -27,17 +27,18 @@
 
       <form (ngSubmit)="login()" class="login-form">
         <div class="input-group">
-          <input type="email" placeholder="Email" name="email" [(ngModel)]="email" class="input-field icon-email"
-            aria-label="E-Mail Adresse" required />
+          <input type="email" placeholder="Email" name="email" [(ngModel)]="email" class="input-field"
+            [class.error]="errorMessage" aria-label="E-Mail Adresse" required />
+          <img src="img/icons/mail.svg" alt="Email Icon" class="input-icon" />
         </div>
 
         <div class="input-group">
-          <input type="password" placeholder="Password" name="password" [(ngModel)]="password"
-            class="input-field icon-lock" aria-label="Passwort" required />
-        </div>
-
-        <div class="error-message" role="alert" *ngIf="errorMessage">
-          {{ errorMessage }}
+          <input type="password" placeholder="Password" name="password" [(ngModel)]="password" class="input-field"
+            [class.error]="errorMessage" aria-label="Passwort" required />
+          <img src="img/icons/lock.svg" alt="Lock Icon" class="input-icon" />
+          <div class="error-message" role="alert" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
         </div>
 
         <div class="actions">

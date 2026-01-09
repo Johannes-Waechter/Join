@@ -90,6 +90,7 @@
       .input-field {
         width: 100%;
         padding: 12px 21px;
+        padding-right: 56px; // Make space for the icon
         border: 1px solid $color-neutral-light;
         border-radius: 10px;
         font-size: 20px;
@@ -103,25 +104,26 @@
           border-color: $color-brand-highlight;
         }
 
-        &.icon-email {
-          background-image: url("/img/icons/mail.svg");
-          background-repeat: no-repeat;
-          background-position: right 21px center;
-          background-size: 24px;
-        }
-
-        &.icon-lock {
-          background-image: url("/img/icons/lock.svg");
-          background-repeat: no-repeat;
-          background-position: right 21px center;
-          background-size: 24px;
+        &.error {
+          border-color: $color-error;
         }
       }
-    }
 
-    .error-message {
-      color: $color-error;
-      font-size: 14px;
+      .input-icon {
+        position: absolute;
+        right: 21px;
+        top: 12px; // Fixed position from top, matching input padding
+        width: 24px;
+        height: 24px;
+        pointer-events: none; // Allow clicking through the icon to the input
+      }
+
+      .error-message {
+        color: $color-error;
+        font-size: 14px;
+        text-align: left;
+        margin-top: 8px;
+      }
     }
 
     .actions {
@@ -203,9 +205,10 @@
         flex-direction: column;
         gap: 16px;
         width: 100%;
+        align-items: center;
 
         button {
-          width: 100%;
+          width: 50%;
         }
       }
     }

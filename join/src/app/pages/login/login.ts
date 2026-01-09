@@ -1,4 +1,4 @@
-import { Component, inject, NgZone } from '@angular/core';
+import { Component, inject, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +22,7 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
     // Start: weißes Logo sichtbar
@@ -43,13 +44,22 @@ export class Login {
     if (event) {
       event.preventDefault();
     }
+
+    console.log('Login attempt:', { email: this.email, password: this.password ? '***' : '' });
+
     if (!this.email || !this.password) {
-      this.errorMessage = 'Please enter email and password';
+      console.log('Validation failed: empty fields');
+      this.errorMessage = 'Check your email and password. Please try again.';
+      this.cdr.detectChanges(); // Force change detection
       return;
     }
 
+    // Clear error message only if validation passes
+    this.errorMessage = '';
+
     this.authService.signIn(this.email, this.password).subscribe({
       next: () => {
+        console.log('Login successful');
         // Wait for the auth state to update in the global observable before navigating
         this.authService.user$
           .pipe(
@@ -63,13 +73,9 @@ export class Login {
           });
       },
       error: (err) => {
-        if (err.code === 'auth/configuration-not-found') {
-          this.errorMessage = 'Firebase Email/Password login is NOT enabled in Console!';
-        } else if (err.code === 'auth/invalid-credential') {
-          this.errorMessage = 'Wrong email or password.';
-        } else {
-          this.errorMessage = 'Login failed: ' + err.message;
-        }
+        console.log('Login error:', err);
+        this.errorMessage = 'Check your email and password. Please try again.';
+        this.cdr.detectChanges(); // Force change detection
       },
     });
   }
