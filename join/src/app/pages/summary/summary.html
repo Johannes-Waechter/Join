@@ -1,4 +1,12 @@
-<div class="summary-container">
+<!-- Begrüßungs-Overlay (nur Mobile) -->
+<div class="greeting-overlay" *ngIf="showGreetingOverlay" [class.fade-out]="greetingFadeOut">
+    <div class="greeting-overlay-content">
+        <span class="greeting-text">{{ getGreeting() }},</span>
+        <span class="greeting-name">{{ userName }}</span>
+    </div>
+</div>
+
+<div class="summary-container" [class.hidden-during-greeting]="showGreetingOverlay && !greetingFadeOut">
     <!-- Header oben, volle Breite -->
     <div class="summary-header">
         <h1>Join 360</h1>

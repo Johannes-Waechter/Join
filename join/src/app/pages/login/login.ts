@@ -90,6 +90,7 @@ export class Login {
             take(1)
           )
           .subscribe(() => {
+            sessionStorage.setItem('just_logged_in', 'true');
             this.ngZone.run(() => {
               this.router.navigate(['/summary']);
             });
@@ -106,6 +107,7 @@ export class Login {
   guestLogin() {
     this.authService.loginAsGuest().subscribe({
       next: () => {
+        sessionStorage.setItem('just_logged_in', 'true');
         this.router.navigate(['/summary']);
       },
       error: (err) => {

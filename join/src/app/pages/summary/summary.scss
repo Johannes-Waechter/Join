@@ -1,5 +1,67 @@
 @use '../../../styles.scss' as *;
 
+// Begrüßungs-Overlay (nur Mobile, nach Login)
+.greeting-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $color-neutral-bg;
+  z-index: 100;
+  @include dFlex();
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+
+  &.fade-out {
+    opacity: 0;
+  }
+}
+
+.greeting-overlay-content {
+  @include dFlex($fd: column, $g: 8px);
+  text-align: center;
+  padding: 0 24px; // Padding für lange Namen
+
+  .greeting-text {
+    font-size: $h3; // Desktop: 47px
+    font-weight: 400;
+    color: $color-brand-primary;
+  }
+
+  .greeting-name {
+    font-size: $h2; // Desktop: 61px
+    font-weight: 700;
+    color: $color-brand-highlight;
+  }
+
+  // Kleinere Schriftgrößen auf Mobile
+  @media (max-width: 768px) {
+    .greeting-text {
+      font-size: 32px;
+    }
+
+    .greeting-name {
+      font-size: 40px;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .greeting-text {
+      font-size: 24px;
+    }
+
+    .greeting-name {
+      font-size: 32px;
+    }
+  }
+}
+
+// Versteckt den Inhalt während des Begrüßungs-Overlays
+.hidden-during-greeting {
+  visibility: hidden;
+}
+
 .summary-container {
   @include dFlex($fd: column, $jc: start, $ai: stretch, $g: 40px);
   padding: 80px 96px;

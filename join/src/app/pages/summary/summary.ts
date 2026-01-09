@@ -48,10 +48,15 @@ export class Summary implements OnInit, OnDestroy {
   /** Ladezustand für besseres UX */
   isLoading = true;
 
+  /** Begrüßungs-Overlay für Mobile */
+  showGreetingOverlay = false;
+  greetingFadeOut = false;
+
   private userSubscription: Subscription | null = null;
   private tasksSubscription: Subscription | null = null;
 
   ngOnInit(): void {
+    this.checkAndShowGreeting();
     this.subscribeToUser();
     this.subscribeToTasks();
   }
@@ -59,6 +64,33 @@ export class Summary implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe();
     this.tasksSubscription?.unsubscribe();
+  }
+
+  /**
+   * Prüft, ob das Begrüßungs-Overlay angezeigt werden soll (nur Mobile, nur nach Login)
+   */
+  private checkAndShowGreeting(): void {
+    // Nur auf Mobile (unter 1000px, da .summary-right dort versteckt ist)
+    const isMobile = window.innerWidth < 1000;
+    // Prüfe, ob wir gerade eingeloggt sind (via sessionStorage Flag)
+    const justLoggedIn = sessionStorage.getItem('just_logged_in') === 'true';
+
+    if (isMobile && justLoggedIn) {
+      this.showGreetingOverlay = true;
+      sessionStorage.removeItem('just_logged_in'); // Nur einmal zeigen
+
+      // Nach 1,5 Sekunden fade-out starten
+      setTimeout(() => {
+        this.greetingFadeOut = true;
+        this.cdr.markForCheck();
+
+        // Nach dem Fade-Out das Overlay komplett entfernen
+        setTimeout(() => {
+          this.showGreetingOverlay = false;
+          this.cdr.markForCheck();
+        }, 500); // Fade-Out Dauer
+      }, 1500);
+    }
   }
 
   /**
