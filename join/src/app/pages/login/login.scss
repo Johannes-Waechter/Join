@@ -306,9 +306,13 @@
   display: flex;
 }
 
-.signup-mobile {
-  display: none;
+/* DESKTOP – IMMER AUSBLENDEN */
+@media (min-width: 801px) {
+  .signup-mobile {
+    display: none !important;
+  }
 }
+
 
 @media (max-width: 800px) {
   .signup-desktop {
