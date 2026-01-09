@@ -1,62 +1,106 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
-    selector: 'app-register',
-    standalone: true,
-    imports: [CommonModule, FormsModule, RouterLink],
-    templateUrl: './register.html',
-    styleUrl: './register.scss'
+  selector: 'app-register',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  templateUrl: './register.html',
+  styleUrl: './register.scss',
 })
-export class Register {
-    name = '';
-    email = '';
-    password = '';
-    confirmPassword = '';
-    privacyPolicyAccepted = false;
-    errorMessage = '';
-    showPassword = false;
-    showConfirmPassword = false;
+export class Register implements OnDestroy {
+  name = '';
+  email = '';
+  password = '';
+  confirmPassword = '';
+  privacyPolicyAccepted = false;
+  errorMessage = '';
+  showPassword = false;
+  showConfirmPassword = false;
 
-    private authService = inject(AuthService);
-    private router = inject(Router);
+  showTaskAddedToast = false;
+  hideToast = false;
+  private toastHideTimer?: ReturnType<typeof setTimeout>;
+  private toastRemoveTimer?: ReturnType<typeof setTimeout>;
 
-    get isFormValid(): boolean {
-        return (
-            this.name.trim() !== '' &&
-            this.email.trim() !== '' &&
-            this.password.length >= 6 &&
-            this.password === this.confirmPassword &&
-            this.privacyPolicyAccepted
-        );
-    }
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
-    register() {
-        if (!this.isFormValid) return;
+  get isFormValid(): boolean {
+    return (
+      this.name.trim() !== '' &&
+      this.email.trim() !== '' &&
+      this.password.length >= 6 &&
+      this.password === this.confirmPassword &&
+      this.privacyPolicyAccepted
+    );
+  }
 
-        this.authService.signUp(this.email, this.password, this.name).subscribe({
-            next: () => {
-                this.router.navigate(['/summary']);
-            },
-            error: (err) => {
-                console.error('Registration failed', err);
-                if (err.code === 'auth/email-already-in-use') {
-                    this.errorMessage = 'Email is already in use';
-                } else {
-                    this.errorMessage = 'Registration failed. Please try again.';
-                }
-            }
-        });
-    }
+  register() {
+    if (!this.isFormValid) return;
+    this.showTaskAddedToast = true;
+    this.hideToast = false;
+    this.cdr.detectChanges();
 
-    togglePasswordVisibility() {
-        this.showPassword = !this.showPassword;
-    }
+    this.startToastAutoClose();
 
-    toggleConfirmPasswordVisibility() {
-        this.showConfirmPassword = !this.showConfirmPassword;
-    }
+    this.authService.signUp(this.email, this.password, this.name).subscribe({
+      next: () => {
+        this.errorMessage = '';
+        this.router.navigate(['/summary']);
+      },
+      error: (err) => {
+        console.error('Registration failed', err);
+
+        this.closeToastImmediately();
+
+        if (err.code === 'auth/email-already-in-use') {
+          this.errorMessage = 'Email is already in use';
+        } else {
+          this.errorMessage = 'Registration failed. Please try again.';
+        }
+      },
+    });
+  }
+
+  private startToastAutoClose() {
+    clearTimeout(this.toastHideTimer);
+    clearTimeout(this.toastRemoveTimer);
+
+    this.toastHideTimer = setTimeout(() => {
+      this.hideToast = true;
+      this.cdr.detectChanges();
+    }, 3000);
+
+    this.toastRemoveTimer = setTimeout(() => {
+      this.showTaskAddedToast = false;
+      this.cdr.detectChanges();
+    }, 3500);
+  }
+
+  private closeToastImmediately() {
+    clearTimeout(this.toastHideTimer);
+    clearTimeout(this.toastRemoveTimer);
+
+    this.hideToast = false;
+    this.showTaskAddedToast = false;
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.toastHideTimer);
+    clearTimeout(this.toastRemoveTimer);
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
 }
