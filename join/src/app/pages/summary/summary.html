@@ -12,9 +12,10 @@
         <div class="summary-left">
             <!-- Obere Reihe: To-do und Done -->
             <div class="stats-row stats-row--top">
-                <a routerLink="/board" class="stat-card stat-card--icon">
+                <a routerLink="/board" class="stat-card stat-card--icon"
+                    aria-label="To do Aufgaben anzeigen, {{ stats.todoCount }} Aufgaben">
                     <div class="stat-icon stat-icon--edit">
-                        <img src="img/icons/pencil.svg" alt="To-do" />
+                        <img src="img/icons/pencil.svg" alt="To do" />
                     </div>
                     <div class="stat-content">
                         <span class="stat-number">{{ stats.todoCount }}</span>
@@ -22,9 +23,10 @@
                     </div>
                 </a>
 
-                <a routerLink="/board" class="stat-card stat-card--icon">
+                <a routerLink="/board" class="stat-card stat-card--icon"
+                    aria-label="Erledigte Aufgaben anzeigen, {{ stats.doneCount }} erledigt">
                     <div class="stat-icon stat-icon--done">
-                        <img src="img/icons/check.svg" alt="Done" />
+                        <img src="img/icons/check.svg" alt="Erledigt" />
                     </div>
                     <div class="stat-content">
                         <span class="stat-number">{{ stats.doneCount }}</span>
@@ -34,17 +36,18 @@
             </div>
 
             <!-- Mittlere Reihe: Urgent mit Deadline -->
-            <a routerLink="/board" class="stat-card stat-card--urgent">
+            <a routerLink="/board" class="stat-card stat-card--urgent"
+                aria-label="Dringende Aufgaben anzeigen, {{ stats.urgentCount }} dringend">
                 <div class="urgent-left">
                     <div class="stat-icon stat-icon--urgent">
-                        <img src="img/icons/prio-urgent.svg" alt="Urgent" />
+                        <img src="img/icons/prio-urgent.svg" alt="Dringend" />
                     </div>
                     <div class="stat-content">
                         <span class="stat-number">{{ stats.urgentCount }}</span>
                         <span class="stat-label">Urgent</span>
                     </div>
                 </div>
-                <div class="priority-divider"></div>
+                <div class="priority-divider" aria-hidden="true"></div>
                 <div class="urgent-right">
                     <span class="deadline-date">{{ stats.nearestDeadline ? formatDate(stats.nearestDeadline) : ''
                         }}</span>
@@ -54,17 +57,20 @@
 
             <!-- Untere Reihe: Tasks in Board, In Progress, Awaiting Feedback -->
             <div class="stats-row stats-row--bottom">
-                <a routerLink="/board" class="stat-card stat-card--small">
+                <a routerLink="/board" class="stat-card stat-card--small"
+                    aria-label="Alle Board-Aufgaben anzeigen, {{ stats.totalCount }} gesamt">
                     <span class="stat-number">{{ stats.totalCount }}</span>
                     <span class="stat-label">Tasks in Board</span>
                 </a>
 
-                <a routerLink="/board" class="stat-card stat-card--small">
+                <a routerLink="/board" class="stat-card stat-card--small"
+                    aria-label="In Bearbeitung anzeigen, {{ stats.inProgressCount }} in Arbeit">
                     <span class="stat-number">{{ stats.inProgressCount }}</span>
                     <span class="stat-label">Tasks in Progress</span>
                 </a>
 
-                <a routerLink="/board" class="stat-card stat-card--small">
+                <a routerLink="/board" class="stat-card stat-card--small"
+                    aria-label="Awaiting Feedback anzeigen, {{ stats.awaitingFeedbackCount }} warten">
                     <span class="stat-number">{{ stats.awaitingFeedbackCount }}</span>
                     <span class="stat-label">Awaiting Feedback</span>
                 </a>

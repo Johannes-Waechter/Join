@@ -2,23 +2,19 @@
   <div class="board-header">
     <div class="header-left">
       <h1>Board</h1>
-      <button class="add-task-btn" (click)="openAddTask()">
-        <span>Add task</span><img src="img/icons/add.svg" alt="Add task" />
+      <button class="add-task-btn" (click)="openAddTask()" aria-label="Neue Aufgabe hinzufügen">
+        <span>Add task</span><img src="img/icons/add.svg" alt="Hinzufügen" />
       </button>
     </div>
     <div class="header-right">
       <div class="search-field">
-        <input
-          type="text"
-          placeholder="Find Task"
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="filterTasks()"
-        />
-        <div class="search-separator"></div>
-        <img src="img/icons/search.svg" alt="Search" class="search-icon" />
+        <input type="text" placeholder="Find Task" [(ngModel)]="searchQuery" (ngModelChange)="filterTasks()"
+          aria-label="Aufgaben suchen" />
+        <div class="search-separator" aria-hidden="true"></div>
+        <img src="img/icons/search.svg" alt="Suchen" class="search-icon" aria-hidden="true" />
       </div>
-      <button class="add-task-btn" (click)="openAddTask('todo')">
-        <span>Add task</span> <img src="img/icons/add.svg" alt="Add task" />
+      <button class="add-task-btn" (click)="openAddTask('todo')" aria-label="Neue Aufgabe hinzufügen">
+        <span>Add task</span> <img src="img/icons/add.svg" alt="Hinzufügen" />
       </button>
     </div>
   </div>
@@ -30,29 +26,20 @@
       <div class="status-container">
         <div class="status-header">
           <h2>To do</h2>
-          <button (click)="openAddTask('todo')">
-            <img src="img/icons/add_board_button.svg" alt="Add task" />
+          <button (click)="openAddTask('todo')" aria-label="Aufgabe zu To do hinzufügen">
+            <img src="img/icons/add_board_button.svg" alt="Hinzufügen" />
           </button>
         </div>
-        <div
-          cdkDropList
-          id="todoList"
-          #todoList="cdkDropList"
-          [cdkDropListData]="todo"
-          [cdkDropListConnectedTo]="[progressList, feedbackList, doneList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)"
-        >
+        <div cdkDropList id="todoList" #todoList="cdkDropList" [cdkDropListData]="todo"
+          [cdkDropListConnectedTo]="[progressList, feedbackList, doneList]" class="example-list"
+          (cdkDropListDropped)="drop($event)">
           <div class="drag-item" *ngFor="let task of todo" cdkDrag [cdkDragStartDelay]="dragDelay">
             <div class="example-box" (click)="openTask(task)">
               <!-- Task Content -->
-              <div
-                class="task-category"
-                [ngClass]="{
+              <div class="task-category" [ngClass]="{
                   'user-story': task.category === 'user-story',
                   'technical-task': task.category === 'technical-task'
-                }"
-              >
+                }">
                 {{ task.category === 'user-story' ? 'User Story' : 'Technical Task' }}
               </div>
               <div class="task-title">{{ task.title }}</div>
@@ -60,10 +47,8 @@
               <!-- Subtask Progress Bar -->
               <div class="subtask-progress" *ngIf="task.subtasks && task.subtasks.length > 0">
                 <div class="progress-bar">
-                  <div
-                    class="progress-fill"
-                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"
-                  ></div>
+                  <div class="progress-fill"
+                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"></div>
                 </div>
                 <p class="subtask-count">
                   {{ getCompletedSubtasksCount(task) }}/{{ task.subtasks.length }} Subtasks
@@ -74,10 +59,7 @@
                 <div class="assignees">
                   @if (task.assignees; as assignees) { @for (assignee of assignees.slice(0, 3);
                   track assignee.uid) {
-                  <div
-                    class="assignee-avatar"
-                    [style.background-color]="getAssigneeColor(assignee)"
-                  >
+                  <div class="assignee-avatar" [style.background-color]="getAssigneeColor(assignee)">
                     {{ getAssigneeInitials(assignee) }}
                   </div>
                   } @if (assignees.length > 3) {
@@ -101,28 +83,19 @@
       <div class="status-container">
         <div class="status-header">
           <h2>In progress</h2>
-          <button (click)="openAddTask('in-progress')">
-            <img src="img/icons/add_board_button.svg" alt="Add task" />
+          <button (click)="openAddTask('in-progress')" aria-label="Aufgabe zu In Bearbeitung hinzufügen">
+            <img src="img/icons/add_board_button.svg" alt="Hinzufügen" />
           </button>
         </div>
-        <div
-          cdkDropList
-          id="progressList"
-          #progressList="cdkDropList"
-          [cdkDropListData]="inProgress"
-          [cdkDropListConnectedTo]="[todoList, feedbackList, doneList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)"
-        >
+        <div cdkDropList id="progressList" #progressList="cdkDropList" [cdkDropListData]="inProgress"
+          [cdkDropListConnectedTo]="[todoList, feedbackList, doneList]" class="example-list"
+          (cdkDropListDropped)="drop($event)">
           <div class="drag-item" *ngFor="let task of inProgress" cdkDrag [cdkDragStartDelay]="dragDelay">
             <div class="example-box" (click)="openTask(task)">
-              <div
-                class="task-category"
-                [ngClass]="{
+              <div class="task-category" [ngClass]="{
                   'user-story': task.category === 'user-story',
                   'technical-task': task.category === 'technical-task'
-                }"
-              >
+                }">
                 {{ task.category === 'user-story' ? 'User Story' : 'Technical Task' }}
               </div>
               <div class="task-title">{{ task.title }}</div>
@@ -130,10 +103,8 @@
               <!-- Subtask Progress Bar -->
               <div class="subtask-progress" *ngIf="task.subtasks && task.subtasks.length > 0">
                 <div class="progress-bar">
-                  <div
-                    class="progress-fill"
-                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"
-                  ></div>
+                  <div class="progress-fill"
+                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"></div>
                 </div>
                 <p class="subtask-count">
                   {{ getCompletedSubtasksCount(task) }}/{{ task.subtasks.length }} Subtasks
@@ -144,10 +115,7 @@
                 <div class="assignees">
                   @if (task.assignees; as assignees) { @for (assignee of assignees.slice(0, 3);
                   track assignee.uid) {
-                  <div
-                    class="assignee-avatar"
-                    [style.background-color]="getAssigneeColor(assignee)"
-                  >
+                  <div class="assignee-avatar" [style.background-color]="getAssigneeColor(assignee)">
                     {{ getAssigneeInitials(assignee) }}
                   </div>
                   } @if (assignees.length > 3) {
@@ -170,28 +138,19 @@
       <div class="status-container">
         <div class="status-header">
           <h2>Await feedback</h2>
-          <button (click)="openAddTask('awaiting-feedback')">
-            <img src="img/icons/add_board_button.svg" alt="Add task" />
+          <button (click)="openAddTask('awaiting-feedback')" aria-label="Aufgabe zu Await feedback hinzufügen">
+            <img src="img/icons/add_board_button.svg" alt="Hinzufügen" />
           </button>
         </div>
-        <div
-          cdkDropList
-          id="feedbackList"
-          #feedbackList="cdkDropList"
-          [cdkDropListData]="awaitFeedback"
-          [cdkDropListConnectedTo]="[todoList, progressList, doneList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)"
-        >
+        <div cdkDropList id="feedbackList" #feedbackList="cdkDropList" [cdkDropListData]="awaitFeedback"
+          [cdkDropListConnectedTo]="[todoList, progressList, doneList]" class="example-list"
+          (cdkDropListDropped)="drop($event)">
           <div class="drag-item" *ngFor="let task of awaitFeedback" cdkDrag [cdkDragStartDelay]="dragDelay">
             <div class="example-box" (click)="openTask(task)">
-              <div
-                class="task-category"
-                [ngClass]="{
+              <div class="task-category" [ngClass]="{
                   'user-story': task.category === 'user-story',
                   'technical-task': task.category === 'technical-task'
-                }"
-              >
+                }">
                 {{ task.category === 'user-story' ? 'User Story' : 'Technical Task' }}
               </div>
               <div class="task-title">{{ task.title }}</div>
@@ -199,10 +158,8 @@
               <!-- Subtask Progress Bar -->
               <div class="subtask-progress" *ngIf="task.subtasks && task.subtasks.length > 0">
                 <div class="progress-bar">
-                  <div
-                    class="progress-fill"
-                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"
-                  ></div>
+                  <div class="progress-fill"
+                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"></div>
                 </div>
                 <p class="subtask-count">
                   {{ getCompletedSubtasksCount(task) }}/{{ task.subtasks.length }} Subtasks
@@ -213,10 +170,7 @@
                 <div class="assignees">
                   @if (task.assignees; as assignees) { @for (assignee of assignees.slice(0, 3);
                   track assignee.uid) {
-                  <div
-                    class="assignee-avatar"
-                    [style.background-color]="getAssigneeColor(assignee)"
-                  >
+                  <div class="assignee-avatar" [style.background-color]="getAssigneeColor(assignee)">
                     {{ getAssigneeInitials(assignee) }}
                   </div>
                   } @if (assignees.length > 3) {
@@ -239,24 +193,15 @@
         <div class="status-header">
           <h2>Done</h2>
         </div>
-        <div
-          cdkDropList
-          id="doneList"
-          #doneList="cdkDropList"
-          [cdkDropListData]="done"
-          [cdkDropListConnectedTo]="[todoList, progressList, feedbackList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)"
-        >
+        <div cdkDropList id="doneList" #doneList="cdkDropList" [cdkDropListData]="done"
+          [cdkDropListConnectedTo]="[todoList, progressList, feedbackList]" class="example-list"
+          (cdkDropListDropped)="drop($event)">
           <div class="drag-item" *ngFor="let task of done" cdkDrag [cdkDragStartDelay]="dragDelay">
             <div class="example-box" (click)="openTask(task)">
-              <div
-                class="task-category"
-                [ngClass]="{
+              <div class="task-category" [ngClass]="{
                   'user-story': task.category === 'user-story',
                   'technical-task': task.category === 'technical-task'
-                }"
-              >
+                }">
                 {{ task.category === 'user-story' ? 'User Story' : 'Technical Task' }}
               </div>
               <div class="task-title">{{ task.title }}</div>
@@ -264,10 +209,8 @@
               <!-- Subtask Progress Bar -->
               <div class="subtask-progress" *ngIf="task.subtasks && task.subtasks.length > 0">
                 <div class="progress-bar">
-                  <div
-                    class="progress-fill"
-                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"
-                  ></div>
+                  <div class="progress-fill"
+                    [style.width.%]="(getCompletedSubtasksCount(task) / task.subtasks.length) * 100"></div>
                 </div>
                 <p class="subtask-count">
                   {{ getCompletedSubtasksCount(task) }}/{{ task.subtasks.length }} Subtasks
@@ -278,10 +221,7 @@
                 <div class="assignees">
                   @if (task.assignees; as assignees) { @for (assignee of assignees.slice(0, 3);
                   track assignee.uid) {
-                  <div
-                    class="assignee-avatar"
-                    [style.background-color]="getAssigneeColor(assignee)"
-                  >
+                  <div class="assignee-avatar" [style.background-color]="getAssigneeColor(assignee)">
                     {{ getAssigneeInitials(assignee) }}
                   </div>
                   } @if (assignees.length > 3) {
@@ -302,12 +242,9 @@
     </div>
 
     <!-- Keine Aufgaben gefunden - zentrierte Anzeige -->
-    <div
-      *ngIf="
+    <div *ngIf="
         searchQuery && !todo.length && !inProgress.length && !awaitFeedback.length && !done.length
-      "
-      class="no-results"
-    >
+      " class="no-results">
       <div class="no-results-icon">
         <img src="img/icons/no-found.png" alt="Keine Aufgaben gefunden" />
       </div>
