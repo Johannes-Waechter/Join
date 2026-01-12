@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { TasksService } from '../../core/services/tasks.service';
-import { Task } from '../add-task/task';
+import { Task } from '../../shared/interfaces/task';
 
 /**
  * Interface für die berechneten Task-Statistiken

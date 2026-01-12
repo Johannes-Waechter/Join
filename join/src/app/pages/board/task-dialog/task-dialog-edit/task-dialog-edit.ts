@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 
 import { Contact } from '../../../../core/services/contacts.service';
-import { AssigneeRef, Subtask, Task } from '../../../add-task/task';
+import { AssigneeRef, Subtask, Task } from '../../../../shared/interfaces/task';
 
 /**
  * Task edit dialog component.

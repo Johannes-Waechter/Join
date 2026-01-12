@@ -2,7 +2,7 @@ import { Injectable, inject, NgZone } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot } from 'firebase/firestore'; // Add onSnapshot
-import { Task } from '../../pages/add-task/task';
+import { Task } from '../../shared/interfaces/task';
 
 /**
  * Tasks Service

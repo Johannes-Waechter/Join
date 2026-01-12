@@ -24,7 +24,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { TasksService } from '../../core/services/tasks.service';
-import { Task } from './task';
+import { Task } from '../../shared/interfaces/task';
 import { ContactsService, Contact } from '../../core/services/contacts.service';
 import { Router } from '@angular/router';
 
@@ -167,12 +167,12 @@ export class AddTask {
           : {}),
         ...(this.subtasks.length
           ? {
-              subtasks: this.subtasks.map((s) => ({
-                id: s.id,
-                title: s.title,
-                done: s.done,
-              })),
-            }
+            subtasks: this.subtasks.map((s) => ({
+              id: s.id,
+              title: s.title,
+              done: s.done,
+            })),
+          }
           : {}),
       };
 

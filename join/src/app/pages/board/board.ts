@@ -10,7 +10,7 @@ import { TasksService } from '../../core/services/tasks.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Contact, ContactsService } from '../../core/services/contacts.service';
-import { Task, Subtask } from '../add-task/task';
+import { Task, Subtask } from '../../shared/interfaces/task';
 import { Router, RouterOutlet } from '@angular/router';
 import { AddTaskBoard } from './add-task-board';
 
