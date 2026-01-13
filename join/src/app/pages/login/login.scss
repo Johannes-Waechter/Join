@@ -255,10 +255,16 @@
 
 
 @keyframes logoFly {
-  to {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(3.5);
+  }
+
+  100% {
     top: 48px;
     left: var(--logo-target-left, 48px);
-    transform: scale(1);
+    transform: translate(0, 0) scale(1);
   }
 }
 
@@ -309,21 +315,25 @@
 
 .logo-intro {
   position: fixed;
+  // Startwerte explizit setzen
   top: 50%;
   left: 50%;
   height: 80px;
   transform: translate(-50%, -50%) scale(3.5);
   opacity: 0;
-  animation: logoFly 1s ease-in-out forwards;
+  // GPU-Beschleunigung aktivieren
+  will-change: transform, top, left, opacity;
+  // Kurze Verzögerung für Browser-Rendering
+  animation: logoFly 1s ease-in-out 0.05s forwards;
   transition: opacity 0.3s ease;
 
   @media (max-width: 800px) {
     height: 78px;
-    animation: logoFlyMobile 1.2s ease-in-out forwards;
+    animation: logoFlyMobile 1.2s ease-in-out 0.05s forwards;
   }
 
   @media (max-width: 375px) {
-    animation: logoFlySmall 1.2s ease-in-out forwards;
+    animation: logoFlySmall 1.2s ease-in-out 0.05s forwards;
   }
 }
 
