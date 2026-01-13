@@ -51,35 +51,38 @@ export class Login {
    * The animation is shown only once per browser session.
    */
   ngOnInit() {
-  if (this.introAnimationService.hasAnimationBeenShown()) {
-    this.showIntroLogo = false;
-    this.showHeaderLogo = true;
-    return;
+    // Skip animation if already shown in this session
+    if (this.introAnimationService.hasAnimationBeenShown()) {
+      this.showIntroLogo = false;
+      this.showWhiteLogo = false;
+      this.showHeaderLogo = true;
+      return;
+    }
+
+    // Initial animation state
+    this.showIntroLogo = true;
+    this.showWhiteLogo = true;
+    this.showHeaderLogo = false;
+
+    // Switch from white logo to dark logo
+    setTimeout(() => {
+      this.showWhiteLogo = false;
+      this.cdr.detectChanges();
+    }, 600);
+
+    // Fade in header logo before intro disappears
+    setTimeout(() => {
+      this.showHeaderLogo = true;
+      this.cdr.detectChanges();
+    }, 1100);
+
+    // Remove intro overlay and mark animation as shown
+    setTimeout(() => {
+      this.showIntroLogo = false;
+      this.introAnimationService.markAnimationAsShown();
+      this.cdr.detectChanges();
+    }, 1700);
   }
-
-  this.showIntroLogo = true;
-  this.showWhiteLogo = true;
-
-  // 🔥 WICHTIG: warten, bis Browser gerendert hat
-  requestAnimationFrame(() => {
-    const logo = document.querySelector('.logo-intro');
-    logo?.classList.add('animate');
-  });
-
-  setTimeout(() => {
-    this.showWhiteLogo = false;
-  }, 600);
-
-  setTimeout(() => {
-    this.showHeaderLogo = true;
-  }, 1100);
-
-  setTimeout(() => {
-    this.showIntroLogo = false;
-    this.introAnimationService.markAnimationAsShown();
-  }, 1700);
-}
-
 
   /**
    * Standard user login
